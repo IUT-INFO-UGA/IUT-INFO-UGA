@@ -1,2 +1,5 @@
 # IUT-INFO-UGA
-here is are all the projects make for the IUT
+Here is are all the projects made for the IUT
+
+## Usage
+You can use the code present in this repo for all your lessons without moderation. Welcome to the community, here we share skills and resources, you can open a PR if you find missing or wrong exercises.
