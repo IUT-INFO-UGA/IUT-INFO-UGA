@@ -1,7 +1,4 @@
-import java.util.Scanner;
-import java.util.Stack;
-
-public class Moy {
+public class avrange {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         float sum = 0;
