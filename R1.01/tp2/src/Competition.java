@@ -10,17 +10,20 @@ public class Competition {
         float accruedTime = 0f;
         in.nextLine();
         for (int i = 1; i <= nbJudge; i++) {
-            System.out.print("judge "+ i + " how many time for this candidate?");
+            System.out.print("judge " + i + " how many time for this candidate?");
             final float temp = in.nextInt();
             in.nextLine();
-            if(temp>20 || temp<0){
+            if (temp > 20 || temp < 0) {
                 i--;
                 System.out.println("time must be between 0 and 20");
-            }else{
-                if(maxTime < temp) { maxTime = temp; }
-                else if(minTime > temp) { minTime = temp;}
-                accruedTime+=temp;
+            } else {
+                if (maxTime < temp) maxTime = temp;
+                else if (minTime > temp) minTime = temp;
+                accruedTime += temp;
             }
         }
+        System.out.println("max estimate time: " + maxTime);
+        System.out.println("minimum estimate time: " + minTime);
+        System.out.println("arrange estimate time: " + accruedTime/nbJudge);
     }
 }
