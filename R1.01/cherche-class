@@ -1,0 +1,3 @@
+#!/bin/bash
+truc=cat */**/*.java | grep "public class $1"
+echo $truc
