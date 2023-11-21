@@ -59,17 +59,18 @@ public class Utilitaire {
 	public static void triInsertion(ArrayList<Polar> vPolar) {
 		// { } => { vPolar est trié selon l'ORDRE(auteur, annee)
 		// en utilisant la méthode DU TRI PAR INSERTION }
-		int j;
+				int j;
 		Polar valeurAPlacer;
 		int i = 1;
-		while (i < vPolar.size()){
+		while(i< vPolar.size()) {
 			j = i;
-			valeurAPlacer  = vPolar.get(i);
-			while (j > 0 && vPolar.get(j-1).compareTo(valeurAPlacer) > 0){
-				vPolar.set(j, vPolar.get(j-1));
+			valeurAPlacer = vPolar.get(i);
+			while (j > 0 && vPolar.get(j - 1).compareTo(valeurAPlacer) > 0) {
+				vPolar.set(j, vPolar.get(j - 1));
 				j--;
 			}
-			System.out.println("iteration "+ i + 1 + " : "+ vPolar.get(i));
+			vPolar.set(j, valeurAPlacer);
+			//System.out.println("iteration "+ i + 1 + " : "+ vPolar.get(i));
 			i++;
 		}
 	}

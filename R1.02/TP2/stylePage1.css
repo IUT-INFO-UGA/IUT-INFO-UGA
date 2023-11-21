@@ -1,0 +1,154 @@
+/*Ajouter ci-dessous les règles pour body */
+body {
+  font-family: "Arial", "Verdana ou une police", sans-serif;
+  font-size: 0.9;
+  color: #4d4d4d;
+  margin: 50px;
+  background-image: url("bg-198-198.png");
+  background-color: #ff623f;
+}
+
+body,
+H1,
+section,
+aside,
+footer {
+  padding: 10px;
+}
+p::first-letter {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: brown;
+}
+
+/*Ajouter ci-dessous les règles pour le header */
+h1 {
+  text-decoration: underline;
+  font-variant: small-caps;
+  text-shadow: 2px 2px 5px gray;
+}
+
+header {
+  background-color: #ff623f;
+}
+
+/*Ajouter ci-dessous les règles pour la section */
+section > p {
+  text-align: justify;
+}
+section {
+  background-color: #00beff;
+}
+/*Ajouter ci-dessous les règles pour le premier aside */
+div > aside:nth-child(3) {
+  background-color: #ff66b5;
+}
+/*Ajouter ci-dessous les règles pour le deuxième aside */
+div > aside:nth-child(2) {
+  background-color: #ffd900;
+}
+/*Ajouter ci-dessous les règles pour le footer */
+footer > p {
+  font-style: oblique;
+}
+
+footer {
+  background-color: #8df08c;
+}
+
+img {
+  opacity: 0.6;
+}
+
+img:hover {
+  opacity: 1;
+}
+
+li {
+  list-style-type: upper-roman;
+}
+
+ul > li {
+  list-style-type: none;
+}
+
+table,
+th,
+td {
+  border: 2px solid yellow;
+  border-collapse: collapse;
+}
+
+table > caption {
+  color: green;
+  text-decoration: underline;
+  caption-side: bottom;
+}
+
+th {
+  background-color: green;
+  color: white;
+  padding: 0 10px;
+}
+
+a {
+  background-color: blue;
+  text-decoration: underline;
+  color: white;
+}
+
+a:visited {
+  background-color: #551a8b;
+}
+
+a:hover {
+  background-color: white;
+  color: blue;
+  text-decoration: none;
+}
+a:active {
+  background-color: white;
+  color: #ff623f;
+}
+
+/***************************/
+/*NE PAS MODIFIER*/
+/*règles de positionnement*/
+div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div > * {
+  flex: 1 100%;
+}
+
+header,
+footer,
+div > * {
+  border: 1px solid gray;
+}
+
+@media (min-width: 800px) {
+  section {
+    flex: 3 0px;
+  }
+  section + aside {
+    order: 1;
+  }
+  section {
+    order: 2;
+  }
+  aside + aside {
+    order: 3;
+  }
+}
+
+@media (min-width: 600px) {
+  section + aside {
+    flex: 1 auto;
+  }
+  aside + aside {
+    flex: 1 auto;
+  }
+}
