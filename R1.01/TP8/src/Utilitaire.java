@@ -82,14 +82,18 @@ public class Utilitaire {
 		ArrayList<Pays> lesPays;
 		lesPays = vPays;
 
-		int i = 0;
-		while (i < lesPays.size() - 1) {
-			int j = lesPays.size() - 1;
+		int i = 0, j;
+		Pays temp;
+		boolean permute = true;
+		while (permute) {
+			permute = false;
+			j = lesPays.size() - 1;
 			while (j > i) {
 				if (lesPays.get(j).compareTo(lesPays.get(j - 1)) < 0) {
-					final Pays temp = lesPays.get(j);
+					temp = lesPays.get(j);
 					lesPays.set(j, lesPays.get(j - 1));
 					lesPays.set(j - 1, temp);
+					permute = true;
 				}
 				j--;
 			}
@@ -100,17 +104,17 @@ public class Utilitaire {
 
 	public static boolean verifTriContNom(ArrayList<Pays> vPays) {
 		// { } => { résultat = vrai si vPays trié selon l'ORDRE(continent, nom) }
-		boolean status = true;
 		int i = 0;
 
-		while (i < vPays.size() - 2 && status) {
-			if (vPays.get(i).compareTo(vPays.get(i + 1)) > 0) {
-				status = false;
+		if (vPays.size() < 2) {
+			return true;
+		} else {
+			while (i < vPays.size() - 1 && vPays.get(i).compareTo(vPays.get(i + 1)) > 0) {
+				i++;
 			}
-			i++;
 		}
 
-		return status;
+		return i == vPays.size() - 1;
 	}
 
 	public static int indDichoIter(ArrayList<Pays> vPays, String contP, String nomP) {
@@ -120,25 +124,26 @@ public class Utilitaire {
 		// * -1 si non trouvé }
 		int gauche = 0;
 		int droite = vPays.size() - 1;
+		int milieu;
+		Pays paysTest = new Pays(nomP, contP, 0, 0);
+		if (vPays.size() == 0 || vPays.get(vPays.size() - 1).compareTo(paysTest) < 0) {
+			return -1;
+		}
 
-		while (gauche <= droite) {
-			final int milieu = (gauche + droite) / 2;
-			Pays paysMilieu = vPays.get(milieu);
+		while (gauche < droite) {
+			milieu = (gauche + droite) / 2;
 
-			int comparaisonContinent = contP.compareTo(paysMilieu.getContinent());
-			int comparaisonNom = nomP.compareTo(paysMilieu.getNom());
-
-			if (comparaisonContinent == 0 && comparaisonNom == 0) {
-				return milieu;
-			}
-
-			if (comparaisonContinent < 0 || (comparaisonContinent == 0 && comparaisonNom < 0)) {
-				droite = milieu - 1;
-			} else {
+			if (vPays.get(milieu).compareTo(paysTest) < 0) {
 				gauche = milieu + 1;
+			} else {
+				droite = milieu;
 			}
 		}
-		return -1;
+		if (vPays.get(gauche).compareTo(paysTest) == 0) {
+			return gauche;
+		} else {
+			return -1;
+		}
 	}
 
 	public static int indDichoRec(ArrayList<Pays> vPays, String contP, String nomP) {
@@ -149,7 +154,7 @@ public class Utilitaire {
 		return indDichoWorker(vPays, contP, nomP, 0, vPays.size() - 1);
 	}
 
-	private static int indDichoWorker(ArrayList<Pays> vPays, String contP, String nomP, int gauche,	int droite) {
+	private static int indDichoWorker(ArrayList<Pays> vPays, String contP, String nomP, int gauche, int droite) {
 		// { vPays trié selon l'ORDRE(continent,nom), 0<=inf<=sup<vPays.size() } =>
 		// { résultat = * indice dans vPays[inf..sup] du pays de continent contP et de
 		// nom nomP, si trouvé
@@ -180,14 +185,17 @@ public class Utilitaire {
 		// { résultat = nombre d'éléments de vPays de continent unCont
 		// et de population < popMax }
 		int count = 0;
-
-		for (Pays pays : vPays) {
-			if (pays.getContinent().equals(unCont) && pays.getPopulation() < popMax) {
+		int i = 0;
+		while (i < vPays.size() - 1 && vPays.get(i).getContinent().compareTo(unCont) < 0)
+			i++;
+		while (i < vPays.size() - 1 && vPays.get(i).getContinent().compareTo(unCont) == 0) {
+			if (vPays.get(i).getPopulation() < popMax) {
 				count++;
 			}
+			i++;
 		}
-
 		return count;
+
 	}
 
 	public static int nbPaysDeContInfNbHabRec(ArrayList<Pays> vPays, String unCont, int popMax) {
