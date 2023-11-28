@@ -1,0 +1,38 @@
+article {
+  background-color: lightgrey;
+  border: 1px solid gray;
+  height: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  /*1. 
+  justify-content: left;
+  align-items: inherit; */
+  /* 2.
+  justify-content: left;
+  flex-direction: column;
+  */
+  /* justify-content: space-evenly; */
+  /* justify-content: center; */
+  /* align-items: center;
+  justify-content: center; */
+  /* align-items: center;
+  justify-content: space-evenly; */
+  align-items: flex-end;
+}
+
+article section {
+  width: 300px;
+}
+
+article section:first-child {
+  background-color: cornflowerblue;
+  flex: 3;
+}
+
+article section:nth-child(2) {
+  background-color: green;
+}
+
+article section:last-child {
+  background-color: red;
+}
