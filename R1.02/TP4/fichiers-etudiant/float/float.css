@@ -1,0 +1,12 @@
+p {
+  background-color: grey;
+  color: white;
+}
+
+img {
+  vertical-align: bottom;
+}
+
+aside {
+  float: left;
+}

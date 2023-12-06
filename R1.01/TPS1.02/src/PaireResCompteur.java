@@ -16,4 +16,12 @@ public class PaireResCompteur <R>  {
     public int getCompteur() {
         return compteur;
     }
+
+    @Override
+    public String toString() {
+        return "PaireResCompteur{" +
+                "res=" + res +
+                ", compteur=" + compteur +
+                '}';
+    }
 }
