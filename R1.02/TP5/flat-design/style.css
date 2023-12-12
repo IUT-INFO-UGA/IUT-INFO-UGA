@@ -1,0 +1,68 @@
+body {
+  background-color: #343752;
+  color: white;
+  font-family: Calibri, Arial, sans-serif;
+}
+
+h3 {
+  text-align: center;
+}
+
+h2 {
+  margin: 0;
+  text-align: center;
+}
+article {
+  width: 310px;
+  height: 150px;
+}
+
+aside {
+  display: block;
+  float: right;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+article:nth-child(-n + 4) {
+  padding: 10px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+  height: 170px;
+}
+
+.container {
+  display: flex;
+  gap: 10px;
+}
+
+article > img {
+  height: 170px;
+  width: 350px;
+}
+
+#email {
+  background-color: #37b6b7;
+}
+#finance {
+  background-color: #683fb7;
+}
+#calendar,
+#game {
+  background-color: #b71c54;
+}
+#weather {
+  background-color: #4c98e7;
+}
+#music {
+  background-color: #da542d;
+}
