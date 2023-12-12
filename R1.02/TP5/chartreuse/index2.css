@@ -44,12 +44,13 @@ p {
   background-color: #b2924d;
   color: white;
   font-weight: bold;
-  font-size: 1.5em;
-  padding: 5% 0;
-  padding-left: 5%;
-  position: relative;
+  font-size: 1.3em;
+  padding: 5% 2.2%;
+  position: absolute;
+  top: -4%;
 }
 
 div {
   max-width: 30%;
+  position: relative;
 }
