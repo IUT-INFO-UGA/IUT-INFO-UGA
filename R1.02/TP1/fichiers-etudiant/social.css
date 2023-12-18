@@ -1,0 +1,23 @@
+
+.social ul {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    gap: 20px;
+    list-style-type: none;
+    font-size: 30px;
+    margin: 0;
+}
+
+.social ul li a {
+    color: gray;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: block;
+    padding: 5px;
+}
+
+.social ul li a:hover {
+    color: black;
+    transform: scale(1.5);
+}
