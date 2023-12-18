@@ -41,6 +41,8 @@ public class ListesIntegerTriees {
 		ListeTrieeC<Integer> union = Utilitaire.union(listIntC1_sdb, listIntC2_sdb);
 		union.afficheGD();
 
+		ListeTrieeC<Integer> inter = Utilitaire.intersect(listIntC1_sdb, listIntC2_sdb);
+		inter.afficheGD();
 
 	}
 

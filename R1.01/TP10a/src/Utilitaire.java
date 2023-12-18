@@ -66,5 +66,14 @@ public class Utilitaire {
 		// { résultat = liste triée croissante, contenant, sans doublons,
 		// les entiers portés par les cellules de lC1_sdb qui sont
 		// égaux à ceux portés par les cellules de lC2_sdb }
+		final ListeTrieeC<Integer> list = new ListeTrieeC<>();
+		Cellule<Integer> cell = lC1_sdb.getTete();
+		while (cell!=null){
+			if(estDansListeC(lC2_sdb, cell.getInfo())){
+				list.insereTrie(cell.getInfo());
+			}
+			cell = cell.getCelluleSuivante();
+		}
+		return list;
 	}
 }
