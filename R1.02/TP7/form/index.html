@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<title>Vous connaître</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="form.css">
+</head>
+
+<body>
+	<h1>Vous connaître</h1>
+	<form method="post" action="traitement.php">
+
+		<div>
+			<label for="nom">Nom :</label>
+			<input id="nom" type="text" name="nom" placeholder="votre nom">
+		</div>
+
+		<div>
+			<label for="password">mot de passe :</label>
+			<input id="password" type="password" name="password" placeholder="votre mot de passe" required>
+		</div>
+		<div>
+			<label for="email">E-mail :</label>
+			<input id="email" type="email" name="email" placeholder="votre adresse mail" required>
+		</div>
+		<div>
+			<label for="bio">courte bio :</label>
+			<textarea id="bio" type="" name="bio" placeholder="une courte bio" required></textarea>
+		</div>
+
+
+		<div>
+			<label for="animal">Votre animal de compagnie :</label>
+			<select id="animal" name="animal">
+				<optgroup label="Chien">
+					<option value="le boxer">boxer</option>
+					<option value="le berger allemand">berger allemand</option>
+					<option value="le labrador" selected>labrador</option>
+				</optgroup>
+				<optgroup label="Chat">
+					<option value="le chat persan">persan</option>
+					<option value="le chat siamois">siamois</option>
+					<option value="le chat siamois">Munchkin</option>
+				</optgroup>
+			</select>
+		</div>
+
+		<fieldset>
+			<legend>Quel fruit est votre préféré ?</legend> <!-- Titre du fieldset -->
+
+			<label for="fruit1">
+				<input id="fruit1" type="radio" name="fruit" value="pomme">
+				Pomme
+			</label>
+
+			<label for="fruit2">
+				<input id="fruit2" type="radio" name="fruit" value="poire">
+				Poire
+			</label>
+
+			<label for="fruit3">
+				<input id="fruit3" type="radio" name="fruit" value="peche" checked>
+				Pêche
+			</label>
+
+		</fieldset>
+
+		<fieldset>
+			<legend>Choisir les fleurs que vous aimez ?</legend> <!-- Titre du fieldset -->
+
+			<label for="fleur1">
+				<input id="fleur1" type="checkbox" name="fleur" value="Rose">
+				Rose
+			</label>
+
+			<label for="fleur2">
+				<input id="fleur2" type="checkbox" name="fleur" value="Tulipe">
+				Tulipe
+			</label>
+
+			<label for="fleur3">
+				<input id="fleur3" type="checkbox" name="fleur" value="Dahlias">
+				Dahlias
+			</label>
+			<label for="fleur4">
+				<input id="fleur4" type="checkbox" name="fleur" value="Coquelicots">
+				Coquelicots
+			</label>
+
+		</fieldset>
+
+		<p>
+			<input type="submit" value="Envoyez">
+		</p>
+
+	</form>
+
+</body>
+
+</html>

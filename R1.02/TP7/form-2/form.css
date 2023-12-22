@@ -1,0 +1,67 @@
+body {
+  width: 80%;
+  max-width: 500px;
+  margin: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form > div {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+label + * {
+  flex-grow: 1;
+}
+
+label {
+  flex-basis: 230px;
+}
+/*
+textarea {
+  resize: vertical;
+}
+
+form > div label {
+}
+
+form > div input,
+form > div select {
+  height: 30px;
+}
+
+form > div label {
+  flex-basis: 230px;
+  flex-grow: 0;
+}
+
+form > div input,
+form > div textarea,
+form > div select {
+  flex-grow: 1;
+}
+
+form fieldset {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+form input[type='submit'] {
+  width: 100%;
+  border: 1px solid gray;
+  background-color: rgb(240, 240, 240);
+  line-height: 40px;
+}
+
+input:invalid:not(:placeholder-shown) {
+  background-color: pink;
+  border-color: tomato;
+}*/

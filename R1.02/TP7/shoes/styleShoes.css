@@ -1,0 +1,39 @@
+body {
+  width: 1000px;
+  margin: auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.navBarButton {
+  background-color: lime;
+  padding: 2%;
+}
+
+.navBarButton:hover {
+  background-color: black;
+  color: white;
+}
+
+hr {
+  margin-top: 0;
+}
+
+.imgButton {
+  background-color: lime;
+  padding: 2%;
+  width: min-content;
+}
+
+.imgButtonContainer {
+  display: flex;
+  gap: 15px;
+}
+
+.bigImage {
+  display: ;
+}

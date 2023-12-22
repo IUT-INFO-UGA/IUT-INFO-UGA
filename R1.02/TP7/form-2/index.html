@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Vous connaître</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="form.css">
+  </head>
+  <body>
+    <h1>Vous connaître</h1>
+    <form method="post" action="traitement.php">
+
+      <div>
+        <label for="nom">Nom :</label>
+        <input id="nom" type="text" name="nom" placeholder="votre nom">
+      </div>
+
+      <div>
+        <label for="email">E-mail :</label>
+        <input id="email" type="email" name="email" placeholder="votre adresse mail" required>
+      </div>
+
+      <div>
+        <label for="bio">Courte bio :</label>
+        <textarea name="bio" id="bio" placeholder="une courte bio"></textarea>
+      </div>
+
+      <input type="submit" value="Envoyez">
+
+    </form>
+
+  </body>
+</html>
+
