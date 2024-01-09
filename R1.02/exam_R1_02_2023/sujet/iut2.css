@@ -1,0 +1,457 @@
+:root {
+  --main-bg-color: #003049;
+  --aside-color: #14213d;
+  --btn-color: #d62828;
+  --bg-color: #f9f9f9;
+  --color-4: #fcbf49;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  font-size: 1.25em;
+  line-height: 1.25;
+  box-sizing: border-box;
+  font-family: "Gill Sans", sans-serif;
+}
+
+body {
+  background-color: #e9edf0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+body > div {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+body > div > main {
+  overflow: auto;
+  position: relative;
+}
+
+.overlay {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333333;
+  transition: opacity 0.2s ease-in;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.menu-open .overlay {
+  pointer-events: auto;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+header {
+  background-color: #778f9b;
+  padding: 0.1rem;
+  margin: 0;
+  font-size: 0.75em;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.no-select,
+.no-select * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.small-title header {
+  font-size: 0.4em;
+}
+
+.small-title header h1 small {
+  display: none;
+}
+
+header h1 {
+  font-family: "Gill Sans", sans-serif;
+  text-align: center;
+  font-weight: normal;
+  text-shadow: 1px 1px 1px #666666;
+}
+
+header a {
+  color: inherit;
+  font-weight: normal;
+  text-shadow: 1px 1px 1px #666666;
+}
+
+header a i {
+}
+
+aside {
+  background-color: #ced7dc;
+  position: fixed;
+  z-index: 2;
+  transition: transform 0.2s ease-in;
+  overflow: hidden;
+  width: 300px;
+  height: 100%;
+  left: 0px;
+  transform: translateX(-300px);
+}
+
+.menu-open aside {
+  transform: unset;
+}
+
+aside h2 {
+  font-family: "Gill Sans", sans-serif;
+  text-align: center;
+  text-transform: uppercase;
+  color: #666666;
+}
+
+aside ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+}
+
+aside ul li {
+  margin: 0;
+  font-size: initial;
+  padding: 0px 25px;
+}
+
+aside ul li.active,
+aside ul li:hover {
+  background-color: #778f9b;
+}
+
+aside ul li a {
+  color: black;
+  text-decoration: none;
+  font-family: "Gill Sans", sans-serif;
+  color: black;
+  display: block;
+  line-height: 1.5;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: left;
+}
+
+aside ul li.active a,
+aside ul li:hover a {
+  color: white;
+}
+
+article {
+  margin: 2rem auto;
+  margin-bottom: 4rem;
+  width: calc(100% - 80px);
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 5px #aaaaaa;
+  position: relative;
+  padding: 1rem;
+  border-radius: 2px;
+  overflow-y: auto;
+  transition: width 0.3s ease-in-out;
+}
+
+article:not(.fix-numbering) {
+  counter-reset: section, subsection;
+}
+
+article:not(.fix-numbering) h2.exercice {
+  counter-reset: subsection;
+  counter-increment: section;
+}
+
+article:not(.fix-numbering) h3 {
+  counter-increment: subsection;
+}
+
+article:not(.fix-numbering) h2.exercice:before {
+  content: "Exercice " counter(section) ". ";
+}
+
+article:not(.fix-numbering) h3.exercice:before {
+  content: counter(section) "." counter(subsection) ". ";
+}
+
+input.control {
+  display: none;
+}
+
+.change {
+  font-size: 0;
+  --radius: 10px;
+}
+.change div {
+  box-sizing: border-box;
+  font-size: initial;
+  display: inline-block;
+  padding: 0.5rem 0rem;
+  background-color: silver;
+  width: 64px;
+  text-align: center;
+  box-shadow: 1px 1px 1px #666666;
+  vertical-align: middle;
+  line-height: 1.5rem;
+  font-size: 1.5rem;
+  color: black;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.small-title .change div {
+  line-height: 0.9rem;
+  font-size: 0.9rem;
+}
+
+.change div:first-of-type {
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+
+.change div:last-of-type {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+#change-display:checked ~ header .change div:first-of-type,
+#change-display:not(:checked) ~ header .change div:last-of-type {
+  color: white;
+  background-color: #2196f3;
+}
+
+#change-display:not(:checked) ~ div main article {
+  width: 80ch;
+}
+
+em {
+  font-style: normal;
+  color: red;
+}
+
+img {
+  max-width: 95%;
+}
+
+.print {
+  margin: 0;
+  padding: 0;
+}
+.print header,
+.print .overlay,
+.print aside {
+  display: none;
+}
+
+.print main,
+.print article {
+  margin: 0;
+  box-shadow: unset;
+  width: auto;
+  overflow: auto;
+  height: auto;
+  padding: 0;
+}
+
+.print article {
+  font-size: 0.75em;
+}
+
+.print .a4 {
+  width: 21cm;
+  min-height: 29.7cm;
+  box-sizing: border-box;
+  border: 1px solid black;
+  padding: 0.5rem 2rem;
+  /*border-bottom: thick dashed red;*/
+}
+
+.print .a4.hide {
+  /*display: none;*/
+  position: absolute;
+  left: -9999px;
+  max-height: 0px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.print article > .a4:first-of-type {
+  counter-set: section 0 subsection 0;
+}
+
+kbd {
+  margin: 0px 0.1em;
+  padding: 0.1em 0.6em;
+  border-radius: 3px;
+  border: 1px solid rgb(204, 204, 204);
+  color: rgb(51, 51, 51);
+  font-family: Arial, Helvetica, sans-serif;
+  display: inline-block;
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 2px #ffffff;
+  background-color: rgb(247, 247, 247);
+  -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  text-shadow: 0 1px 0 #fff;
+}
+
+section.box {
+  --color: darkcyan;
+  border: 1px solid var(--color);
+  border-left: 20px solid var(--color);
+  padding: 0.5em;
+  padding-left: 1em;
+  width: 90%;
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+section.box.alert {
+  --color: red;
+}
+
+.hljs-ln {
+  border-collapse: separate !important;
+  border-spacing: 20px 0px;
+  border-size: 1px;
+  border: 1px solid silver;
+}
+
+/* for block of numbers */
+.hljs-ln-numbers {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 5px;
+  color: #ccc;
+  border-right: 1px solid #ccc;
+  vertical-align: top;
+}
+
+/* your custom style here */
+.hljs-ln-numbers div {
+  text-align: right;
+  margin-right: 0.5rem;
+}
+
+pre {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+img {
+  padding: 10px;
+  margin: auto;
+  display: block;
+}
+
+caption, figcaption {
+  font-size: smaller;
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+th {
+  background-color: gray;
+  color: white;
+}
+
+/* à compléter */
+label {
+  display: flex;
+  align-items: center;
+}
+
+label input[type="checkbox"] {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.box {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 5px;
+  padding: 1rem;
+  padding-top: 50px;
+  padding-bottom: 0;
+  max-width: 70%;
+  margin: auto;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.todo:after {
+  content: '\270e\00a0 À faire';
+}
+
+.box:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-weight: 500;
+  font-size: 1.26rem;
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: rgba(0, 0, 0, 0.03);
+  font-family: 'Open Sans Medium', apple-system, blinkmacsystemfont, 'Segoe UI',
+    'Helvetica Neue', arial, sans-serif;
+  line-height: 1.3;
+}
+
+.warning {
+  border: 1px solid rgba(255, 0, 0, 0.325);
+}
+
+.warning:after {
+  content: '\26a0\00a0 Attention';
+  background-color: rgba(255, 0, 0, 0.13);
+  border-bottom: 1px solid rgba(255, 0, 0, 0.325);
+}
+
+.todo ul li {
+  list-style-type: circle;
+}
+
+.todo ul li ul li {
+  list-style-type: square;
+}

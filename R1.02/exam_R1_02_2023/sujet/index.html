@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>R1.02 — Examen 2023-2024</title>
+  <link rel="stylesheet" href="iut2.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/vs.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+    integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+</head>
+
+<body>
+  <input type="checkbox" checked id="change-display" class="control" />
+
+  <header class="no-select">
+    <a href="#" id="toggle-menu">
+      <i class="fa fa-bars fa-2x"></i>
+    </a>
+    <h1>
+      R1.02 — Examen 2023-2024<br />
+      <small>HTML5 et CSS3</small>
+    </h1>
+    <div>
+      <label class="change" for="change-display">
+        <div>
+          <i class="fa fa-desktop"></i>
+        </div>
+        <div>
+          <i class="fa fa-mobile"></i>
+        </div>
+      </label>
+    </div>
+  </header>
+  <div>
+    <div class="overlay"></div>
+
+    <main>
+      <aside class="no-select">
+        <h2>Sommaire</h2>
+        <ul></ul>
+      </aside>
+      <article>
+        <h2>Préparation</h2>
+
+        <ul>
+          <li>
+            Vous travaillerez exclusivement dans le répertoire <em>exam_R1_02_2023/fichiers-etudiant</em> qui a été créé
+            à la racine de votre répertoire personnel <strong>sans le déplacer ni le renommer</strong>.
+          </li>
+        </ul>
+
+        <section class="box">
+          Tous les documents sont autorisés ainsi que l'accès au Web. En
+          revanche, interdiction formelle d'échanger, partager des fichiers,
+          chatter... avec qui que ce soit ! donc pas de facebook, mail,...
+        </section>
+
+        <section class="box">
+          Les IA génératives (ChatGPT, <strong>Copilot</strong>, etc.) sont interdites durant cet examen. Tout usage
+          sera sanctionné d'un zéro. Veuillez désactiver Copilot dans VS Code si ce dernier est installé.
+        </section>
+
+        <section class="box">Pas de sortie avant 1h30 d'épreuve !</section>
+
+        <p>Le barème est donné à titre indicatif. La durée est de 2h (+ 40 minutes pour celles et ceux bénéficiant
+          d'un tiers temps).</p>
+
+        <h2 class="exercice">Réalisation de la structure d'une page Web (4 points)</h2>
+        <p>
+          <strong>Objectif : </strong> Savoir lire une maquette ; Mettre en pratique les éléments sémantiques du langage
+          HTML5 pour la structuration d'une page Web ; réaliser un positionnement fluide simple à l'aide de CSS3 et du
+          positionnement Flex.
+        </p>
+
+        <div class="todo box">
+          <ul>
+            <li>
+              Ouvrir les fichiers <em>q1.html</em> et <em>q1.css</em> ; Observer le contenu déjà présent dans le fichier
+              <em>q1.css</em>. <strong>Le contenu déjà présent ne devra pas être modifié.</strong>
+            </li>
+            <li>
+              Dans un premier temps, compléter le fichier <em>q1.html</em> en réalisant la structure d'une page HTML
+              respectant scrupuleusement la maquette ci-dessous. <strong>Attention :</strong> le
+              fichier <em>q1.css</em> impose une contrainte sur la réalisation de votre structure. À vous de trouver
+              laquelle et de la prendre en compte dans votre structure.
+            </li>
+            <li>
+              Dans un second temps, compléter le fichier <em>q1.css</em> afin de prendre en compte les contraintes de
+              dimensionnement et de positionnement affichées sur la figure.
+            </li>
+          </ul>
+        </div>
+
+        <section class="info box">
+          Vous pouvez ajouter du contenu textuel entre les balises HTML pour vous aider, mais ce n'est pas obligatoire.
+          Si vous n'en mettez pas, vous obtiendrez une page blanche (ce qui est tout à fait normal, ne vous affolez pas
+          !).
+        </section>
+
+        <figure>
+          <img src="img/zoning.png" width="700px" />
+          <figcaption>
+            Figure: maquette HTML5 à main levée.
+          </figcaption>
+        </figure>
+        <h2 class="exercice">Création d'une barre de navigation à deux niveaux (7 points)</h2>
+
+        <p>
+          <strong>Objectif : </strong> La première figure ci-dessous présente une liste imbriquée contenant des liens pour chaque
+          item et chaque sous-item. L'objectif et de styliser cette liste pour en faire une barre de navigation
+          horizontale avec des sous-menus apparaissant au survol de la souris (seconde figure).
+        </p>
+
+        <div class="todo box">
+          <ul>
+            <li>
+              Ouvrir les fichiers <em>q2.html</em> et <em>q2.css</em> ; Observer le contenu déjà présent dans le fichier
+              <em>q2.html</em>. <strong>Le contenu du fichier <em>q2.html</em> ne devra pas être modifié</strong>.
+            </li>
+            <li>Compléter le fichier <em>q2.css</em> pour réaliser le style de la barre de navigation comme illustrée
+              dans la seconde figure ci-dessous <strong>en respectant scrupuleusement les indications
+                ci-dessous.</strong></li>
+          </ul>
+        </div>
+
+        <figure>
+          <img src="img/exo2-without-css.png">
+        <figcaption>
+          Figure: aperçu de la page <em>q2.html</em> sans style appliqué.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="img/exo2-with-css.png">
+      <figcaption>
+        Figure: aperçu de la page <em>q2.html</em> avec style appliqué. La figure
+        montre quand le lien du sous-menu "Java" est survolé.
+      </figcaption>
+    </figure>
+
+        <p><strong>Palette de couleurs :</strong></p>
+
+        <table class="palette">
+          <thead>
+            <tr>
+              <th>Couleur</th>
+              <th>Rendu</th>
+              <th>Indication d'usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>black</td>
+              <td style="background-color: black;"></td>
+              <td>Couleur de texte des liens non survolés<br>Couleur de fond des liens survolés</td>
+            </tr>
+            <tr>
+              <td>white</td>
+              <td style="background-color: white;"></td>
+              <td>Couleur de texte des liens survolés</td>
+            </tr>
+            <tr>
+              <td>silver</td>
+              <td style="background-color: silver;"></td>
+              <td>Couleur de fond des liens non suvolés</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p><strong>Indications (cochez les cases pour vous aider si vous le souhaitez) :</strong></p>
+        <ul>
+          <li>
+            <strong>Consignes générales :</strong>
+            <label><input type="checkbox"> Vous utiliserez les positionnements Flex ou absolu à tous les endroits où
+              cela est pertinent
+              ;</label>
+            <label><input type="checkbox"> La police de caractères de la page est Verdana, Tahoma, ou par défaut une
+              police sans-serif ;</label>
+            <label><input type="checkbox"> La palette de couleur ci-dessus est respectée ;</label>
+            <label><input type="checkbox"> La barre de navigation occupe toute la largeur de l'écran, sans marge.</label>
+          </li>
+          <li><strong>Les items de premier et de deuxième niveau :</strong>
+            <label><input type="checkbox"> Les items (de premier niveau) s'étendent sur tout l'espace disponible
+              ;</label>
+            <label><input type="checkbox"> Les sous-items sont affichés en colonne sous l'item survolé ;</label>
+            <label><input type="checkbox"> Les liens présents dans les items et sous-items occupent l'intégralité de
+              l'espace disponible de l'item ;</label>
+            <label><input type="checkbox"> Le texte des liens est en petite majuscule ;</label>
+            <label><input type="checkbox"> Tous les liens possèdent une marge intérieure de 1em en hauteur et de 2em en
+              largeur ;</label>
+            <label><input type="checkbox"> Lorsqu'un lien d'un item est survolé, sa couleur (de texte et de fond)
+              change selon la palette de couleurs ci-dessus ;</label>
+            <label><input type="checkbox"> Lorsqu'un lien d'un sous-item est survolé, sa couleur (de texte et de fond)
+              change ainsi que celle du lien de l'item parent.</label>
+          </li>
+          <li><strong>En bonus :</strong>
+            <label><input type="checkbox"> Les sous-items sont cachés par défaut ;</label>
+            <label><input type="checkbox"> Le survol d'un item fait apparaitre les sous-items.</label>
+          </li>
+        </ul>
+
+        <h2 class="exercice">Tableau comparatif (9 points)</h2>
+        <p>
+          <strong>Objectif : </strong>Réaliser un tableau comparatif <em>responsive</em> (i.e., s'adaptant à la taille
+          de l'écran) de toute pièce en partant d'une maquette.
+        </p>
+        <div class="todo box">
+          <ul>
+            <li>Compléter les fichiers <em>q3.html</em> et <em>q3.css</em> <strong>en respectant scrupuleusement les
+                indications ci-dessous</strong>. Voici ce que vous devez obtenir :</li>
+          </ul>
+        </div>
+        <figure>
+          <img src="img/comparative-table.png" />
+        <figcaption>
+          Figure: maquette de la page q3.html sur larges écrans. <br><strong>Attention :</strong> les échelles, marges, et espacements ne sont pas
+          respectés dans la maquette.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="img/comparative-table-after-resizing.png" />
+      <figcaption>
+        Figure: maquette de la page q3.html s'adaptant sur petits écrans. <br><strong>Attention :</strong> les échelles, marges, et espacements ne sont pas
+        respectés dans la maquette.
+      </figcaption>
+    </figure>
+
+        <table class="palette">
+          <caption>Tableau : palette des couleurs</caption>
+          <thead>
+            <tr>
+              <th>Couleur</th>
+              <th>Rendu</th>
+              <th>Indication d'usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>black</td>
+              <td style="background-color: black;"></td>
+              <td>Couleur du texte par défaut</td>
+            </tr>
+            <tr>
+              <td>white</td>
+              <td style="background-color: white;"></td>
+              <td>Couleur du texte des boutons</td>
+            </tr>
+            <tr>
+              <td>gray</td>
+              <td style="background-color: gray;"></td>
+              <td>Couleur des deux premiers boutons</td>
+            </tr>
+            <tr>
+              <td>#1AAE9F</td>
+              <td style="background-color: #1AAE9F;"></td>
+              <td>Couleur du troisième bouton</td>
+            </tr>
+            <tr>
+              <td>silver</td>
+              <td style="background-color: silver;"></td>
+              <td>Couleur de fond des deux premières colonnes</td>
+            </tr>
+            <tr>
+              <td>#D2E4E1</td>
+              <td style="background-color: #D2E4E1;"></td>
+              <td>Couleur de fond de la troisième colonne</td>
+            </tr>
+            <tr>
+              <td>#207868</td>
+              <td style="background-color: #207868;"></td>
+              <td>Couleur de la bordure du badge <i>recommandé</i></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="palette" style="margin-top:20px;">
+          <caption>Tableau : palette des icônes (se référer à <a href="https://simplelineicons.github.io/"
+              target="_blank">simple-line-icons</a>)</caption>
+          <thead>
+            <tr>
+              <th>Icônes</th>
+              <th>Rendu</th>
+              <th>Indication d'usage</th>
+              <th>Code HTML</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>check</td>
+              <td><span class="icon-check"></span></td>
+              <td>Icône précédent le texte des boutons.</td>
+              <td><span><code class="html">&lt;span class="icon-check"&gt;&lt;/span&gt;</code></span></td>
+            </tr>
+            <tr>
+              <td>badge</td>
+              <td><span class="icon-badge"></span></td>
+              <td>Icône précédent le texte du badge "recommandé" (troisième colonne)</td>
+              <td><span><code class="html">&lt;span class="icon-badge"&gt;&lt;/span&gt;</code></span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p><strong>Indications (cochez les cases pour vous aider si vous le souhaitez) :</strong></p>
+        <ul>
+          <li><strong>Consignes générales :</strong>
+            <label><input type="checkbox"> Vous utiliserez les positionnements Flex ou absolu à tous les endroits où
+              cela est
+              pertinent
+              ;</label>
+            <label><input type="checkbox"> Le site occupe 90% de la largeur de la fenêtre et est centré ;</label>
+            <label><input type="checkbox"> La palette de couleur ci-dessus est respectée ;</label>
+            <label><input type="checkbox"> Le texte du titre est aligné à gauche. La police du titre est de
+              50px.</label>
+          </li>
+          <li><strong>Les colonnes :</strong>
+            <label><input type="checkbox"> Les trois colonnes sont structurées à l'aide d'éléments HTML section
+              ;</label>
+            <label><input type="checkbox"> La largeur initiale des colonnes est de 200 pixels. Chaque colonne peut
+              s'élargir en fonction de la place disponible, tout en maintenant un espacement de 20px
+              entre elles ;</label>
+            <label><input type="checkbox"> Le facteur d'élargissement est "2:2:3" : facteur de 2 pour les deux premières
+              colonnes, facteur de 3 pour la troisième ;</label>
+            <label><input type="checkbox"> Les colonnes possèdent une marge intérieure de 10 pixels et une marge
+              intérieure haute de 50 pixels ;</label>
+            <label><input type="checkbox"> L'en-tête de chaque colonne est centré, les caractéristiques (vient en cours,
+              etc.) sont alignées à gauche ;</label>
+            <label><input type="checkbox"> Une barre horizontale de 50% de largeur et centrée sépare l'en-tête des
+              caractéristiques ;</label>
+            <label><input type="checkbox"> La première ligne d'en-tête de chaque colonne est un titre. Il est mis en
+              gras et fait 14px
+              ;</label>
+            <label><input type="checkbox"> Chaque caractéristique est précédée d'une case à
+              cocher cochée ou décochée par défaut ;</label>
+            <label><input type="checkbox"> Les cases à cocher ne sont pas modifiables (propriété non vue en cours).</label>
+          </li>
+          <li><strong>Dernière colonne (choix recommandé) :</strong>
+            <label><input type="checkbox"> La palette de couleur est respectée ;</label>
+            <label><input type="checkbox"> Un badge "recommandé" est positionné en haut de la colonne ;</label>
+            <label><input type="checkbox"> Le badge occupe tout l'espace, le texte est centré, en gras, avec une bordure
+              de 3px. Le badge possède une hauteur de 40px.</label>
+          </li>
+          <li>
+            <strong>En cas de redimensionnement :</strong>
+            <label><input type="checkbox"> Lorsque l'écran devient trop petit (moins de 600 pixels de large), le style
+              s'adapte pour afficher les trois
+              colonnes l'une en dessous de l'autre avec un espacement vertical de 20px entre les trois ;</label>
+            <label><input type="checkbox"> En cas de redimensionnement, les trois colonnes font la même taille ;</label>
+            <label><input type="checkbox"> L'ordre d'affichage est inversé : le choix recommandé est placé tout en
+              haut.</label>
+          </li>
+          <li>
+            <strong>En bonus :</strong>
+            <label><input type="checkbox"> Des icônes sont utilisées dans les boutons et dans le badge "recommandé"
+              ;</label>
+            <label><input type="checkbox"> Les boutons sont stylisés pour obtenir le rendu de la maquette.</label>
+          </li>
+        </ul>
+
+        <h2>Rendu</h2>
+
+        <ul>
+          <li>Exécuter depuis un terminal la commande <span><code class="bash">RenduWeb</code></span> et lire le message
+            qui s'affiche ;</li>
+          <li><strong>Attendre la confirmation du surveillant avant de quitter la salle !</strong></li>
+        </ul>
+      </article>
+    </main>
+  </div>
+  <script src="iut2.js"></script>
+</body>
+
+</html>

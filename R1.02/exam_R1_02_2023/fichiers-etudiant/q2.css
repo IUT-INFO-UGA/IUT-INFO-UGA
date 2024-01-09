@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  font-family: verdana, tahoma, sans-serif;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: black;
+  background-color: silver;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em 2em;
+}
+
+a:hover {
+  background-color: black;
+  color: white;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav > ul {
+  display: flex;
+}
+
+nav > ul > li > ul > li {
+  text-transform: uppercase;
+  display: none;
+}
+
+nav > ul > li:hover > ul > li {
+  text-transform: uppercase;
+  display: block;
+}
+
+nav > ul > li {
+  width: 100%;
+}

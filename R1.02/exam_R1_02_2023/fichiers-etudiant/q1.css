@@ -1,0 +1,22 @@
+/* Les sélecteurs et la propriété CSS déjà existants
+ * ne devront en aucun cas être modifiés */
+
+body {
+  /* À compléter */
+  width: 80%;
+  margin: auto;
+}
+
+section.container {
+  display: flex;
+  /* À compléter */
+  width: 100%;
+  justify-content: space-around;
+  gap: calc((100% - 600px) / 3);
+}
+
+section.container article {
+  /* À compléter */
+  background-color: red;
+  width: 300px;
+}
