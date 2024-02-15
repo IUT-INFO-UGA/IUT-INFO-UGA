@@ -16,13 +16,31 @@ public class EtudiantUtilitaire {
 
 	/**
 	 * Returns a formatted string representation of the given Etudiant object.
-	 * The string includes the login, full name, email, and address of the student.
 	 *
 	 * @param stud the Etudiant object to be displayed
 	 * @return a formatted string representation of the student's information
 	 */
 	public static String affiche(Etudiant stud) {
-		return "login : " + stud.getLogin() + "\nNom complet : " + stud.getNomComplet() + "\nMail : " + stud.getMail()
-				+ "\nAdresse : " + stud.getAdresse();
+		String returns = "login : " +
+				stud.getLogin() +
+				"\nNom complet : " +
+				stud.getNomComplet() +
+				"\n  groupe : " +
+				(stud.existGroupe() ? stud.getGroupe().getLibelle() : "aucun") +
+				"\nMail : " + stud.getMail() +
+				"\nAdresse : " +
+				stud.getAdresse() +
+				"\nMoyenne : " +
+				(Double.isNaN(stud.getMoyenne())
+						? "aucune"
+						: Double.toString(stud.getMoyenne()));
+
+		if (stud.getNbNotes() > 0) {
+			returns += "\n" + stud.getNbNotes() + " Notes : ";
+			for (int i = 0; i < stud.getNbNotes(); i++) {
+				returns += stud.getNotes(i) + " ";
+			}
+		}
+		return returns;
 	}
 }
