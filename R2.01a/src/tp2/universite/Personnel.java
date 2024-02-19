@@ -1,5 +1,7 @@
 package tp2.universite;
 
+import tp2.contrainte.ReelContraint;
+
 public class Personnel extends Personne {
 	// use short for optimization
 	public static final short ECHELON_MIN = 1;
@@ -7,16 +9,29 @@ public class Personnel extends Personne {
 	public static final short POINT_INDICE_MIN = 1_000;
 	public static final short POINT_INDICE_MAX = 1_200;
 	int echelon;
-	double pointDIndice;
+	ReelContraint pointDIndice;
 
 	Personnel(String login, String prenom, String nom) {
 		super(login, prenom, nom);
+		echelon = ECHELON_MIN;
+		pointDIndice = new ReelContraint(POINT_INDICE_MIN, POINT_INDICE_MAX);
 	}
 
+	/**
+	 * Constructor of personel.
+	 * 
+	 * @param login        login of personnel
+	 * @param prenom       the first name of personnel
+	 * @param nom          the name of personnel
+	 * @param echelon      the steps of personnel
+	 * @param pointDIndice the "point d'indice" of the personnel between
+	 *                     POINT_INDICE_MIN and POINT_INDICE_MAX
+	 */
 	Personnel(String login, String prenom, String nom, int echelon, double pointDIndice) {
 		super(login, prenom, nom);
 		this.echelon = echelon;
-		this.pointDIndice = pointDIndice;
+		this.pointDIndice = new ReelContraint(POINT_INDICE_MIN, POINT_INDICE_MAX);
+		this.pointDIndice.setValeur(pointDIndice);
 	}
 
 	// getters
@@ -24,7 +39,13 @@ public class Personnel extends Personne {
 		return echelon;
 	}
 
-	public double getPointDIndice() {
+	/**
+	 * Returns the ReelContraint object representing the point d'indice.
+	 *
+	 * @return the ReelContraint object representing the point d'indice reel between
+	 *         POINT_INDICE_MIN and POINT_INDICE_MAX
+	 */
+	public ReelContraint getPointDIndice() {
 		return pointDIndice;
 	}
 
@@ -54,12 +75,8 @@ public class Personnel extends Personne {
 			echelon = ECHELON_Max;
 		}
 
-		if (pointDIndice < POINT_INDICE_MIN) {
-			pointDIndice = POINT_INDICE_MIN;
-		} else if (pointDIndice > POINT_INDICE_MAX) {
-			pointDIndice = POINT_INDICE_MAX;
-		}
-		return echelon * pointDIndice;
+		pointDIndice.setValeur(pointDIndice.getValeur());
+		return echelon * pointDIndice.getValeur();
 	}
 
 	// setters
@@ -92,11 +109,6 @@ public class Personnel extends Personne {
 	 * @param pointDIndice the pointDIndice to set
 	 */
 	public void setPointDIndice(double pointDIndice) {
-		if (pointDIndice < POINT_INDICE_MIN) {
-			pointDIndice = POINT_INDICE_MIN;
-		} else if (pointDIndice > POINT_INDICE_MAX) {
-			pointDIndice = POINT_INDICE_MAX;
-		}
-		this.pointDIndice = pointDIndice;
+		this.pointDIndice.setValeur(pointDIndice);
 	}
 }

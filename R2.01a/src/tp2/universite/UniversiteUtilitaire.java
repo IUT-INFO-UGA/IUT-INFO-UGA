@@ -11,7 +11,11 @@ public class UniversiteUtilitaire {
 	public static String capitalize(String var) {
 		if (var == null)
 			return var;
-		return var.substring(0, 1).toUpperCase() + (var.substring(1)).toLowerCase();
+		final String[] split = var.split("-");
+		for (int i = 0; i < split.length; i++) {
+			split[i] = split[i].substring(0, 1).toUpperCase() + (split[i].substring(1)).toLowerCase();
+		}
+		return String.join("-", split);
 	}
 
 	public static void affichePersonne(Personne personne) {
