@@ -1,2 +1,4 @@
-package jeu;public class PlateauFactory {
+package jeu;
+
+public class PlateauFactory {
 }
