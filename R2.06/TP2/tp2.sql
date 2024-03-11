@@ -69,27 +69,22 @@ create TEMPORARY table fan_base(
 /* 2.8 Créer les deux tables fan et favoris grâce à deux requêtes, puis en ajoutant les contraintes de clé primaire et étrangère. */
 /*********************/
 
-create table fan(
-	login varchar,
-	nom varchar,
-	annee int,
-	primary key(login)
-);
+create table fan
+	as select distinct login, annee from fan_base;
 
-create table favoris(
-	login varchar,
-	titre varchar,
-	primary key(login, titre),
-	foreign key(login) references fan(login),
-	foreign key(titre) references film(titre)
-);
+alter table fan add primary key(login);
 
+create table favoris(login, perso) 
+	as select distinct login, nom from fan_base where nom is not null;
+	alter table favoris add primary key(login, perso);
+	alter table favoris add foreign key (login) references fan(login);
+	alter table favoris add foreign key (perso) references personnage(nom);
 /*********************/
 /* 2.9  On souhaite à présent donner un accès spécifique à chaque fan. Pour cela, créer une vue mes_favoris donnant le nom des personnages favoris de l'utilisateur postgreSQL connecté. */
 /*********************/
 
-create view mes_favoris as
-	select nom
+create or replace view mes_favoris as
+	select perso
 	from favoris natural join fan
 	where login = user;
 
