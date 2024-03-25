@@ -1,20 +1,23 @@
 package TP4.dalton;
 
-public class ComparateurTaille {
-	public static int compareToHeight(Taille t1, Taille t2) {
-		if (t1 == t2) {
+import java.util.Comparator;
+
+public class ComparateurTaille implements Comparator<Dalton> {
+	@Override
+	public int compare(Dalton d1, Dalton d2) {
+		if (d1.getHeight() == d2.getHeight()) {
 			return 0;
 		}
-		if (t1 == Taille.PETIT) {
+		if (d1.getHeight() == Taille.PETIT) {
 			return -1;
 		}
-		if (t1 == Taille.MOYEN) {
-			if (t2 == Taille.PETIT) {
+		if (d1.getHeight() == Taille.MOYEN) {
+			if (d2.getHeight() == Taille.PETIT) {
 				return 1;
 			}
 			return -1;
 		}
-		if (t1 == Taille.GRAND) {
+		if (d1.getHeight() == Taille.GRAND) {
 			return 1;
 		}
 		return 0;

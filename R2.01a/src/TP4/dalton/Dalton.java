@@ -9,11 +9,24 @@ public class Dalton implements Comparable<Dalton> {
 		this.height = height;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public Taille getHeight() {
+		return height;
+	}
+
+	@Override
+	public String toString() {
+		return name + " (" + height + ")";
+	}
+
 	@Override
 	public int compareTo(Dalton d) {
-		int compare = ComparateurTaille.compareToHeight(this.height, d.height);
+		final int compare = this.name.compareTo(d.name);
 		if (compare == 0) {
-			compare = ComparateurNom.compareToName(this.name, d.name);
+			return this.height.compareTo(d.height);
 		}
 		return compare;
 	}

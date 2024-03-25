@@ -1,7 +1,10 @@
 package TP4.dalton;
 
-public class ComparateurNom {
-	public static int compareToName(String n1, String n2) {
-		return n1.compareTo(n2);
+import java.util.Comparator;
+
+public class ComparateurNom implements Comparator<Dalton> {
+	@Override
+	public int compare(Dalton d1, Dalton d2) {
+		return d1.getName().compareTo(d2.getName());
 	}
 }

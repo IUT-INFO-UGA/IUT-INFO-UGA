@@ -3,7 +3,7 @@ package TP4.dalton;
 import java.util.TreeSet;
 
 public class TestDalton {
-	public static void main() {
+	public static void main(String[] args) {
 		// Création des Daltons
 		Dalton joe = new Dalton("Joe", Taille.PETIT);
 		Dalton jack = new Dalton("Jack", Taille.MOYEN);
@@ -19,7 +19,7 @@ public class TestDalton {
 		afficheCollection("Les daltons triés par ordre naturel (compareTo) :", lesDaltons);
 		// Faire un ensemble triés des daltons avec le comparateur de Taille (solution
 		// 1)
-		TreeSet<Dalton> lesDaltonsTaille = new TreeSet<Dalton>((d1, d2) -> compareToHeight(d1, d2));
+		TreeSet<Dalton> lesDaltonsTaille = new TreeSet<Dalton>(new ComparateurTaille());
 		lesDaltonsTaille.addAll(lesDaltons);
 		// Affichage
 		// ATTENTION 2 daltons avec la même taille donc vu que les doublons ne sont pas
