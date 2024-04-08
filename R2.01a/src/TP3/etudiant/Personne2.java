@@ -1,18 +1,18 @@
 package tp2.universite;
 
-public abstract class Personne {
+public abstract class Personne2 {
 	private String login;
 	private String nom;
 	private String prenom;
 	private String adresse;
 
-	Personne(String login, String prenom, String nom) {
+	Personne2(String login, String prenom, String nom) {
 		setNom(nom);
 		setPrenom(prenom);
 		setLogin(login);
 	}
 
-	Personne(String login, String prenom, String nom, String adresse) {
+	Personne2(String login, String prenom, String nom, String adresse) {
 		this(login, prenom, nom);
 		setAdresse(adresse);
 	}

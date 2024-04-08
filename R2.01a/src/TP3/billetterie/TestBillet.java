@@ -1,4 +1,1 @@
-Addition 1 ou Soustraction 2 ou Multiplication 3 ?
-
-public class TestBillet {
-}
+//Addition 1 ou Soustraction 2 ou Multiplication 3 ?
