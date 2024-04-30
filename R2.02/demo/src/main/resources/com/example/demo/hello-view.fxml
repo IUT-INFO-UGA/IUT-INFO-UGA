@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.HelloController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+
+  <Label fx:id="welcomeText" rotate="108.7" textFill="#805050" />
+   <HBox prefHeight="100.0" prefWidth="200.0" rotate="-161.6">
+      <children>
+         <RadioButton mnemonicParsing="false" rotate="121.4" text="RadioButton">
+            <toggleGroup>
+               <ToggleGroup fx:id="truc" />
+            </toggleGroup>
+         </RadioButton>
+         <RadioButton mnemonicParsing="false" rotate="39.8" text="RadioButton" toggleGroup="$truc" />
+         <RadioButton mnemonicParsing="false" rotate="-102.1" text="RadioButton" toggleGroup="$truc" />
+      </children>
+   </HBox>
+   <TextField promptText="je suis un text field" rotate="45.0" />
+  <Button onAction="#onHelloButtonClick" rotate="131.3" text="Hello!" />
+</VBox>
