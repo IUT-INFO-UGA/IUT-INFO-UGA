@@ -1,3 +1,5 @@
+package com.example.tp4;
+
 public class Calculatrice {
     private int operande1 = -1;
     private int operande2 = -1;

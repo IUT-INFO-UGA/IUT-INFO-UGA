@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="245.0" prefWidth="261.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tp6.HelloController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+   <Label fx:id="welcomeText" text="text" />
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <Button fx:id="_0" onAction="#onButtonClick" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="_1" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="95.0" GridPane.rowIndex="2" />
+        <Button fx:id="_2" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="95.0" GridPane.rowIndex="1" />
+        <Button fx:id="_3" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="97.0" />
+        <Button fx:id="_4" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="87.0" GridPane.columnIndex="1" />
+        <Button fx:id="_5" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="87.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Button fx:id="_6" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="78.0" GridPane.columnIndex="2" />
+        <Button fx:id="_7" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="74.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Button fx:id="_8" mnemonicParsing="false" onAction="#onButtonClick" prefHeight="26.0" prefWidth="79.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    </GridPane>
+   <Button fx:id="EndButton" mnemonicParsing="false" onAction="#onEndButtonClick" text="Terminé" />
+</VBox>
