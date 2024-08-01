@@ -1,0 +1,107 @@
+00000000                                     1  * TP02
+00000000                                     2  * comprehension de la mise a jour des indicateurs dans SR
+00000000                                     3  
+00000000                                     4  	ORG $0
+00000000                                     5  * adresse du debut de pile :
+00000000  00008000                           6  	DC.L $8000
+00000004                                     7  * point d'entree du programme :
+00000004  00000550                           8  	DC.L	CAS1
+00000008                                     9  
+00000008                                    10  * declaration des variables du programme
+00000500                                    11     	ORG $500
+00000500  D2                                12  NBA   DC.B  -46
+00000501  09                                13  NBB   DC.B  9
+00000502  82                                14  NBC   DC.B  -126
+00000503  38                                15  NBD   DC.B  56
+00000504  7F                                16  NBE   DC.B  127
+00000505  2E                                17  NBF   DC.B  46
+00000506  17                                18  NBG   DC.B  23
+00000507                                    19  
+00000507                                    20  *---------------------------------------------------
+00000507                                    21  * instructions (succession des cas a etudier)
+00000550                                    22     ORG $550
+00000550                                    23  
+00000550                                    24  * valeur immediate
+00000550                                    25  CAS1
+00000550  103C 007F                         26       MOVE.B #%01111111,D0
+00000554                                    27  
+00000554                                    28  * valeur immediate
+00000554                                    29  CAS2
+00000554  123C 00FF                         30       MOVE.B #%11111111,D1
+00000558                                    31  
+00000558                                    32  * addition
+00000558                                    33  CAS3
+00000558  123C 00FC                         34       MOVE.B #%11111100,D1
+0000055C  5E01                              35       ADD.B  #7,D1
+0000055E                                    36  
+0000055E                                    37  * addition
+0000055E                                    38  CAS4
+0000055E  1038 0505                         39       MOVE.B  NBF,D0
+00000562  D038 0506                         40       ADD.B   NBG,D0
+00000566                                    41  
+00000566                                    42  * soustraction
+00000566                                    43  CAS5
+00000566  1038 0505                         44       MOVE.B  NBF,D0
+0000056A  9038 0506                         45       SUB.B   NBG,D0
+0000056E                                    46  
+0000056E                                    47  * addition
+0000056E                                    48  CAS6
+0000056E  343C 00FC                         49       MOVE.W #$00FC,D2
+00000572  5842                              50       ADD.W #4,D2
+00000574                                    51  
+00000574                                    52  * soustraction
+00000574                                    53  CAS7
+00000574  163C 00CF                         54       MOVE.B #%11001111,D3
+00000578  0403 00B8                         55       SUB.B  #%10111000,D3
+0000057C                                    56  
+0000057C                                    57  * soustraction
+0000057C                                    58  CAS8
+0000057C  183C 008F                         59       MOVE.B #%10001111,D4
+00000580  0404 0012                         60       SUB.B #$12,D4
+00000584                                    61  
+00000584                                    62  * addition
+00000584                                    63  CAS9
+00000584  1A3C 0063                         64       MOVE.B #%01100011,D5
+00000588  0605 0030                         65       ADD.B  #%00110000,D5
+0000058C                                    66  
+0000058C                                    67  *-----------------------------------------
+0000058C                                    68  * calculs du TD 02
+0000058C                                    69  
+0000058C                                    70  * a+b -> D0.B
+0000058C                                    71  CAS10
+0000058C  1038 0500                         72       MOVE.B NBA,D0
+00000590  D038 0501                         73       ADD.B  NBB,D0	
+00000594                                    74  
+00000594                                    75  * a+c -> D1.B
+00000594                                    76  CAS11
+00000594  1238 0500                         77       MOVE.B NBA,D1
+00000598  D238 0502                         78       ADD.B  NBC,D1
+0000059C                                    79  
+0000059C                                    80  * b+d -> D2.B
+0000059C                                    81  CAS12
+0000059C  1638 0501                         82       MOVE.B NBB,D3
+000005A0  D638 0503                         83       ADD.B  NBD,D3
+000005A4                                    84  
+000005A4                                    85  * a-d -> D1.B
+000005A4                                    86  CAS13
+000005A4  1238 0500                         87       MOVE.B NBA,D1
+000005A8  9238 0503                         88       SUB.B  NBD,D1
+000005AC                                    89  
+000005AC                                    90  * a-b -> D2.B
+000005AC                                    91  CAS14
+000005AC  1438 0500                         92       MOVE.B NBA,D2
+000005B0  9438 0501                         93       SUB.B  NBB,D2
+000005B4                                    94  
+000005B4                                    95  * d-c -> D3.B
+000005B4                                    96  CAS15
+000005B4  1638 0503                         97       MOVE.B NBD,D3
+000005B8  9638 0502                         98       SUB.B  NBC,D3
+000005BC                                    99  
+000005BC                                   100  * fin du programme principal
+000005BC  4848                             101          BREAK
+000005BE                                   102  
+000005BE                                   103  * fin de la partie du fichier a assembler
+000005BE                                   104          END
+
+No errors detected
+No warnings generated

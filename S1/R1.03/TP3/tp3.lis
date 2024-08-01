@@ -1,0 +1,38 @@
+00000000                                     1    		ORG	$0
+00000000  00008000                           2  		DC.L	$8000	; adresse de la pile
+00000004  00000AC0                           3  		DC.L	calcul	; pour initialisation PC (Compteur Ordinal)
+00000008                                     4  
+00000008                                     5  * declaration des "variables" du programme
+00000008                                     6  * on les initialise avec la directive DC 
+00000008                                     7  
+00000A00                                     8  		ORG	$A00
+00000A00  12                                 9  PrixBonbon		DC.B	18
+00000A01  09                                10  PrixChocolat	DC.B	9
+00000A02  33                                11  PrixGateau		DC.B	51
+00000A03  00                                12  Depenses		DC.B	0
+00000A04  64                                13  Etrennes		DC.B	100
+00000A05  00                                14  Solde			DC.B	0
+00000A06                                    15  
+00000A06                                    16  
+00000A06                                    17  
+00000A06                                    18  * debut des instructions du programme
+00000A06                                    19  
+00000AC0                                    20  		ORG	$AC0
+00000AC0  1238 0A00                         21  calcul		MOVE.B	PrixBonbon,D1     * D1.B := PrixBonbon
+00000AC4  D238 0A01                         22  			ADD.B	PrixChocolat,D1
+00000AC8  D238 0A02                         23  			ADD.B	PrixGateau,D1
+00000ACC  11C1 0A03                         24  			MOVE.B	D1,Depenses
+00000AD0                                    25  
+00000AD0  1438 0A04                         26  			MOVE.B	Etrennes,D2
+00000AD4  9438 0A03                         27  			SUB.B	Depenses,D2
+00000AD8  11C2 0A05                         28  			MOVE.B	D2,Solde
+00000ADC                                    29  
+00000ADC                                    30  
+00000ADC                                    31  * fin du programme principal
+00000ADC  4848                              32  		BREAK	
+00000ADE                                    33  
+00000ADE                                    34  * fin du contenu a assembler
+00000ADE                                    35  		END
+
+No errors detected
+No warnings generated

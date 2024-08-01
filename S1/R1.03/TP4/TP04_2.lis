@@ -1,0 +1,47 @@
+00000000                                     1    		ORG	$0
+00000000  00008000                           2  		DC.L	$8000	; adresse de la pile
+00000004  00000AC0                           3  		DC.L	Inst1	; pour initialisation PC (Compteur Ordinal)
+00000008                                     4  
+00000008                                     5  * declaration des "variables" du programme
+00000008                                     6  * on reserve et on initialise avec la directive DC 
+00000008                                     7  * on reserve sans initialiser avec la directive DS
+00000A00                                     8  		ORG	$A00
+00000A00                                     9  a		DS.W 5
+00000A0A                                    10  b		DS.W 4
+00000A12  73                                11  c		DC.B 's'
+00000A13                                    12  
+00000A13                                    13  * debut des instructions du programme
+00000A13                                    14  
+00000AC0                                    15  		ORG	$AC0
+00000AC0                                    16  Inst1
+00000AC0                                    17  
+00000AC0  0C78 0002 0A00                    18  tq		CMPI.W #2,a
+00000AC6  6C00 0038                         19  		BGE fintq
+00000ACA  0C78 0003 0A0A                    20  		CMPI.W #3,b
+00000AD0  6D00 000C                         21  		BLT faire
+00000AD4  0C38 0053 0A12                    22  		CMPI.B #'S',c
+00000ADA  6600 0024                         23  		BNE fintq
+00000ADE                                    24  
+00000ADE  3238 0A12                         25  faire	MOVE c,D1
+00000AE2  323C 004E                         26  		MOVE #'N',D1
+00000AE6  31C1 0A12                         27  		MOVE D1,c
+00000AEA                                    28  
+00000AEA  3238 0A0A                         29  		MOVE b,D1
+00000AEE  0441 FFFF                         30  		SUB #-1,D1
+00000AF2  31C1 0A0A                         31  		MOVE D1,b
+00000AF6                                    32  
+00000AF6  3238 0A00                         33  		MOVE a,D1
+00000AFA  0441 FFFF                         34  		SUB #-1,D1
+00000AFE                                    35  
+00000AFE  60C0                              36  		BRA tq
+00000B00                                    37  
+00000B00                                    38  fintq
+00000B00                                    39  
+00000B00                                    40  * fin du programme principal
+00000B00  4848                              41  		BREAK	
+00000B02                                    42  
+00000B02                                    43  * fin du contenu a assembler
+00000B02                                    44  		END
+
+No errors detected
+No warnings generated

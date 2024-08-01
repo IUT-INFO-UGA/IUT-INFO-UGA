@@ -1,0 +1,45 @@
+00000000                                     1    		ORG	$0
+00000000  00008000                           2  		DC.L	$8000	; adresse de la pile
+00000004  00000AC0                           3  		DC.L	Inst1	; pour initialisation PC (Compteur Ordinal)
+00000008                                     4  
+00000008                                     5  * declaration des "variables" du programme
+00000008                                     6  * on reserve et on initialise avec la directive DC 
+00000008                                     7  * on reserve sans initialiser avec la directive DS
+00000A00                                     8  		ORG	$A00
+00000A00                                     9  Solde		DS.W 1
+00000A02                                    10  Depenses	DS.W 1
+00000A04                                    11  
+00000A04                                    12  
+00000A04                                    13  * debut des instructions du programme
+00000A04                                    14  
+00000AC0                                    15  		ORG	$AC0
+00000AC0  31FC 0014 0A00                    16  Inst1	MOVE.W #20,Solde     ;  Solde := 20
+00000AC6  31FC 0028 0A02                    17  		MOVE.W #40,Depenses   ;  Depenses :=40
+00000ACC                                    18  
+00000ACC                                    19  *  a vous d'ecrire la suite en assembleur...
+00000ACC  0C78 0014 0A00                    20  tq	CMPI.W #20,Solde	;	sole ? 27
+00000AD2  6E00 0024                         21  	BGT fintq			; allez a fintq si Solde > 20
+00000AD6                                    22  
+00000AD6  0C78 0032 0A02                    23  et	CMPI.W #50,Depenses ; Depenses ? 50
+00000ADC  6C00 001A                         24  	BGE fintq			; allez a fintq si Depenses >= 50
+00000AE0                                    25  
+00000AE0  3238 0A00                         26  faire	MOVE.W Solde,D1
+00000AE4  0441 FFFB                         27  		SUB.W #-5,D1
+00000AE8  31C1 0A00                         28  		MOVE.W D1,Solde
+00000AEC  3238 0A02                         29  		MOVE.W Depenses,D1
+00000AF0  5A41                              30  		ADD.W #5,D1
+00000AF2  31C1 0A02                         31  		MOVE.W D1,Depenses
+00000AF6  60D4                              32  		BRA tq
+00000AF8                                    33  
+00000AF8                                    34  fintq
+00000AF8                                    35  
+00000AF8                                    36  
+00000AF8                                    37  
+00000AF8                                    38  * fin du programme principal
+00000AF8  4848                              39  		BREAK	
+00000AFA                                    40  
+00000AFA                                    41  * fin du contenu a assembler
+00000AFA                                    42  		END
+
+No errors detected
+No warnings generated

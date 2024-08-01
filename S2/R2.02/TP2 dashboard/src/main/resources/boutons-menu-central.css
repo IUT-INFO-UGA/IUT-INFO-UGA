@@ -1,0 +1,24 @@
+/*
+TP2 -
+style pour les boutons du menu central
+*/
+
+.button{
+    -fx-background-color: #FFF;
+}
+.button:hover{
+    -fx-background-color: #C0D5F7;
+}
+.button:pressed{
+    -fx-background-color: #73A3EF;
+}
+
+
+
+
+
+
+
+/*
+Les icones utilisés dans ce TP sont proviennent de Freepik.
+*/

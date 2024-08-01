@@ -1,0 +1,38 @@
+00000000                                     1    		ORG	$0
+00000000  00008000                           2  		DC.L	$8000	; adresse de la pile
+00000004  00000000                           3  		DC.L	calcul	; pour initialisation PC (Compteur Ordinal)
+ERROR: Undefined symbol
+00000008                                     4  
+00000008                                     5  * declaration des "variables" du programme
+00000008                                     6  * on les initialise avec la directive DC 
+00000008  00                                 7  Solde		DC.B	0
+00000AC0                                     8  		ORG	$AC0
+00000AC0                                     9  
+00000AC0                                    10  
+00000AC0  1238 0008                         11  si1		MOVE.B Solde,D1
+00000AC4                                    12  		BLT D1,#$0
+ERROR: Invalid addressing mode
+00000AC4  6300 0006                         13  		BLS	alors1
+00000AC8                                    14  
+00000AC8                                    15  sinon1	MOVE $FFFF, D0.W
+ERROR: Invalid syntax
+00000AC8  6300 001E                         16  		BLS fin
+00000ACC                                    17  
+00000ACC                                    18  alors1	BLE Solde,$0
+ERROR: Invalid syntax
+00000ACC  6300 0010                         19  		BLS alors2
+00000AD0                                    20  
+00000AD0  33F9 0000CCCC 00000000            21  sinon2	MOVE.W $CCCC,D0.W
+ERROR: Undefined symbol
+00000ADA  6300 000C                         22  		BLS fin
+00000ADE                                    23  
+00000ADE  33F9 0000AAAA 00000000            24  alors2 MOVE $AAAA,D0.W
+ERROR: Undefined symbol
+00000AE8                                    25  
+00000AE8                                    26  * fin du programme principal
+00000AE8  4848                              27  fin		BREAK	
+00000AEA                                    28  
+00000AEA                                    29  * fin du contenu a assembler
+00000AEA                                    30  		END
+6 errors detected
+No warnings generated

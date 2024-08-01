@@ -1,0 +1,26 @@
+/*
+TP2 -
+style pour les boutons du menu latéral
+*/
+
+.button{
+    -fx-background-color: #6F5CC2;
+    -fx-background-radius: 0em;
+}
+.button:hover{
+    -fx-background-color: #AB9DDA;
+}
+.button:pressed{
+    -fx-background-color: #7156DD;
+}
+.button:focused{
+    -fx-background-color: #7D6CCB;
+    -fx-border-color: #CDD1D6;
+    -fx-border-width: 0px 0px 0px 3px;
+}
+
+
+
+/*
+Les icones utilisés dans ce TP sont proviennent de Freepik.
+*/

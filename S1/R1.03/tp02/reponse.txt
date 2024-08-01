@@ -1,0 +1,50 @@
+2. le registre SR fait 16bit
+les octé N  Z V C se trouve en 3 2 1 0.
+A l’exécution de chaque instruction, les indicateurs contenus dans SR sont mis à jour en fonction du résultat de son exécution.
+
+SR       N Z V C
+$ 2700   0 0 0 0
+$ 2708   1 0 0 0
+$ 270A   1 0 1 0
+
+interpretation
+D0 = $7f
+sr = $2700 -> n = 0, v = 0, C = 0, z = 0
+base 2
+    - pas de depassment car c = 0
+    - valeur en base 10 = 127
+cpt 2
+    - pas de depassment car c = 0
+    -valeur en base dix = 127
+
+interpretation
+D1 = FF
+sr = 2708 -> n = 1, v= 0, c=0, z=0
+base 2
+    - negatif car n = 1
+    - valeur en base 10 = 254
+cpt2
+    - negatif car n = 1
+    - valeur en base 10 = -127
+
+
+cas 3
+D1.B = $03
+sr = $2711 -> c = 1
+interpretation
+    - depassement c=1
+    - base 10 = 3
+
+cpt2
+    -pas de depassment car v = 0
+    valeur en base 2
+
+cas 4
+D0.B = 45
+sr = 2700
+interpretation
+    - pas depassment
+    - base 10 = 69
+cpt2
+    - pas depassment
+    - base 10 = 01000101 = 69

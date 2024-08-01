@@ -1,0 +1,36 @@
+Nombre de polars : 199
+*****************************
+* La liste est-elle triée ? *
+*****************************
+La liste est bien triée comme attendu !
+
+*******************************************
+* Nombre de livres pour une année *
+*******************************************
+Nombre de livres en récursif pour 1900 : 0
+Nombre de livres en récursif pour 1975 : 1
+Nombre de livres en récursif pour 2000 : 7
+
+**************************************
+* Nombre de livres d'un auteur *
+**************************************
+Nombre de livres de RAYNAL : 14
+Nombre de livres de LEHANNE : 8
+Nombre de livres de POUY : 57
+
+*********************************************
+* Nombre de livres de chaque auteur *
+*********************************************
+BENACQUISTA a écrit 13 livres renseignés
+CAMILLERI a écrit 14 livres renseignés
+GRANOTIER a écrit 14 livres renseignés
+IZZO a écrit 9 livres renseignés
+JONQUET a écrit 11 livres renseignés
+LEHANNE a écrit 8 livres renseignés
+MANCHETTE a écrit 11 livres renseignés
+MANKELL a écrit 10 livres renseignés
+MANOTTI a écrit 6 livres renseignés
+POUY a écrit 57 livres renseignés
+RAYNAL a écrit 14 livres renseignés
+SYLVAIN a écrit 16 livres renseignés
+VARGAS a écrit 16 livres renseignés
