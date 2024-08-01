@@ -1,0 +1,46 @@
+Etape 1 : création de la maquette pédagogique
+
+------------------
+Semestre : semestre 1, coefficient 30
+  + Module : M1102 (Algo), coefficient 20
+    - Epreuve : Contrôle continu, coefficient 5
+    - Epreuve : Contrôle final, coefficient 15
+  + Module : M1106 (PT), coefficient 10
+    - Epreuve : Projet, coefficient 10
+
+------------------
+Semestre : semestre 2, coefficient 60
+  + Module : M2103 (Programmation), coefficient 30
+    - Epreuve : Contrôle continu, coefficient 10
+    - Epreuve : Contrôle final, coefficient 20
+  + Module : M2104 (Conception), coefficient 30
+    - Epreuve : Projet, coefficient 12
+    - Epreuve : Contrôle continu, coefficient 8
+    - Epreuve : Contrôle final, coefficient 10
+
+========================
+ATTENTION M1106 ETAIT MAL PLACE, on le replace dans le semestre 2
+Ci-dessous, affichage des semestres après modification
+
+------------------
+Semestre : semestre 1, coefficient 20
+  + Module : M1102 (Algo), coefficient 20
+    - Epreuve : Contrôle continu, coefficient 5
+    - Epreuve : Contrôle final, coefficient 15
+
+------------------
+Semestre : semestre 2, coefficient 70
+  + Module : M2103 (Programmation), coefficient 30
+    - Epreuve : Contrôle continu, coefficient 10
+    - Epreuve : Contrôle final, coefficient 20
+  + Module : M2104 (Conception), coefficient 30
+    - Epreuve : Projet, coefficient 12
+    - Epreuve : Contrôle continu, coefficient 8
+    - Epreuve : Contrôle final, coefficient 10
+  + Module : M1106 (PT), coefficient 10
+    - Epreuve : Projet, coefficient 10
+
+========================
+Tester le lien etudiant/note/epreuve
+Note de l'epreuve POO QCM pour Francis : 17.0
+Note de l'epreuve POO QCM pour Hervé : 20.0

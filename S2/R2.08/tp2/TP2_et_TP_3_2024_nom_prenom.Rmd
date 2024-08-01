@@ -1,0 +1,259 @@
+---
+title: "Guide d'achat de diamants"
+output:
+  pdf_document: default
+  word_document:
+    toc: yes
+  html_document:
+    toc: yes
+---
+
+<!--# Ceci est un commentaire : This is an R Markdown document. When you click the Knit button (pelote de laine dans le menu) a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. -->
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+**Le fichier Rmd est à modifier !!!**
+
+*Vous DEVEZ ENLEVER les parties qui concernent les explications et les exemples pour les REMPLACER par votre PROPRE TRAVAIL !!!!!!!*
+
+N'oubliez pas d'enregistrer votre travail à la fin de la séance.
+
+## Description rapide du jeu de données
+
+nous posédon plusieur données pour chaque diamant: le poid (carat), la qualité de coupe (cut) (Fair, Good, Very Good, Premium, Ideal), la couleur (color, de d a j) la clairté (clarity), la profondeur (depth), la largeur (table), le prix (price), la longeur, la largeur et la profondeur (x, y ,z)
+
+## Description statistique des différentes variables
+le poid (carat):quantitatif
+la qualité de coupe :qualitatif
+la couleur: qualitatif
+la clairté (clarity): qualitatif
+la profondeur (depth) : quantitatif
+la largeur (table): quantitatif
+le prix (price) : quantitatif
+la longeur, la largeur et la profondeur (x, y ,z) : quantitatif
+
+
+### La couleur 
+
+On peut faire apparaître le code R et le résultat de l’exécution ainsi :
+
+```{r etude de la couleur}
+# combien de diamants pour chaque couleur ?
+diamonds %>%
+  group_by(color) %>%
+  summarise(frequence = round(n() / nrow(diamonds), 2), nombre = n())
+```
+
+La couleur la moins fréquente est la J (la pire) avec 5% des diamants. Pour les autres couleurs la fréquence se situe entre 10% (la couleur I) et 21% (la couleur G).
+
+### La qualité de la coupe
+
+```{r}
+# Recoder la variable clarté
+diamonds %>%
+  mutate(coupe = recode(cut,
+    "Fair"="Bien", 
+    "Good"="Bon",
+    "Very Good"="tres bien",
+    "Premium"="exellent",
+    "Ideal"="parfait"
+  )) %>%
+  group_by(coupe) %>%
+  summarise(frequence = round(n() / nrow(diamonds), 2), nombre = n())
+```
+La coupe la moins fréquente est bien (la pire) avec 3% des diamants. Pour les autres coupes la fréquence se situe entre 9% (Bon) et 26% (excellent).La coupe la moins fréquente est parfaite (la meilleure) avec 40% des diamants.
+
+### La clarté
+
+La clarté est une variable qualitative ordinale donc on peut faire un diagramme en barres en ordonnant l'axe des x de la qualité la moins bonne à la meilleure (ou l'inverse). Il peut aussi être intéressant de regrouper des catégories de clarté comme ci-dessous :
+
+```{r}
+# Recoder la variable clarté
+diamonds %>%
+  mutate(clarte = recode(clarity,
+    "I1" = "Visible", "SI1" = "Petites inclusions",
+    "SI2" = "Petites inclusions",
+    "VS1" = "Minuscules inclusions",
+    "VS2" = "Minuscules inclusions",
+    "VVS1" = "Difficilement visibles",
+    "VVS2" = "Difficilement visibles",
+    "IF" = "Pur"
+  )) %>%
+  group_by(clarte) %>%
+  summarise(frequence = round(n() / nrow(diamonds), 2), nombre = n())
+```
+
+le plus grand nombre de diamant ont des petites inclusions ou des minuscules inclusions.
+
+### Le nombre de carats
+
+**Mais qu'est-ce qu'un carat ??**
+
+Exemples possibles de présentation : Les instructions R peuvent être cachées avec la commande echo=FALSE, voici la moyenne et la valeur médiane de la variable CARAT
+
+```{r statistiques simples, echo=FALSE}
+# Quelle est la moyenne et la médiane de la variable carat ?
+diamonds %>%
+  summarise(minimum = min(carat), moyenne = round(mean(carat), 3), maximum = max(carat), Q1 = quantile(carat, 0.25), médiane = median(carat), Q3 = quantile(carat, 0.75), D9 = quantile(carat, 0.9))
+```
+
+Et un petit commentaire : on constate ici que la moyenne du nombre de carats se situe à environ 8 et qu'elle est supérieure à la médiane indiquant que certains diamants ont un nombre de carats grand ce que l'on voit sur la valeur maximale qui est de 5 carats soit un diamant d'environ 1 gramme.
+
+**Que signifie que D9=1.51 ?**
+D9 = 9 ème décile 
+Cela signifie que 10% des valeurs se situent au dessus de 1,51 carats
+
+On peut bien sûr inclure des graphiques :
+
+```{r exemples de graphiques}
+ggplot(diamonds) +
+  geom_histogram(aes(x = carat, y = ..density..), breaks = seq(0, 3.5, 0.25), fill = "grey40", color = "black", alpha = 0.4)
+
+ggplot(diamonds, aes(x = color, y = carat)) +
+  geom_boxplot()
+```
+
+En regardant de plus près, c'est-à-dire en précisant que chaque intervalle sur l'axe des abscisses doit être de 0,01 et en ne considérant que les diamants de moins de 1,51 carats (soit 90% des diamants), on constate ceci :
+
+```{r message=FALSE}
+diamonds %>%
+  filter(carat <= 1.51) %>%
+  ggplot() +
+  geom_histogram(aes(x = carat),
+    breaks = (seq(0.2, 1.51, by = 0.01)),
+    closed = "left", fill = "grey40", color = "black", alpha = 0.4
+  ) +
+  scale_x_continuous(breaks = seq(0.2, 1.51, by = 0.05)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Commentaire ? Explications ?**
+
+On constate un rytme regulier
+
+### Le pourcentage de profondeur
+
+```{r}
+diamonds %>%
+  summarise(minimum = min(depth), moyenne = round(mean(depth), 3), maximum = max(depth), Q1 = quantile(depth, 0.25), médiane = median(depth), Q3 = quantile(depth, 0.75), D9 = quantile(depth, 0.9))
+
+ggplot(diamonds) +
+  geom_histogram(aes(x = depth, y = ..density..), breaks = seq(55, 72, 1), fill = "grey40", color = "black", alpha = 0.4)
+```
+
+### La table
+
+```{r}
+diamonds %>%
+  summarise(minimum = min(table), moyenne = round(mean(table), 3), maximum = max(table), Q1 = quantile(table, 0.25), médiane = median(table), Q3 = quantile(table, 0.75), D9 = quantile(table, 0.9))
+
+ggplot(diamonds) +
+  geom_histogram(aes(x = table, y = ..density..), breaks = seq(48,71, 1), fill = "grey40", color = "black", alpha = 0.4)
+```
+
+### Longueur, largeur et profondeur
+
+```{r}
+diamonds %>%
+  summarise(minimum = min(x), moyenne = round(mean(x), 3), maximum = max(x), Q1 = quantile(x, 0.25), médiane = median(x), Q3 = quantile(x, 0.75), D9 = quantile(x, 0.9))
+
+ggplot(diamonds) +
+  geom_histogram(aes(x = x, y = ..density..), breaks = seq(0,11, 1), fill = "grey40", color = "black", alpha = 0.4) + labs(title = "pourcentage de diamant par longeur")+ylab("pourcentage")
+
+diamonds %>%
+  summarise(minimum = min(y), moyenne = round(mean(y), 3), maximum = max(y), Q1 = quantile(y, 0.25), médiane = median(y), Q3 = quantile(y, 0.75), D9 = quantile(y, 0.9))
+
+ggplot(diamonds) +
+  geom_histogram(aes(x = y, y = ..density..), breaks = seq(0,12, 1), fill = "grey40", color = "black", alpha = 0.4) + labs(title = "pourcentage de diamant par largeur")+ylab("pourcentage")
+
+diamonds %>%
+  summarise(minimum = min(z), moyenne = round(mean(z), 3), maximum = max(z), Q1 = quantile(z, 0.25), médiane = median(z), Q3 = quantile(z, 0.75), D9 = quantile(z, 0.9))
+
+ggplot(diamonds) +
+  geom_histogram(aes(x = z, y = ..density..), breaks = seq(0,8, 1), fill = "grey40", color = "black", alpha = 0.4) + labs(title = "pourcentage de diamant par profondeur") +ylab("pourcentage")
+```
+
+## Comment s'explique le prix d'un diamant ? -\> A faire en séance 2
+
+Pourquoi prendre le log du prix ?
+cella permet d'etre plus precis, de changer l'echel. toute fois cela rend imposible de visualiser des tendance
+On constate dans le tableau suivant que l'étendue des prix est très grande.
+
+```{r}
+diamonds%>%summarise(minimum = min(price),Q1 = quantile(price, 0.25), moyenne = round(mean(price), 0),  mediane = median(price), Q3 = quantile(price, 0.75), maximum=max(price))
+```
+Cela est aussi visible sur l'histogramme :
+
+```{r histogramme du prix}
+ggplot(diamonds, aes(x = price)) +
+  geom_histogram(breaks = seq(0, 20000, 1000), fill = "grey40", color = "black", alpha = 0.4)
+```
+
+
+
+La distribution avec l'axe des x en échelle logarithmique :
+
+```{r histogramme avec echelle log,message=FALSE, echo=FALSE}
+ggplot(diamonds, aes(x = price)) +
+  geom_histogram() +
+  scale_x_continuous(trans = "log10") +
+  annotation_logticks()
+```
+
+Une autre façon de faire : tracer l'histogramme de log(price) mais là on voit que l'axe des x n'est plus en dollars !!!
+
+```{r histogramme du log(prix),echo=FALSE,message=FALSE}
+ggplot(diamonds, aes(x = log(price), y = ..density..)) +
+  geom_histogram()
+```
+
+Quelques statistiques sur le logarithme du prix en fonction de la qualité de la coupe :
+
+```{r statistiques sur le prix,echo=FALSE,message=FALSE}
+# Des chiffres
+diamonds %>%
+  group_by(cut) %>%
+  summarise(moyenne = round(mean(log(price)), 3), médiane = median(log(price)))
+```
+
+Et quelques autres graphiques à titre d'exemples
+
+```{r graphiques,echo=FALSE,message=FALSE}
+ggplot(diamonds) +
+  geom_boxplot(aes(x = cut, y = log(price))) + labs(title = "prix par raport a la qualité de la coupe")
+
+ggplot(diamonds) +
+  geom_boxplot(aes(x = cut, y = carat, color= cut)) + labs(title = "carat par raport a la qualité de la coupe")
+
+ggplot(diamonds) +
+  geom_point(aes(x = carat, y = log(price)), color = "darkblue", alpha = 0.3)  + labs(title = "prix par raport au carat")
+
+ggplot(diamonds) +
+  geom_point(aes(x = carat, y = log(price), color = cut), alpha = 0.3) + labs(title = "prix par raport au carat teinté")
+
+ggplot(diamonds) +
+  geom_point(aes(x = carat, y = log(price), color = cut), alpha = 0.3) +
+  scale_x_continuous(limits = c(0, 3)) + labs(title = "prix par raport au carat teinté zoomé")
+```
+## prix par raport a la taille
+
+```{r statistiques sur le prix,echo=FALSE,message=FALSE}
+ggplot(diamonds) +
+  geom_point(aes(x = price, y = x,color= price))
+```
+
+nous pouvont donc vour que le prix influence enormement la taille du diament
+
+## profondeur par raport au prix
+
+```{r statistiques sur le prix,echo=FALSE,message=FALSE}
+diamonds %>%
+  filter(z<10) %>%
+  ggplot() +
+  geom_point(aes(y = price, x = z, color= price))
+```
+
+nous pouvont observé que la prfondeur influence le prix enorment

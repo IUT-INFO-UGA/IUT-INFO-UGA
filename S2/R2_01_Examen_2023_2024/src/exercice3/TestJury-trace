@@ -1,0 +1,25 @@
+
+// TRACE ATTENDUE
+
+Etape 1 : création d'un étudiant et du jury associé
+Jury de l'étudiant : BM Francis
+Moyenne générale : 15.366666666666667
+Moyenne module : M2103 (Programmation) = 19.0
+Moyenne module : M2104 (Conception) = 11.733333333333333
+
+Etape 2 : création d'un groupe d'étudiants et du jury associé
+>>> Rang : 1
+Jury de l'étudiant : B Hervé
+Moyenne générale : 20.0
+Moyenne module : M2103 (Programmation) = 20.0
+Moyenne module : M2104 (Conception) = 20.0
+>>> Rang : 2
+Jury de l'étudiant : BM Francis
+Moyenne générale : 15.366666666666667
+Moyenne module : M2103 (Programmation) = 19.0
+Moyenne module : M2104 (Conception) = 11.733333333333333
+>>> Rang : 3
+Jury de l'étudiant : G Jérôme
+Moyenne générale : 15.3
+Moyenne module : M2103 (Programmation) = 12.666666666666666
+Moyenne module : M2104 (Conception) = 17.933333333333334
