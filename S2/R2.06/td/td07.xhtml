@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Département info" />
+<link href="td07_fichiers/style.css" type="text/css" rel="stylesheet" />
+
+<title>td07</title>
+<script src="td07_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+<p>UGA - IUT2 - Département informatique<br />
+BUT 1A Semestre 2 - R2.06 : Exploitation d'une BD</p>
+
+
+<h1>TD07 : Utilisateurs et droits
+
+</h1>
+
+<h2>  Quête du Graal</h2>
+<p>Pour cet exercice, nous travaillons sur la base <em>Quête du Graal</em>
+contenant deux tables, l'une regroupant le nom des chevaliers et leur
+pays de naissance, l'autre les graals que les chevaliers ont pensé trouver,
+mais dont un seul peut être l'authentique Graal :</p>
+
+<p>
+<strong>Chevalier</strong> (<u>nom</u>, pays_naissance) <br />
+<strong>Graal</strong> 	 (<u>id</u>, authentique, #decouvreur)
+</p>
+
+<p>Répondre aux questions suivantes en proposant les commandes les plus courtes
+possibles :</p>
+
+<ol class="question">
+    <li> Créer les users <em>invite, arthur</em> et <em>lancelot</em>
+      (la méthode par défaut est <code>scram-sha-256</code>).
+       </li>
+
+    <li> Créer le groupe <em>chefs</em> qui doit contenir <em>arthur</em>
+      et <em>lancelot</em>.
+       </li>
+
+    <li> Faire en sorte que les 3 utilisateurs créés à la question 1 soient
+      les seuls (en plus des <em>superusers</em>) à pouvoir se connecter
+      à la base <em>Quête du Graal</em>.
+       </li>
+
+    <li> Donner le droit à tout le monde de pouvoir consulter la table <em>graal</em>.
+       </li>
+
+    <li> Donner aux membres du groupe <em>chefs</em> tous les droits
+      sur les deux tables sauf celui de supprimer des n-uplets
+      et celui de modifier l’identifiant de chaque n-uplet de la table.
+       </li>
+
+    <li> Donner à <em>invite</em> le droit de consulter les n-uplets de
+      <em>chevalier</em> correspondant aux chevaliers ayant découvert au moins
+      un graal (Indice : utiliser une vue que vous pourrez nommer <em>heros</em>).
+       </li>
+</ol>
+
+<h2> Aide à la recherche d’emploi</h2>
+
+<p>Le schéma relationnel suivant permet à une association d'aide à la recherche
+  d'emploi de gérer les offres d’emploi proposées par des sociétés ainsi que
+  les demandeurs d’emploi qui répondent à ces offres.
+</p>
+
+<p>
+<strong>Offre</strong> (<u>id_offre</u>, date_offre, secteur, expérience,
+  qualification, salaire, société, disponible)<br />
+<em>Une offre est déterminée par un <strong>numéro identifiant</strong>,
+et caractérisée par une <strong>date</strong> de début,
+un <strong>secteur</strong> d'activité concerné,
+une <strong>expérience</strong> professionnelle exigée,
+une <strong>qualification</strong> professionnelle,
+un <strong>salaire</strong> proposé
+et le nom de la <strong>sociéte</strong> qui la propose.
+Enfin, un booléen indique si cette offre est toujours <strong>disponible</strong>.
+</em></p>
+
+<p>
+<strong>Demandeur</strong> (<u>id_demandeur</u>, nom, prénom,
+  date_naissance, adresse, qualification, expérience, conseiller)<br />
+<em>Un demandeur d’emploi est <strong>identifié</strong> par une chaîne
+alphanumérique
+et est caractérisé par ses <strong>nom, prénom, date de naissance, adresse,
+qualification et expérience professionnelles</strong>.
+Enfin, une fois inscrit, il est suivi par un <strong>conseiller</strong>
+de l'association (avant inscription, ce champ vaut <tt>NULL</tt>).
+</em></p>
+
+<p>
+<strong>Candidature</strong> (<u>#id_demandeur, num_cand</u>, #id_offre,
+étape, date_étape) <br />
+<em>Pour chaque <strong>demandeur</strong>, on enregistre les différentes candidatures
+qu’il a faites, ordonnées chronologiquement (<strong>num_cand</strong> vaut 1 pour la
+première candidature puis 2 …).
+On conserve pour chaque candidature l’identifiant de l’<strong>offre</strong>
+à laquelle le demandeur postule, l’<strong>étape</strong> du recrutement
+(demandeRV, RVfixé, RVpassé, sélectionné, refusé)
+et la <strong>date</strong> à laquelle a été enregistrée cette étape.
+Chaque demandeur ne pouvant candidater qu’une fois à une offre donnée,
+le couple <strong>(id_demandeur, id_offre)</strong> est une autre clé candidate
+pour cette relation (contrainte <tt>UNIQUE</tt>).
+</em></p>
+
+<p>Lors de l'étude organisationnelle, on a identifié les règles organisationnelles
+suivantes :</p>
+
+<p>
+<strong>Un demandeur d’emploi avant inscription</strong> :
+Lorsqu'il s'inscrit, il enregistre lui-même son identifiant alphanumérique,
+son nom et son prénom, sa date de naissance et son adresse.
+Il ne peut ni consulter ni modifier les données de la base.
+</p>
+
+<p>
+<strong>Un demandeur d'emploi inscrit </strong>:
+Une fois inscrit, il reçoit une première convocation avec le conseiller
+qui va le suivre. A l'issue de cet entretien il peut utiliser l'application
+lui permettant d'interagir avec la base en utilisant son identifiant
+comme login. Il peut consulter ses informations
+mais il ne peut pas les modifier lui-même. Il a accès en lecture aux offres
+d'emploi qui correspondent à son profil (même qualification,
+et expérience demandée inférieure ou égale à la sienne).
+<br />
+Il a accès à ses candidatures.
+C’est lui qui enregistre toute nouvelle demande de rendez-vous pour une offre
+d'emploi. Une fois sa demande enregistrée, il ne peut la retirer.
+Par contre, c’est lui qui met à jour les informations concernant les étapes
+de ses différentes candidatures.
+</p>
+
+<p>
+<strong>Un conseiller </strong>:
+C'est lui qui enregistre les informations des offres d'emploi déposées.
+Il peut consulter et modifier ces informations (en particulier,
+lorsqu’une offre n’est plus disponible, il passe l’attribut <em>disponible</em>
+à <tt>false</tt>) mais pas les supprimer.
+C’est également lui qui termine l’inscription des nouveaux demandeurs d’emploi
+(il affecte son propre login au champ <em>conseiller</em> du n-uplet correspondant)
+et qui enregistre leur qualification et expérience professionnelle
+lors du premier entretien.
+Pour simplifier, il peut consulter les informations concernant
+tous les demandeurs et il peut consulter leurs demarches de recherche d’emploi
+(qu’il suive ou non le demandeur en question).
+</p>
+
+<p>
+Ecrire des commandes SQL pour répondre aux questions suivantes :
+</p>
+
+<ol class="question">
+    <li> Créer un utilisateur générique <em>invite</em> avec le mot de passe
+      <em>invite</em> pour la pré-inscription.
+      Créer ensuite deux rôles <em>inscrits</em> et <em>conseillers</em>
+      qui vont contenir les utilisateurs correspondant respectivement
+      à un demandeur d’emploi inscrit et à un conseiller de l'association.
+       </li>
+
+    <li> Définir les droits de l’utilisateur <em>invite</em>.
+       </li>
+
+    <li> Définir les droits du rôle <em>conseillers</em>, puis accorder
+      ces droits à l’utilisateur <em>joseph</em>.
+      Créer un nouvel utilisateur <em>henry</em> de telle sorte
+      qu’il possède immédiatement les droits accordés aux <em>conseillers</em>.
+       </li>
+
+    <li> On exécute la commande <tt>REVOKE select ON offre FROM public;</tt>.
+      Les conseillers <em>joseph</em> et <em>henry</em> peuvent-ils encore
+      consulter les offres?
+       </li>
+
+    <li> Définir les droits des demandeurs d’emploi inscrits.
+       </li>
+</ol>
+<div class="bas-page">
+<p>Validation
+<a href="https://validator.w3.org/check/referer">HTML (W3C)</a>
+<a href="https://jigsaw.w3.org/css-validator/check/referer">CSS (W3C)</a>
+</p>
+</div>
+</body>
+</html>

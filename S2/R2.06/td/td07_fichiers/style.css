@@ -1,0 +1,439 @@
+body
+{
+  background-color: white;
+  color: black;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 10pt;
+  }
+
+h1 { text-align: center }
+
+h1, h2, h3, h4
+{
+  font-family: arial, helvetica, sans-serif;
+  clear: both;
+  }
+
+/* Numérotation automatique des sections */
+
+body { counter-reset: section; }
+
+h2:before
+{
+  content: counter(section) ". ";
+  counter-increment: section;
+  }
+
+h2
+{
+  counter-reset: sous-section;
+  }
+
+h2.preambule:before
+{
+  counter-increment: section 0;
+  }
+
+h2.consignes:before
+{
+  content: "";
+  counter-increment: section 0;
+  }
+
+h3:before
+{
+  content: counter(section) "." counter(sous-section) ". ";
+  counter-increment: sous-section;
+  }
+
+/* zones de réponses */
+textarea
+{
+  box-sizing: border-box;
+  width: 100%;
+  font-weight: bold;
+}
+
+/* organiser la largeur par blocs */
+div.petit-bloc-simple
+{
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width:50%;
+}
+
+div.moyen-bloc-simple
+{
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width:80%;
+}
+
+div.bloc-simple
+{
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+div.bloc-double
+{
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: center;
+  float:left;
+  width:46%;
+}
+
+div.bloc-triple
+{
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: center;
+  float:left;
+  width:29%;
+}
+
+/* titre pour chaque bloc */
+.titre
+{
+  font-weight: bolder;
+}
+
+/* gros titre pour une page */
+p.grostitre
+{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16pt;
+  font-weight: bolder;
+}
+
+/* sous-titre pour une question */
+span.sous-titre
+{
+  font-weight: normal;
+}
+
+
+/* éléments traditionnels */
+/* objet image/svg */
+object {
+  width: 100%;
+}
+
+img {
+  width: 100%;
+  }
+
+img.logo {
+  width: auto;
+  }
+
+/* tableau */
+table
+{
+  width: 100%;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  border: solid;
+  border-collapse: collapse;
+}
+
+table th, table td
+{
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: solid;
+}
+
+table caption{
+  font-weight: bolder;
+}
+
+/* code avec indentation */
+pre
+{
+  text-align: left;
+  margin-left: 0em;
+  margin-right: 0em;
+  margin-top: 0em;
+  margin-bottom: 0em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: solid thin black;
+  background-color: lightgrey;
+  }
+
+/* style pour code postgresql */
+.replaceable
+{
+  font-weight: bolder;
+}
+
+/* code sans indentation */
+code
+{
+  background-color: lightgrey;
+  }
+
+/* commande shell */
+kbd
+{
+  background-color: yellow;
+  white-space: nowrap;
+  }
+
+/* Déclinaisons particulières à un énoncé */
+
+/* item de question */
+.question li
+{
+  clear:both;
+  margin-top:0.5em;
+}
+
+.lettre li
+{
+  clear:both;
+  margin-top:0.5em;
+}
+
+/* zone de réponse pour les étudiants */
+div.grand-aremplir
+{
+  border: solid thin;
+  min-height: 4em;
+  font-weight: bolder;
+ }
+
+div.aremplir
+{
+  border: solid thin;
+  min-height: 2em;
+  font-weight: bolder;
+ }
+
+div.mot-aremplir
+{
+  border: solid thin;
+  font-weight: bolder;
+  display:inline-block;
+  min-width: 6em;
+}
+
+/* colonne de tableau pour commentaire de trace*/
+th.commentaire
+{
+  min-width: 40%;
+}
+
+th.commentaire-large
+{
+  min-width: 70%;
+}
+
+/* colonne de tableau pour index de ligne*/
+td.index {
+  border-style: none;
+  text-align: right;
+}
+
+/* instructions pour un examen */
+div.instructions
+{
+  width: 80%;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: solid thin black;
+  background-color: wheat;
+  font-size: 10pt;
+  text-align: center;
+  font-weight: bolder;
+}
+
+/* instructions pour un projet */
+div.instructions-projet
+{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: solid thin black;
+  background-color: wheat;
+  font-size: 10pt;
+}
+
+/* une liste avec des items lettrés et non numérotés */
+ol.lettre
+{
+  list-style-type: lower-latin;
+}
+
+/* actions diverses */
+
+.noborder {
+  border-style: none;
+}
+
+.tabulee {
+  border-style: none;
+  width: auto;
+  padding: 2pt;
+  padding-bottom: 4pt;
+  padding-right: 10pt;
+}
+
+.sable {
+  background-color: wheat;
+}
+
+/* mettre en bloc */
+.bloc {
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: solid thin black;
+}
+
+/* mettre en enluminure d'un texte : concerne img ou object */
+.enluminure {
+  width: 40% ;
+  margin-right:0.5em;
+  margin-bottom:0.5em;
+  float:left;
+}
+
+/* retour à la ligne pour l'élément suivant le paragraphe avec enluminure */
+.retour{
+  clear:both;
+}
+
+/* augmenter la taille d'un texte */
+.big
+{
+  font-size: 16pt;
+}
+
+/* aligner un texte à gauche (dans un bloc centré) */
+.gauche
+{
+  text-align: left;
+}
+
+/* bas de page destiné à ne pas être imprimé */
+div.bas-page
+{
+  text-align: center;
+}
+
+/* mises en forme spécifiques aux codes*/
+.enscript-comment { font-style: italic; color: rgb(178,34,34); }
+.enscript-function-name { font-weight: bold; color: rgb(0,0,255); }
+.enscript-variable-name { font-weight: bold; color: rgb(184,134,11); }
+.enscript-keyword { font-weight: bold; color: rgb(160,32,240); }
+.enscript-reference { font-weight: bold; color: rgb(95,158,160); }
+.enscript-string { font-weight: bold; color: rgb(188,143,143); }
+.enscript-builtin { font-weight: bold; color: rgb(218,112,214); }
+.enscript-type { font-weight: bold; color: rgb(34,139,34); }
+.enscript-highlight { text-decoration: underline; color: rgb(0,0,0); }
+
+/* mises en forme spécifiques à l'organisation du cours*/
+.todo
+{
+  background-color: firebrick;/*#cc3333;*/
+}
+
+.ready
+{
+  background-color: palegreen; /*#ccff66;*/
+}
+
+
+/* Impression  */
+@media print {
+
+  body {
+    /* font-size: large; */
+  orphans: 2;
+  widows: 2;
+  }
+
+  h1, h2, h3, h4
+  {
+    page-break-after: avoid;
+  }
+
+  textarea::placeholder {
+    opacity: 0;
+  }
+
+  p, li
+  {
+    line-height: 120%;
+  }
+
+  .newpage {page-break-before: always}
+
+  .annonce {page-break-after: avoid;}
+
+  pre, img, table, div.exemple, div.aremplir {page-break-inside: avoid}
+
+  code
+  {
+   font-weight: bolder;
+  }
+
+  code,pre,kbd,div.instructions,div.instructions-projet
+  {
+   background-color: white;
+  }
+
+  .todo
+  {
+   background-color: lightgray;
+  }
+
+  .ready
+  {
+   background-color: white;
+  }
+
+/* bas de page destiné à ne pas être imprimé */
+  div.bas-page
+  {
+   display: none;
+  }
+
+  .enscript-comment { font-style: italic;color: black; }
+  .enscript-function-name { font-weight: bold;color: black; }
+  .enscript-variable-name { font-weight: bold;color: black; }
+  .enscript-keyword { font-weight: bold;color: black; }
+  .enscript-reference { font-weight: bold;color: black; }
+  .enscript-string { font-weight: bold;color: black; }
+  .enscript-builtin { font-weight: bold;color: black; }
+  .enscript-type { font-weight: bold;color: black; }
+  .enscript-highlight { text-decoration: underline;color: black;  }
+
+}

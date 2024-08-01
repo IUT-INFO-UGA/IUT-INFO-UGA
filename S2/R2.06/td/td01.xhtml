@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Département info" />
+<link href="td01_fichiers/style.css" type="text/css" rel="stylesheet" />
+
+<title>td01</title>
+<script src="td01_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+<p>UGA - IUT2 - Département informatique<br />
+BUT 1A Semestre 2 - R2.06 : Exploitation d'une BD</p>
+
+
+<h1>TD01 : Révisions - BD relationnelle et SQL simple
+
+</h1>
+
+<h2> Préambule : <em>Avengers</em></h2>
+<p> Nous allons travailler sur une base de données contenant des informations relatives aux
+  films Marvel des <em>Avengers</em>. Voici ci-dessous quelques commandes et résultats
+  réalisés sur une base postgreSQL.</p>
+<pre style="position: relative;">/* =================================*/
+/* les tables                       */
+/* =================================*/
+\d
+            List of relations
+ Schema |     Name      | Type  | Owner
+--------+---------------+-------+--------
+ public | apparait_dans | table | gerotc
+ public | etat_civil    | table | gerotc
+ public | film          | table | gerotc
+ public | meurt_dans    | table | gerotc
+ public | personnage    | table | gerotc
+ public | realise       | table | gerotc
+(5 rows)
+
+/* =================================*/
+/* les films                        */
+/* =================================*/
+\d film
+                Table "public.film"
+ Column |  Type   | Collation | Nullable | Default
+--------+---------+-----------+----------+---------
+ numero | integer |           | not null |
+ titre  | text    |           | not null |
+ annee  | integer |           |          |
+Indexes:
+    "film_pkey" PRIMARY KEY, btree (numero)
+    "film_titre_key" UNIQUE CONSTRAINT, btree (titre)
+Referenced by:
+    TABLE "apparait_dans" CONSTRAINT "apparait_dans_numero_fkey" FOREIGN KEY (numero)
+      REFERENCES film(numero)
+    TABLE "realise" CONSTRAINT "realise_numero_fkey" FOREIGN KEY (numero) REFERENCES film(numero)
+
+SELECT * FROM film LIMIT 2;
+ numero |       titre       | annee
+--------+-------------------+-------
+      1 | Iron Man          |  2008
+      2 | L'incroyable Hulk |  2008
+(2 rows)
+
+/* =================================*/
+/* les réalisateurs                 */
+/* =================================*/
+\d realise
+                 Table "public.realise"
+   Column    |  Type   | Collation | Nullable | Default
+-------------+---------+-----------+----------+---------
+ numero      | integer |           | not null |
+ realisateur | text    |           | not null |
+Indexes:
+    "realise_pkey" PRIMARY KEY, btree (numero, realisateur)
+Foreign-key constraints:
+    "realise_numero_fkey" FOREIGN KEY (numero) REFERENCES film(numero)
+
+SELECT * FROM realise LIMIT 2;
+ numero |   realisateur
+--------+-----------------
+      1 | Jon Favreau
+      2 | Louis Leterrier
+(2 rows)
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<pre style="position: relative;">/* =================================*/
+/* les personnages                  */
+/* =================================*/
+\d personnage
+           Table "public.personnage"
+ Column | Type | Collation | Nullable | Default
+--------+------+-----------+----------+---------
+ nom    | text |           | not null |
+ alias  | text |           |          |
+Indexes:
+    "personnage_pkey" PRIMARY KEY, btree (nom)
+    "personnage_alias_key" UNIQUE CONSTRAINT, btree (alias)
+Referenced by:
+    TABLE "apparait_dans" CONSTRAINT "apparait_dans_nom_fkey" FOREIGN KEY (nom)
+      REFERENCES personnage(nom)
+    TABLE "etat_civil" CONSTRAINT "etat_civil_nom_fkey" FOREIGN KEY (nom) REFERENCES personnage(alias)
+
+SELECT * FROM personnage LIMIT 2;
+    nom    |   alias
+-----------+------------
+ Iron Man  | Tony Stark
+ Thor      |
+(2 rows)
+
+/* =================================*/
+/* les états civils des terriens    */
+/* =================================*/
+\d etat_civil
+             Table "public.etat_civil"
+ Column |  Type   | Collation | Nullable | Default
+--------+---------+-----------+----------+---------
+ nom    | text    |           | not null |
+ annee  | integer |           |          |
+ etat   | text    |           |          |
+Indexes:
+    "etat_civil_pkey" PRIMARY KEY, btree (nom)
+Foreign-key constraints:
+    "etat_civil_nom_fkey" FOREIGN KEY (nom) REFERENCES personnage(alias)
+
+SELECT * FROM etat_civil LIMIT 2;
+     nom      | annee |   etat
+--------------+-------+----------
+ Tony Stark   |  1970 | Bulgarie
+ Bruce Banner |  1969 | Ohio
+(2 rows)
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<pre style="position: relative;">/* ===============================================*/
+/* les apparitions des personnages dans les films */
+/* ===============================================*/
+\d apparait_dans
+               Table "public.apparait_dans"
+     Column     |  Type   | Collation | Nullable | Default
+----------------+---------+-----------+----------+---------
+ numero         | integer |           | not null |
+ nom            | text    |           | not null |
+ post_generique | boolean |           |          | false
+Indexes:
+    "apparait_dans_pkey" PRIMARY KEY, btree (numero, nom)
+Foreign-key constraints:
+    "apparait_dans_nom_fkey" FOREIGN KEY (nom) REFERENCES personnage(nom)
+    "apparait_dans_numero_fkey" FOREIGN KEY (numero) REFERENCES film(numero)
+Referenced by:
+    TABLE "meurt_dans" CONSTRAINT "meurt_dans_numero_nom_fkey" FOREIGN KEY (numero, nom)
+      REFERENCES apparait_dans(numero, nom)
+
+SELECT * FROM apparait_dans LIMIT 2;
+ numero |     nom      | post_generique
+--------+--------------+----------------
+      1 | Iron Man     | f
+      1 | Pepper Potts | f
+(2 rows)
+
+/* ============================================ */
+/* films dans lesquels des personnages décèdent */
+/* ============================================ */
+\d meurt_dans
+             Table "public.meurt_dans"
+ Column |  Type   | Collation | Nullable | Default
+--------+---------+-----------+----------+---------
+ numero | integer |           |          |
+ nom    | text    |           | not null |
+Indexes:
+    "meurt_dans_pkey" PRIMARY KEY, btree (nom)
+Foreign-key constraints:
+    "meurt_dans_numero_nom_fkey" FOREIGN KEY (numero, nom) REFERENCES apparait_dans(numero, nom)
+
+SELECT * FROM meurt_dans LIMIT 2;
+ numero |    nom
+--------+------------
+     19 | Nick Fury
+     19 | Commandant Hill
+(2 rows)
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<h2>Compréhension de la structure de la base</h2>
+<p> Commencer par comprendre la structure de la base et en particulier
+les dépendances fonctionnelles et contraintes référentielles.</p>
+<h3>Structure générale</h3>
+<ol class="question">
+  <li> Ecrire le schéma relationnel de cette base de données.
+
+  </li>
+  <!--
+  <li> Dessiner le schéma entité-association.
+
+  </li>
+  -->
+</ol>
+
+<h3>La table <tt>film</tt></h3>
+<ol class="question">
+  <li> Quelle est la clé primaire de <tt>film</tt>?
+  </li>
+  <li> Ce n'est pas la seule clé candidate. Quelle est l'autre clé candidate?
+       Pourquoi avoir deux clés possibles?
+  </li>
+</ol>
+
+<h3> La table <tt>realisateur</tt></h3>
+<ol class="question">
+  <li> Un réalisateur peut-il être l'auteur de plusieurs films? Pourquoi?
+  </li>
+  <li> Un film peut-il avoir plusieurs réalisateurs? Pourquoi?
+  </li>
+</ol>
+
+<h3>Les tables <tt>personnage</tt> et <tt>etat_civil</tt></h3>
+<ol class="question">
+  <li> Tout personnage a-t-il un alias? Pourquoi?
+  </li>
+  <li> Quels personnages peuvent avoir un état civil?
+  </li>
+  <!--
+  <li> Un personnage ne peut pas avoir plusieurs alias.
+    Quels changements de modélisation faudrait-il appliquer pour qu'un personnage
+    reste identifié par son nom, puisse avoir plusieurs alias mais sans qu'un alias
+    puisse être partagé par plusieurs personnages?
+  </li>
+  -->
+</ol>
+
+<h3>La table <tt>apparait_dans</tt></h3>
+<ol class="question">
+  <li> L'attribut <tt>post_generique</tt> est positionné à vrai lorsque le personnage apparaît
+    dans le post-générique (de fin de film). Quelle est sa valeur pour :
+    <ol class="lettre">
+      <li> un personnage qui apparaît dans le film (avant le générique de fin) <strong> et </strong> dans le post-générique ?</li>
+      <li> un personnage qui n'apparaît que dans le film (avant le générique de fin) ?</li>
+      <li> un personnage qui n'apparaît que dans le post-générique ?</li>
+      <li> un personnage qui n'apparaît <strong>ni</strong> dans le film (avant le générique de fin) <strong>ni</strong> dans le post-générique ?</li>
+    </ol>
+  </li>
+  <li>Quel changement faudrait-il apporter à la modélisation pour lever cette ambiguïté?
+  </li>
+</ol>
+
+<h3>La table <tt>meurt_dans</tt></h3>
+<ol class="question">
+  <li> Pourquoi est-ce le couple <tt>(numero,nom)</tt> qui fait référence aux attributs de <tt>apparait_dans</tt>
+    et non chacun des attributs <tt>numero</tt> et <tt>nom</tt> qui fait référence aux attributs
+    de <tt>film</tt> et <tt>personnage</tt> respectivement?
+  </li>
+  <li> Cela signifie-t-il que l'on peut avoir dans <tt>meurt_dans</tt> un nom de personnage qui
+    n'existe pas dans la table <tt>personnage</tt>?
+  </li>
+  <li> Pourquoi seul l'attribut <tt>nom</tt> est-il clé primaire et non le couple <tt>(numero,nom)</tt>?
+  </li>
+</ol>
+
+<h2> Requêtes </h2>
+<h3> A corriger </h3>
+
+<p>Corriger les requêtes ci-dessous.</p>
+<ol class="question">
+<li><pre style="position: relative;"><span class="enscript-keyword">SELECT</span> *
+<span class="enscript-keyword">WHERE</span> annee = 2018;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+
+<li>
+<pre style="position: relative;"><span class="enscript-keyword">SELECT</span> *
+<span class="enscript-keyword">FROM</span> personnage p, meurt_dans m
+<span class="enscript-keyword">WHERE</span> numero=22
+LIMIT 10;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+
+<li><pre style="position: relative;"><span class="enscript-keyword">SELECT</span> nom
+<span class="enscript-keyword">FROM</span> personnage <span class="enscript-keyword">NATURAL JOIN</span> apparait_dans <span class="enscript-keyword">NATURAL JOIN</span> film
+<span class="enscript-keyword">WHERE</span> titre=<span class="enscript-string">'Iron Man'</span>;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+
+<li><pre style="position: relative;"><span class="enscript-keyword">SELECT</span> *
+<span class="enscript-keyword">FROM</span> film f, realise r
+<span class="enscript-keyword">WHERE</span> f.numero=r.numero <span class="enscript-keyword">AND</span> annee=2018 <span class="enscript-keyword">AND</span> numero&gt;18;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+
+</ol>
+
+<h3> Jeopardy </h3>
+
+<p>A quelle question répond chacune des requêtes suivantes?</p>
+
+<ol class="question">
+<li><pre style="position: relative;"><span class="enscript-keyword">SELECT</span> <span class="enscript-keyword">DISTINCT</span> nom
+<span class="enscript-keyword">FROM</span> film <span class="enscript-keyword">NATURAL JOIN</span> apparait_dans
+<span class="enscript-keyword">WHERE</span> titre <span class="enscript-keyword">LIKE</span> nom||<span class="enscript-string">'%'</span>;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+
+<li><pre style="position: relative;"><span class="enscript-keyword">SELECT</span> titre, <span class="enscript-keyword">count</span>(nom) <span class="enscript-keyword">as</span> nbm
+<span class="enscript-keyword">FROM</span> film <span class="enscript-keyword">NATURAL LEFT JOIN</span> meurt_dans
+<span class="enscript-keyword">GROUP</span> <span class="enscript-keyword">BY</span> titre
+<span class="enscript-keyword">ORDER</span> <span class="enscript-keyword">BY</span> nbm <span class="enscript-keyword">DESC</span>;
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+</li>
+</ol>
+
+<div class="bas-page">
+<p>Validation
+<a href="https://validator.w3.org/check/referer">HTML (W3C)</a>
+<a href="https://jigsaw.w3.org/css-validator/check/referer">CSS (W3C)</a>
+</p>
+</div>
+</body>
+</html>

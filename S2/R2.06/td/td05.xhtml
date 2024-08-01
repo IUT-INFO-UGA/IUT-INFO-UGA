@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Département info" />
+<link href="td05_fichiers/style.css" type="text/css" rel="stylesheet" />
+
+<title>td05</title>
+<script src="td05_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+<p>UGA - IUT2 - Département informatique<br />
+BUT 1A Semestre 2 - R2.06 : Exploitation d'une BD</p>
+
+
+<h1>TD05 : Triggers pour vérifier des contraintes complexes
+
+</h1>
+
+<h2 class="preambule"> Préambule : <em>Courses de Voile</em></h2>
+<p> Pour cette feuille d'exercices nous utilisons une nouvelle base,
+utilisée par un club de voile qui organise des courses entre ses adhérents.</p>
+
+<p>Chaque course est constituée d'une ou plusieurs régates, chacune étant
+une boucle autour d'un port. Le nombre de points accordé à chaque
+bateau correspond à son ordre d'arrivée : le vainqueur d'une course
+est donc celui dont la somme des points sur toutes les régates
+est la plus faible.</p>
+
+<p>La base de données contient les tables suivantes :</p>
+<pre style="position: relative;">\dt
+          List of relations
+ Schema |    Name    | Type  | Owner
+--------+------------+-------+--------
+ public | adherent   | table | gerotc
+ public | bateau     | table | gerotc
+ public | chefdebord | table | gerotc
+ public | cotisation | table | gerotc
+ public | course     | table | gerotc
+ public | equipier   | table | gerotc
+ public | regate     | table | gerotc
+ public | resultat   | table | gerotc
+ public | tarif      | table | gerotc
+(9 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<h2>Les contraintes</h2>
+<p> Nous listons ci-après les différentes contraintes définies sur ces relations
+  dont certaines ont pu être définies lors de la création des tables. Les autres
+  nécessitent un trigger pour être implantées.</p>
+
+<p>Questions :</p>
+<ol class="question">
+  <li> Identifier, s'il y en a, les contraintes qui n'ont pas pu être intégrées à la création
+    des tables.</li>
+  <li> [BONUS] Commencer à écrire triggers et fonctions associées qui permettent
+    de vérifier ces contraintes. Ce sera l'objet du travail à réaliser lors du TP05.</li>
+</ol>
+
+<h3>Tarif</h3>
+
+<pre style="position: relative;">\d tarif
+                Table "public.tarif"
+ Column  |  Type   | Collation | Nullable | Default
+---------+---------+-----------+----------+---------
+ annee   | integer |           | not null |
+ montant | real    |           | not null |
+Indexes:
+    "tarif_pkey" PRIMARY KEY, btree (annee)
+Check constraints:
+    "c_montant" CHECK (montant &gt;= 0::double precision)
+Referenced by:
+    TABLE "cotisation" CONSTRAINT "cotisation_annee_fkey" FOREIGN KEY (annee)
+      REFERENCES tarif(annee)
+
+SELECT * FROM tarif LIMIT 2;
+ annee | montant
+-------+---------
+  2020 |     100
+  2021 |     110
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>Contraintes :</p>
+<ol>
+  <li> Le montant d'une cotisation annuelle est défini par un nombre réel positif.</li>
+</ol>
+
+
+
+
+<h3 class="newpage">Adhérent</h3>
+
+<pre style="position: relative;">\d adherent
+                                       Table "public.adherent"
+  Column   |         Type          | Collation | Nullable |                 Default
+-----------+-----------------------+-----------+----------+------------------------------------------
+ numadh    | integer               |           | not null | nextval('adherent_numadh_seq'::regclass)
+ nom       | character varying     |           |          |
+ prenom    | character varying     |           |          |
+ fonction  | character varying     |           | not null | 'autre'::character varying
+ adresse   | character varying     |           |          |
+ telephone | character varying(14) |           |          |
+ skipper   | boolean               |           | not null | false
+Indexes:
+    "adherent_pkey" PRIMARY KEY, btree (numadh)
+Check constraints:
+    "c_fonction" CHECK (fonction::text = ANY (ARRAY['président'::character varying,
+      'vice-président'::character varying, 'trésorier'::character varying,
+      'secrétaire'::character varying, 'membre actif'::character varying,
+      'autre'::character varying]::text[]))
+Referenced by:
+    TABLE "chefdebord" CONSTRAINT "chefdebord_numadh_fkey" FOREIGN KEY (numadh)
+      REFERENCES adherent(numadh)
+    TABLE "cotisation" CONSTRAINT "cotisation_numadh_fkey" FOREIGN KEY (numadh)
+      REFERENCES adherent(numadh)
+    TABLE "equipier" CONSTRAINT "equipier_numadh_fkey" FOREIGN KEY (numadh)
+      REFERENCES adherent(numadh)
+
+SELECT * FROM adherent LIMIT 2;
+ numadh |  nom   | prenom  |    fonction    | adresse  |   telephone    | skipper
+--------+--------+---------+----------------+----------+----------------+---------
+      1 | le cam | alfayad | président      | grenoble | 04-76-12-34-56 | t
+      2 | davies | antoine | vice-président | grenoble | 04-76-23-45-67 | t
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>Contraintes :</p>
+<ol>
+  <li> Un adhérent est identifié par un numéro;</li>
+  <li> Il a une fonction parmi ('président','vice-président','trésorier',
+    'secrétaire','membre actif','autre');</li>
+  <li> On doit savoir s'il possède ou non l'agrément skipper;</li>
+  <li> Un adhérent ne peut pas perdre l'agrément skipper;</li>
+</ol>
+
+
+
+<h3>Cotisation</h3>
+<pre style="position: relative;">\d cotisation
+             Table "public.cotisation"
+ Column  |  Type   | Collation | Nullable | Default
+---------+---------+-----------+----------+---------
+ numadh  | integer |           | not null |
+ annee   | integer |           | not null |
+ montant | real    |           |          | 0
+ payé    | boolean |           |          |
+Indexes:
+    "cotisation_pkey" PRIMARY KEY, btree (numadh, annee)
+Check constraints:
+    "c_montant" CHECK (montant &gt;= 0::double precision)
+Foreign-key constraints:
+    "cotisation_annee_fkey" FOREIGN KEY (annee) REFERENCES tarif(annee)
+    "cotisation_numadh_fkey" FOREIGN KEY (numadh) REFERENCES adherent(numadh)
+
+SELECT * FROM cotisation LIMIT 2;
+ numadh | annee | montant | payé
+--------+-------+---------+------
+      1 |  2022 |     120 | t
+      2 |  2022 |     120 | t
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>Contraintes :</p>
+<ol>
+  <li> Une fois une cotisation enregistrée, seul le montant peut être modifié;</li>
+  <li> Seul un adhérent enregistré peut être concerné par une cotisation;</li>
+  <li> On ne peut pas régler la cotisation d'une année avant celle d'une année
+    précédente;</li>
+  <li> Une cotisation ne peut être définie qu'après la fixation du tarif
+    pour l'année concernée;</li>
+  <li> Une cotisation ne doit pas dépasser le tarif prévu;</li>
+  <li> Le paiement complet d'une cotisation entraîne la propriété
+    <code>payé=true</code>.</li>
+</ol>
+
+
+
+<h3>Bateau</h3>
+
+<pre style="position: relative;">\d bateau
+                                    Table "public.bateau"
+  Column  |       Type        | Collation | Nullable |                Default
+----------+-------------------+-----------+----------+----------------------------------------
+ numbat   | integer           |           | not null | nextval('bateau_numbat_seq'::regclass)
+ nombat   | character varying |           |          |
+ taille   | numeric(4,2)      |           |          |
+ nbplaces | integer           |           |          |
+Indexes:
+    "bateau_pkey" PRIMARY KEY, btree (numbat)
+Check constraints:
+    "bateau_nbplaces_check" CHECK (nbplaces &gt;= 5)
+Referenced by:
+    TABLE "chefdebord" CONSTRAINT "chefdebord_numbat_fkey" FOREIGN KEY (numbat)
+      REFERENCES bateau(numbat)
+
+SELECT * FROM bateau LIMIT 2;
+ numbat |  nombat   | taille | nbplaces
+--------+-----------+--------+----------
+      1 | le renard |  11.80 |        6
+      2 | imagine   |  11.30 |        6
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p> Contraintes :</p>
+<ol>
+  <li>Un bateau est identifié par un numéro;</li>
+  <li>Il doit avoir au moins 5 places.</li>
+</ol>
+
+
+
+<h3>Course</h3>
+
+<pre style="position: relative;">\d course
+                                      Table "public.course"
+  Column   |       Type        | Collation | Nullable |                  Default
+-----------+-------------------+-----------+----------+-------------------------------------------
+ numcourse | integer           |           | not null | nextval('course_numcourse_seq'::regclass)
+ port      | character varying |           |          |
+ datedebut | date              |           |          |
+ datefin   | date              |           |          |
+Indexes:
+    "course_pkey" PRIMARY KEY, btree (numcourse)
+    "course_datedebut_key" UNIQUE CONSTRAINT, btree (datedebut)
+Check constraints:
+    "c_dates" CHECK (datedebut &lt;= datefin)
+Referenced by:
+    TABLE "chefdebord" CONSTRAINT "chefdebord_numcourse_fkey" FOREIGN KEY (numcourse)
+      REFERENCES course(numcourse)
+    TABLE "regate" CONSTRAINT "regate_numcourse_fkey" FOREIGN KEY (numcourse)
+      REFERENCES course(numcourse)
+
+SELECT * FROM course LIMIT 2;
+ numcourse |  port   | datedebut  |  datefin
+-----------+---------+------------+------------
+         1 | St-Malo | 2021-05-06 | 2021-05-11
+         2 | Vannes  | 2022-06-10 | 2022-06-15
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>Contraintes :</p>
+<ol>
+  <li>Une course est identifiée par un numéro;</li>
+  <li>Sa date de début doit être antérieure à sa date de fin;</li>
+  <li>Deux courses ne peuvent pas commencer le même jour;</li>
+  <li>Le seul jour en commun possible entre deux courses,
+    est le dernier jour de l'une et le premier jour de l'autre.</li>
+</ol>
+
+
+
+<h3 class="newpage">Chef de Bord</h3>
+
+<pre style="position: relative;">\d chefdebord
+              Table "public.chefdebord"
+  Column   |  Type   | Collation | Nullable | Default
+-----------+---------+-----------+----------+---------
+ numcourse | integer |           | not null |
+ numadh    | integer |           | not null |
+ numbat    | integer |           |          |
+Indexes:
+    "chefdebord_pkey" PRIMARY KEY, btree (numcourse, numadh)
+    "chefdebord_numbat_numcourse_key" UNIQUE CONSTRAINT, btree (numbat, numcourse)
+Foreign-key constraints:
+    "chefdebord_numadh_fkey" FOREIGN KEY (numadh) REFERENCES adherent(numadh)
+    "chefdebord_numbat_fkey" FOREIGN KEY (numbat) REFERENCES bateau(numbat)
+    "chefdebord_numcourse_fkey" FOREIGN KEY (numcourse) REFERENCES course(numcourse)
+Referenced by:
+    TABLE "equipier" CONSTRAINT "equipier_numbat_numcourse_fkey"
+      FOREIGN KEY (numbat, numcourse) REFERENCES chefdebord(numbat, numcourse)
+    TABLE "resultat" CONSTRAINT "resultat_numcourse_numbat_fkey"
+      FOREIGN KEY (numcourse, numbat) REFERENCES chefdebord(numcourse, numbat)
+
+SELECT * FROM chefdebord LIMIT 2;
+ numcourse | numadh | numbat
+-----------+--------+--------
+         1 |      1 |      2
+         1 |      2 |      3
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Contraintes :</p>
+<ol>
+  <li> L'inscription d'un bateau à une course se traduit par l'inscription
+    d'un triplet <code>(numadh, numbat, numcourse)</code> où chacun existe
+    dans sa table.</li>
+  <li> Le chef de bord de ce bateau pour cette course est identifié par
+    <code>numadh</code>, numéro d'un adhérent qui doit avoir l'agrément skipper.</li>
+  <li> Un seul adhérent doit être nommé chef de bord d'un bateau pour une course.</li>
+  <li> Un adhérent ne peut être chef de bord de deux bateaux pour une même course.</li>
+  <li> Un adhérent ne peut être chef de bord et équipier pour une même course.</li>
+</ol>
+
+
+
+<h3>Equipier</h3>
+
+<pre style="position: relative;">\d equipier
+               Table "public.equipier"
+  Column   |  Type   | Collation | Nullable | Default
+-----------+---------+-----------+----------+---------
+ numcourse | integer |           | not null |
+ numadh    | integer |           | not null |
+ numbat    | integer |           |          |
+Indexes:
+    "equipier_pkey" PRIMARY KEY, btree (numcourse, numadh)
+Foreign-key constraints:
+    "equipier_numadh_fkey" FOREIGN KEY (numadh)
+      REFERENCES adherent(numadh)
+    "equipier_numbat_numcourse_fkey" FOREIGN KEY (numbat, numcourse)
+      REFERENCES chefdebord(numbat, numcourse)
+
+SELECT * FROM equipier LIMIT 2;
+ numcourse | numadh | numbat
+-----------+--------+--------
+         1 |     10 |      2
+         1 |      3 |      2
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<p>Contraintes :</p>
+<ol>
+  <li> Un équipier ne peut s'inscrire que sur un bateau inscrit pour une course.</li>
+  <li> Un adhérent ne peut être équipier sur deux bateaux pour une même course.</li>
+  <li> Un adhérent ne peut être chef de bord et équipier pour une même course.</li>
+  <li> Il ne peut y avoir plus de membres d'équipage que de places sur un bateau.</li>
+</ol>
+
+
+
+<h3 class="newpage">Régate</h3>
+
+<pre style="position: relative;">\d regate
+                 Table "public.regate"
+   Column   |  Type   | Collation | Nullable | Default
+------------+---------+-----------+----------+---------
+ numcourse  | integer |           | not null |
+ numregate  | integer |           | not null |
+ dateregate | date    |           |          |
+Indexes:
+    "regate_pkey" PRIMARY KEY, btree (numcourse, numregate)
+Foreign-key constraints:
+    "regate_numcourse_fkey" FOREIGN KEY (numcourse)
+      REFERENCES course(numcourse)
+Referenced by:
+    TABLE "resultat" CONSTRAINT "resultat_numcourse_numregate_fkey"
+      FOREIGN KEY (numcourse, numregate) REFERENCES regate(numcourse, numregate)
+
+SELECT * FROM regate LIMIT 2;
+ numcourse | numregate | dateregate
+-----------+-----------+------------
+         1 |         1 | 2021-05-06
+         1 |         2 | 2021-05-06
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Contraintes :</p>
+<ol>
+  <li> Une régate est identifiée par un numéro complétant un identifiant de course;</li>
+  <li> La date d'une régate doit être dans le créneau de la course.</li>
+</ol>
+
+
+
+
+<h3>Résultat</h3>
+
+<pre style="position: relative;">\d resultat
+                Table "public.resultat"
+   Column   |  Type   | Collation | Nullable | Default
+------------+---------+-----------+----------+---------
+ numbat     | integer |           | not null |
+ numcourse  | integer |           | not null |
+ numregate  | integer |           | not null |
+ classement | integer |           |          |
+Indexes:
+    "resultat_pkey" PRIMARY KEY, btree (numbat, numcourse, numregate)
+Check constraints:
+    "c_classement" CHECK (classement &gt; 0)
+Foreign-key constraints:
+    "resultat_numcourse_numbat_fkey" FOREIGN KEY (numcourse, numbat)
+      REFERENCES chefdebord(numcourse, numbat)
+    "resultat_numcourse_numregate_fkey" FOREIGN KEY (numcourse, numregate)
+      REFERENCES regate(numcourse, numregate)
+
+SELECT * FROM resultat LIMIT 2;
+ numbat | numcourse | numregate | classement
+--------+-----------+-----------+------------
+      2 |         1 |         1 |          1
+      3 |         1 |         1 |          2
+(2 rows)<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Contraintes :</p>
+<ol>
+  <li>Un résultat définit le classement d'un bateau inscrit à une course
+    pour une des régates de celle-ci;</li>
+  <li>Une fois enregistré, la seule mise à jour autorisée d'un résultat
+    est le classement;</li>
+  <li> On ne peut enregistrer le classement avant le jour de la regate;</li>
+  <li> Le classement d'un bateau à une régate doit être égal à 1
+    plus le nombre de bateaux mieux classés que lui à cette régate.</li>
+</ol>
+
+
+
+<div class="bas-page">
+<p>Validation
+<a href="https://validator.w3.org/check/referer">HTML (W3C)</a>
+<a href="https://jigsaw.w3.org/css-validator/check/referer">CSS (W3C)</a>
+</p>
+</div>
+</body>
+</html>

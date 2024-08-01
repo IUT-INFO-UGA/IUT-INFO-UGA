@@ -34,7 +34,7 @@ postgres -D var/lib/ppostgresql/10/main -c config_file=/etc/postgresql/15/main/p
 
 
 /*Consulter le fichier de log et recopier dans votre compte-rendu les lignes expliquant cet échec de connexion.
-peer authentification failled for user diiorioe
+peer authentification failled for user xxxxxxx
 connection matched pg_hba.conf ligne 95 "local all all peer"
 
 /************************************************************/

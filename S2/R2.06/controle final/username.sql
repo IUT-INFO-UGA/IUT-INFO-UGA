@@ -274,4 +274,4 @@ select count(*) from table1 where level_salt is null;
 
 
 /* Copie dans un fichier.csv */
-\copy table1 to './team_a04-marsandm-diiorioe.csv' with (DELIMITER E'\t', FORMAT CSV, NULL 'NA', ENCODING 'UTF-8');
+\copy table1 to './team_a04-marsandm-xxxxxxx.csv' with (DELIMITER E'\t', FORMAT CSV, NULL 'NA', ENCODING 'UTF-8');

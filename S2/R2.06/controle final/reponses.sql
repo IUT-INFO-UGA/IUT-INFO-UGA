@@ -149,7 +149,7 @@ je n ai rien trouver dans la doc de postgresql sur comment l envoyez dans une ta
 
 -- Code :
 --------
-\copy table1 to './team_a04-marsandm-diiorioe.csv' with (DELIMITER E'\t', FORMAT CSV, NULL 'NA', ENCODING 'UTF-8');
+\copy table1 to './team_a04-marsandm-xxxxxxx.csv' with (DELIMITER E'\t', FORMAT CSV, NULL 'NA', ENCODING 'UTF-8');
 
 -- Explications :
 ----------------
@@ -333,7 +333,7 @@ il doit coriger le scram-hsa-256 en scram-sha-256
 /*****************************************************************************/
 /** 15 **/
 /*****************************************************************************/
-acteur_exam_diiorioe
+acteur_exam_xxxxxxx
 \du
 /*****************************************************************************/
 /** 16 **/

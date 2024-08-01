@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"><script src="td02_fichiers/page-script.js" id="bw-fido2-page-script"></script>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Département info" />
+<link href="td02_fichiers/style.css" type="text/css" rel="stylesheet" />
+
+<title>td02</title>
+</head>
+
+<body>
+<p>UGA - IUT2 - Département informatique<br />
+BUT 1A Semestre 2 - R2.06 : Exploitation d'une BD</p>
+
+
+<h1>TD02 : SQL avancé : objets définis par requête
+
+</h1>
+
+<h2> Préambule : <em>le Select Club</em></h2>
+<p> Pour cette feuille d'exercices nous reprenons la base introduite
+lors du premier cours.
+Nous rappelons qu'il s'agit d'une base pour gérer les membres du <em>Select Club</em>
+dont certains peuvent avoir le privilège d'avoir des salons privatifs qui leur sont réservés.
+Chaque salon a une localisation géographique dans une aile du club.
+S'il s'agit d'un salon privatif, il ne peut être réservé qu'à un seul membre privilégié.
+La base de données contient les tables suivantes.</p>
+<p><tt><strong>membre</strong>(<u>idm</u>, prenom, nom, annee_inscr)</tt><br />
+  <tt><strong>salon</strong>(<u>num_salon</u>, localisation, #idm)</tt></p>
+<pre style="position: relative;">/* =================================*/
+/* Etat actuel des tables           */
+/* =================================*/
+SELECT * FROM membre;
+ idm | prenom | nom | annee_inscr
+-----+--------+-----+-------------
+   1 | S      | H   |        1990
+   2 | H      | P   |        2004
+   3 | H      | P   |        2020
+(3 rows)
+
+SELECT * FROM salon;
+ num_salon | localisation | idm
+-----------+--------------+-----
+         1 | N            |   1
+         2 | E            |
+         3 | S            |   2
+         4 | S            |
+         5 | W            |   1
+         6 | W            |
+(6 rows)
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<h2> Visualisation </h2>
+
+<p>Décrire succintement quelques idées de visualisation des informations contenues dans cette base,
+en faisant l'hypothèse qu'elle contient un grand nombre de données (et non les 9 tuples actuels
+seulement).</p>
+
+
+<h2> Table, table temporaire et vue</h2>
+
+<p>On ouvre la possibilité à des personnes extérieures au Club
+de pouvoir demander à accéder aux salons pour une soirée. Chaque demande doit être
+parrainée par un membre du club. Si la demande concerne un des salons
+privatifs, le membre à qui il est réservé décide seul, sinon la décision sera prise
+par le bureau du Club.
+</p>
+
+<p>L'inscription et la modification d'une demande sont accordées à l'invité
+extérieur via une application informatique.</p>
+
+<p>Le Club quant à lui souhaite gérer ces demandes et en particulier
+connaître les futures demandes pour chaque aile (N,S,E,W) du club
+ou le bilan des parrainages passés de ses membres.</p>
+
+<p>Pour cela, une nouvelle table <code>demandes</code> a été créée il y a deux ans
+par la commande suivante et est enrichie depuis.</p>
+<pre style="position: relative;"><span class="enscript-keyword">create</span> <span class="enscript-keyword">table</span> demandes (
+  idi serial <span class="enscript-keyword">primary</span> <span class="enscript-keyword">key</span>,
+  guest <span class="enscript-keyword">varchar</span> <span class="enscript-keyword">not</span> <span class="enscript-keyword">null</span>,
+  parrain <span class="enscript-keyword">int</span> <span class="enscript-keyword">references</span> membre(idm),
+  num_salon <span class="enscript-keyword">int</span> <span class="enscript-keyword">references</span> salon(num_salon),
+  soiree_demandee date <span class="enscript-keyword">not</span> <span class="enscript-keyword">null</span>,
+  reponse bool,
+  <span class="enscript-keyword">UNIQUE</span>(guest,num_salon,soiree_demandee)
+);<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+<ol class="question">
+  <li>Pour donner à un invité extérieur les informations concernant ses demandes,
+    écrire une requête qui renvoie, dans cet ordre,
+    et pour chaque demande déposée par l'utilisateur
+    connecté (autrement dit <code>guest=user</code>):
+    <ul>
+      <li>la date de la soirée demandée, </li>
+      <li> le numéro du salon </li>
+      <li> l'identifiant du parrain de la demande</li>
+      <li> et la réponse obtenue (ou pas).</li>
+    </ul>
+  </li>
+  <li>Pour l'utiliser, convient-il de définir grâce à cette requête
+    une table, une table temporaire, ou une vue?
+    Ecrire l'instruction qui permet de la créer.
+     </li>
+  <!--
+  <li>Peut-on mettre à jour cet objet? Si oui, écrire
+    l'instruction que l'utilisateur doit exécuter pour
+    repousser d'un jour toutes ses demandes futures.
+     </li>
+  -->
+  <li> Le Club souhaite créer un objet à utiliser pour
+    connaître toutes les demandes futures déposées pour les salons
+    de l'aile nord (N).
+    Cet objet doit-il être une table, une table temporaire, ou une vue?
+    Ecrire l'instruction qui permet de la créer.
+     </li>
+  <!--
+  <li>On ne peut pas mettre à jour cet objet. Pourquoi?
+     </li>
+  -->
+  <li> Le Club souhaite créer un objet à utiliser pour
+    faire un bilan de l'année 2021. Plus précisément il souhaite connaître
+    pour chacun de ses membres, le nombre de demandes qu'il a parrainées.
+    Cet objet doit-il être une table, une table temporaire, ou une vue?
+    Ecrire l'instruction qui permet de la créer.
+    Elle devra donner, pour chaque membre:
+    <ul>
+      <li>son identifiant</li>
+      <li>ses prénom et nom</li>
+      <li>le nombre de demandes parrainées sous le nom <code>nb_soirees</code></li>
+    </ul>
+     </li>
+    <li> Pour améliorer ce bilan, on souhaite ajouter
+    le détail du nombre de demandes acceptées et du nombre
+    de demandes refusées. Pour faciliter sa création, commencer par
+    stocker dans un objet nommé <code>demandes_2021</code>,
+    le résultat d'une requête
+    donnant pour chaque demande de 2021, l'identifiant du parrain et la réponse
+    seulement. Nous utiliserons cet objet intermédiaire pour construire le bilan
+    complété.
+    Cet objet intermédiaire doit-il être une table, une table temporaire, ou une vue?
+    Ecrire l'instruction pour la construire.
+     </li>
+    <li> [BONUS] Utiliser cet objet intermédiaire dans trois sous-requêtes
+    pour réunir, dans une nouvelle table nommée <code>Bilan_2021_full</code>,
+    l'identifiant, le prénom et le nom de chaque membre du club,
+    complété du nombre de demandes parrainées acceptées en 2021
+    (<code>soirees_ok</code>), le nombre de demandes refusées
+    (<code>soirees_no</code>), et le nombre de demandes total
+    (<code>soirees_tot</code>).
+     </li>
+</ol>
+
+<div class="bas-page">
+<p>Validation
+<a href="https://validator.w3.org/check/referer">HTML (W3C)</a>
+<a href="https://jigsaw.w3.org/css-validator/check/referer">CSS (W3C)</a>
+</p>
+</div>
+</body>
+</html>

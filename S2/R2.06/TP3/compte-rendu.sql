@@ -4,15 +4,15 @@
 /*             List of relations
  Schema |     Name      | Type  |  Owner   
 --------+---------------+-------+----------
- public | apparait_dans | table | diiorioe
- public | etat_civil    | table | diiorioe
- public | fan           | table | diiorioe
- public | favoris       | table | diiorioe
- public | film          | table | diiorioe
- public | mes_favoris   | view  | diiorioe
- public | meurt_dans    | view  | diiorioe
- public | personnage    | table | diiorioe
- public | realise       | table | diiorioe
+ public | apparait_dans | table | xxxxxxx
+ public | etat_civil    | table | xxxxxxx
+ public | fan           | table | xxxxxxx
+ public | favoris       | table | xxxxxxx
+ public | film          | table | xxxxxxx
+ public | mes_favoris   | view  | xxxxxxx
+ public | meurt_dans    | view  | xxxxxxx
+ public | personnage    | table | xxxxxxx
+ public | realise       | table | xxxxxxx
 */
 /*============================================================*/
 /* Ex 1 : Trigger pour respecter une contrainte référentielle */
