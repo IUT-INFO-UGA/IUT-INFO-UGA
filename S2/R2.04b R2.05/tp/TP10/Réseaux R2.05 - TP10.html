@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP10</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP10_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.05%20-%20TP10_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP10&nbsp;: Protocole DHCP</h1>
+
+<hr>
+
+Ce TP a pour objectif d'étudier le fonctionnement du protocole DHCP qui sert à
+attribuer des adresses IP à des stations sur un réseau IP.
+
+<hr>
+
+<h2>Protocole DHCP</h2>
+
+<a href="https://fr.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">
+DHCP <em>(Dynamic Host Configuration Protocol)</em></a> est un protocole qui
+permet à une machine qui se connecte à un réseau d'obtenir dynamiquement sa
+configuration réseau (son adresse IP principalement).  Pour l'obtenir, la
+machine va envoyer une requête DHCP qui va être reçue par une machine
+particulière, le serveur DHCP, qui va alors lui attribuer une adresse IP.
+
+<p>Plus précisément :
+
+</p><ol>
+  <li>Pour contacter le serveur DHCP, la machine envoie une <strong>requête
+      DHCP_DISCOVER</strong> sous forme d'un broadcast sur le réseau local.
+
+  </li><li>Lorsque le serveur DHCP reçoit ce paquet, il envoie une <strong>réponse
+      DHCP_OFFER</strong> contenant en particulier l'adresse IP.
+
+  </li><li>La machine envoie une <strong>requête DHCP_REQUEST</strong> pour valider
+    son adresse IP (requête sous forme de broadcast également).
+
+  </li><li>Le serveur DHCP envoie une <strong>réponse DHCP_ACK</strong> pour
+    confirmer l'attribution.
+</li></ol>
+
+Grâce à votre machine virtuelle et à <kbd>wireshark</kbd>, vous allez réaliser la
+capture d'un échange DHCP entre la machine virtuelle et son serveur DHCP.
+
+<h2>Capture DHCP</h2>
+
+Pour réaliser la capture des échanges DHCP, effectuer les opérations suivantes
+dans un <strong><em>shell</em> root</strong> de votre machine virtuelle&nbsp;:
+
+<ol>
+  <li>Lancer <kbd>wireshark</kbd> et démarrer une capture de trames sur
+  l'interface Ethernet.
+
+  </li><li>Supprimer les fichiers <code>/var/lib/dhcp/*</code>
+
+  </li><li>Lancer une requête DHCP manuelle avec la commande suivante&nbsp;:
+  <pre style="position: relative;">dhclient -v eth0<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+
+  </li><li>Une fois la requête DHCP terminée, arrêter la capture.
+
+  </li><li>Grâce aux trames capturées, remplir les deux tableaux suivants.
+</li></ol>
+
+<table class="aremplir">
+  <tbody><tr>
+    <th style="width: 33%"></th>
+    <th style="width: 33%">requête DHCP_DISCOVER</th>
+    <th style="width: 33%">réponse DHCP_OFFER</th>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Protocole de niveau transport encapsulé dans IP</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Port source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Port destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+</tbody></table>
+
+<table class="aremplir">
+  <tbody><tr>
+    <th style="width: 33%"></th>
+    <th style="width: 33%">requête DHCP_REQUEST</th>
+    <th style="width: 33%">réponse DHCP_ACK</th>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Protocole de niveau transport encapsulé dans IP</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Port source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Port destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+</tbody></table>
+
+<h2>Analyse de la capture DHCP</h2>
+
+<ol>
+  <li>Représenter la pile des protocoles utilisés par ce service DHCP.
+
+    <div class="aremplir" style="height: 6em"></div>
+
+  </li><li>Représenter le diagramme d'échanges de trames entre la machine et le serveur DHCP.
+
+    <div class="aremplir" style="height: 8em"></div>
+
+  </li><li>Quelle est l'adresse IP du serveur DHCP pour les machines virtuelles&nbsp;?
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Pourquoi, la machine envoie-t-elle sa requête
+    <strong>DHCP_DISCOVER</strong> sous forme d'un broadcast&nbsp;?
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle est la liste des paramètres IP demandés par le client (dans la
+    requête <strong>DHCP_REQUEST</strong> regarder les options de DHCP)&nbsp;?
+
+    <div class="aremplir" style="height: 4em"></div>
+
+  </li><li>Question difficile&nbsp;: pourquoi la machine envoie-t-elle sa requête
+    <strong>DHCP_REQUEST</strong> également sous forme d'un broadcast&nbsp;?
+
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

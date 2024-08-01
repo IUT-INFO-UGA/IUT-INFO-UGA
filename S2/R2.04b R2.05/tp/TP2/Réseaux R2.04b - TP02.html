@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP02</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP02_files/style.css">
+<script src="R%C3%A9seaux%20R2.04b%20-%20TP02_files/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP02&nbsp;: Comparaison des performances<br>Wi-Fi et Ethernet</h1>
+
+<hr>
+
+L'objectif du TP est de comparer ces deux technologies
+en <a href="https://en.wikipedia.org/wiki/Round-trip_delay_time">RTT</a>
+(<em>Round Trip Time</em> ou temps d’aller retour) et en débit.
+
+<hr>
+
+<h2>Présentation du point d'accès Wi-Fi</h2>
+
+Dans ce TP, vous utiliserez un point d’accès Wi-Fi avec son alimentation.  Le
+point d'accès WRT64GL fourni est un équipement multifonctions&nbsp;:
+
+<ul>
+  <li>C'est un commutateur Ethernet qui permet de constituer un réseau Ethernet
+    de 4 machines (4 prises réseau groupées ensemble appelées prises
+    "internes").  Il y a également 1 prise Ethernet dite "externe" (ou
+    "Internet") pour permettre son branchement à un autre commutateur ou à une
+    "box".  Nous n'utiliserons pas la fonction de commutation Ethernet de cet
+    équipement.
+
+  </li><li>C'est un point d'accès Wi-Fi.
+
+  </li><li>C'est un équipement qui assure d'autres fonctions que nous aborderons
+    plus tard (routeur IP, NAT, serveur DHCP).
+</li></ul>
+
+Les points d'accès sont configurés avec des réseaux Wi-Fi ouverts (sans mot de
+passe) et des SSID nommés "AP1", "AP2", ...  Le SSID de chaque point d'accès
+est inscrit sur sa façade.
+
+<p>Vous allez maintenant effectuer une série de tests pour comparer les
+performances d'Ethernet et de Wi-Fi.
+
+</p><h2>Mesures de RTT</h2>
+
+Le RTT (<em>Round Trip Time</em>) est la somme du temps total de transmission
+d'un paquet entre 2 stations et du temps total de transmission de son
+acquittemnt (on parle de temps d'aller-retour).
+
+<p>Lire la <a href="https://fr.wikipedia.org/wiki/Ping_(logiciel)">page
+wikipédia</a> concernant la commande <kbd>ping</kbd>.  Cette commande permet
+d’envoyer un paquet (paquet ICMP <em>Internet Control Message Protocol</em> de
+type "Echo Request") à une station destination qui est censée renvoyer
+immédiatement une réponse (un paquet ICMP de type "Echo Reply").  Ce protocole
+permet de mesurer le RTT d’une liaison.  L’option <code>-c</code> permet de
+spécifier le nombre de paquets ICMP à envoyer.
+
+</p><p>Par exemple, la commande suivante envoie 9 paquets ICMP (numérotés de 1 à 9)
+à la station <code>pc-dg-035-16</code> d’adresse IP 192.168.141.176.  À la fin de
+l’envoi, des statistiques sont affichées&nbsp;:
+
+</p><ul>
+  <li>0% des paquets ont été perdus
+  </li><li>le RTT min est de 0.633 ms
+  </li><li>le RTT moyen (<code>avg</code> pour <em>average</em>) de 0.646 ms.
+  </li><li>le RTT max est de 0.672 ms
+  </li><li>la variation moyenne du RTT (<code>mdev</code> pour <em>mean deviation</em>) est de 0.016 ms
+</li></ul>
+
+<pre style="position: relative;">$ ping -c 9 pc-dg-035-16
+PING pc-dg-035-16.iut2.upmf-grenoble.fr (192.168.141.176) 56(84) bytes of data.
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=1 ttl=64 time=0.635 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=2 ttl=64 time=0.652 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=3 ttl=64 time=0.638 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=4 ttl=64 time=0.650 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=5 ttl=64 time=0.653 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=6 ttl=64 time=0.640 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=7 ttl=64 time=0.642 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=8 ttl=64 time=0.633 ms
+64 bytes from pc-dg-035-16 (192.168.141.176): icmp_seq=9 ttl=64 time=0.672 ms
+
+--- pc-dg-035-16.iut2.upmf-grenoble.fr ping statistics ---
+9 packets transmitted, 9 received, 0% packet loss, time 7998ms
+rtt min/avg/max/mdev = 0.633/0.646/0.672/0.016 ms
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+On va utiliser les stations Linux pour faire des mesures sur un réseau
+Ethernet et des ordiphones pour faire des mesures sur un réseau Wi-Fi.
+
+<ol>
+  <li>Sur votre station Linux, utiliser <kbd>ping</kbd> pour mesurer le RTT
+    avec la station Linux voisine.  Faire plusieurs fois la mesure, puis
+    remplir la colonne "Ethernet" du tableau ci-dessous.
+
+  </li><li>Sur 2 ordiphones sous Android, installer l'application suivante&nbsp;:
+
+    <ul>
+      <li>"PingTools Network Utilities" du développeur "StreamSoft".
+    </li></ul>
+
+  </li><li>Connecter les 2 téléphones sur le même point d'accès Wi-Fi.
+
+  </li><li>Trouver l'adresse IP de l'un des téléphones.  L'emplacement de cette
+    information est variable, mais en général, il faut regarder dans
+    "Paramètres, À propos de l'appareil, État" ou emplacements similaires.
+
+  </li><li>Sur l'autre téléphone, utiliser l'application précédemment installée pour
+    faire les mesures de RTT entre les 2 téléphones.  Remplir la colonne "Wi-Fi"
+    du tableau.
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th style="width: 40%"></th>
+      <th style="width: 30%">Ethernet</th>
+      <th style="width: 30%">Wi-Fi</th>
+    </tr>
+
+    <tr>
+      <td>RTT moyen (ms)</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Variation moyenne du RTT (ms)</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Paquets perdus (%)</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+  </tbody></table>
+
+  </li><li>Comparer les résultats des 2 colonnes et indiquer les raisons de ces
+    différences de résultats entre Ethernet et Wi-Fi (cf. cours et TD).
+    <div class="aremplir" style="height: 3em"></div>
+</li></ol>
+
+<h2>Mesures de débit</h2>
+
+On va utiliser les stations Linux pour faire des mesures sur un réseau Ethernet
+et des ordiphones pour faire des mesures sur un réseau Wi-Fi.
+
+<p>Vous aurez à remplir ce tableau par colonnes&nbsp;:
+
+</p><table class="aremplir">
+  <tbody><tr>
+    <th style="width: 40%"></th>
+    <th style="width: 20%">Ethernet</th>
+    <th style="width: 20%">Wi-Fi<br>même pièce</th>
+    <th style="width: 20%">Wi-Fi<br>autre pièce</th>
+  </tr>
+
+  <tr>
+    <td>Nom de la norme</td>
+    <td>10 BASE-T<br>100 BASE-T<br>1000 BASE-T<br>2.5G BASE-T<br>5G BASE-T<br>10G BASE-T</td>
+    <td>Wi-Fi 0<br>Wi-Fi 1<br>Wi-Fi 2<br>Wi-Fi 3<br>Wi-Fi 4<br>Wi-Fi 5<br>Wi-Fi 6<br>Wi-Fi 7</td>
+    <td>Wi-Fi 0<br>Wi-Fi 1<br>Wi-Fi 2<br>Wi-Fi 3<br>Wi-Fi 4<br>Wi-Fi 5<br>Wi-Fi 6<br>Wi-Fi 7</td>
+  </tr>
+
+  <tr>
+    <td>Débit théorique maximal de la norme<br>(en Mbit/s)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Débit effectif d'émission<br>(en Mbit/s)<br></td>
+    <td></td>
+    <td></td>
+    <td></td>
+ </tr>
+
+  <tr>
+    <td>Débit utile<br>(en Mbit/s)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Rendement<br>(débit utile / débit d'émission)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Fluctuation du débit<br>(forte ou faible)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</tbody></table>
+
+<h3>Ethernet</h3>
+
+<ol>
+  <li>Sur la 1ère ligne du tableau, entourer la norme Ethernet qui est utilisée
+    par votre station Linux.
+
+  </li><li>Remplir la 2ème ligne du tableau avec le débit d'émission théorique
+    maximal de cette norme.
+
+  </li><li>Remplir la 3ème ligne du tableau avec le débit d'émission effectif du
+    réseau Ethernet des stations Linux (valeur trouvée au TP01).
+
+  </li><li>Remplir la 4ème ligne du tableau.  Pour cela&nbsp;:
+
+    <p>L'utilitaire <kbd>tcpspray</kbd> permet d’envoyer une certaine quantité de
+      données à une station destination, tout en mesurant le temps nécessaire.  Il
+      permet ainsi de mesurer le <strong>débit utile Du</strong> d’une liaison :
+      quantité de données « utilisateur » transmise par seconde.  L’option
+      <code>-n</code> permet de spécifier le nombre de blocs de 1Ko à envoyer. Pour
+      obtenir des mesures correctes, il faut que le temps total d'exécution de la
+      commande dure au moins 2 secondes.</p>
+
+    <p>Par exemple la commande suivante envoie 200Mo à la station
+      <code>pc-dg-035-16</code>.  À la fin, le débit en Ko/s (kbytes/s) est affiché&nbsp;:</p>
+
+<pre style="position: relative;">$ tcpspray -n 204800 pc-dg-035-16
+Transmitted 209715200 bytes in ??? seconds (??? kbytes/s)
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+    <p>Sur votre station Linux, utiliser <kbd>tcpspray</kbd> pour mesurer le
+      débit utile avec la station Linux voisine.  Ajuster les paramètres de
+      <kbd>tcpspray</kbd> pour obtenir un temps de transfert supérieur à 2s.
+      Remplir le tableau en faisant attention aux unités de débit
+      (octets/bits).</p>
+
+  </li><li>Calculer le rendement.
+
+  </li><li>Répéter la mesure plusieurs fois et qualifier les variations de débit que
+    vous observez.
+</li></ol>
+
+<h3>Wi-Fi même pièce</h3>
+
+Pour commencer&nbsp;:
+
+<ol>
+  <li>Installer l'application "WiFi - Internet Speed Test" du développeur
+    "Zoltán Pallagi".
+
+  </li><li>Mettre les 2 téléphones à proximité du point d'accès et sans
+    obstacles.
+
+  </li><li>Connecter les 2 téléphones sur le point d'accès Wi-Fi qui vous a été
+    attribué.
+
+  </li><li>Dans l'application "Wifi - Internet Speed Test", noter le canal Wi-Fi
+    utilisé par le point d'accès (<em>channel</em>).
+</li></ol>
+
+Travail à réaliser&nbsp;:
+
+<ol>
+  <li>Sur la 1ère ligne du tableau, entourer la norme Wi-Fi utilisée par votre
+    téléphone.  Pour cela&nbsp;:
+
+    <ul>
+      <li>Consulter les paramètres détaillés du Wi-Fi dans les réglages d'Android.
+      </li><li>Regarder ce qui est écrit sur le point d'accès.
+      </li><li>Consulter cette <a href="https://en.wikipedia.org/wiki/Template:Wi-Fi_generations">page Wikipedia</a>.
+    </li></ul>
+
+  </li><li>Remplir la 2ème ligne du tableau grâce à la page Wikipedia que vous venez
+    de consulter.
+
+  </li><li>Remplir la 3ème ligne du tableau avec le débit d'émission Wi-Fi indiqué
+    par l'application "WiFi - Internet Speed Test" ("Vitesse du lien" ou
+    "<em>link speed</em>").
+
+  </li><li>Remplir la 4ème ligne du tableau.  Pour cela&nbsp;:
+
+    <p>Sur l'un des téléphones, utiliser l'application "WiFi - Internet Speed
+      Test" pour lancer un serveur TCP.  Pour cela, sélectionner l'onglet
+      "SERVEUR TCP" (en bas à droite), laisser le numéro de port par défaut
+      (1212), puis appuyer sur "Démarrer" (en haut à gauche).
+
+    </p><p>Sur l'autre téléphone, sélectionner l'onglet "CLIENT TCP" (en bas à
+      gauche), puis pour obtenir l'"Adresse du serveur distant", appuyer sur le
+      bouton "Trouver".  Sélectionner le serveur unique qui a été trouvé.  Enfin,
+      appuyer sur "Démarrer" (en haut à gauche).
+
+  </p></li><li>Calculer le rendement.
+
+  </li><li>Pendant votre test de débit, qualifier les variations de débit que vous
+    avez observées.
+</li></ol>
+
+<h3>Wi-Fi autre pièce</h3>
+
+<ol>
+  <li>Mettre les 2 téléphones dans la salle de TP voisine.
+
+  </li><li>Refaire les mesures sur Wi-Fi.
+</li></ol>
+
+<h3>Comparaison</h3>
+
+<ol>
+  <li>Comparer les résultats entre Ethernet et Wi-Fi.
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Indiquer quelques raisons de ces différences de résultats entre Ethernet
+    et Wi-Fi en vous inspirant de ce qui a été vu en cours et en TD.
+    <div class="aremplir" style="height: 3em"></div>
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

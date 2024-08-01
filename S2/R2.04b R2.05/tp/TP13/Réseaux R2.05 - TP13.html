@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP13</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP13_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.05%20-%20TP13_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+<p>Université Grenoble-Alpes - IUT2 - Département informatique - R2.05</p>
+
+<h1>TP13&nbsp;: Serveur Apache/PHP - Protocole HTTP</h1>
+
+<hr>
+
+Les objectifs de ce TP sont&nbsp;:
+
+<ul>
+  <li>d'installer et observer un serveur Web en fonctionnement
+
+  </li><li>de comprendre le mécanisme des échanges entre un navigateur et un serveur
+    Web
+</li></ul>
+
+Pour cela vous allez utiliser une machine virtuelle qui vous permettra
+d'effectuer des opérations réservées à l'administrateur du système, comme
+l'installation d'un serveur ou la capture de trames circulant sur le réseau.
+
+<ul>
+  <li>La section 1 est une partie de cours qu'il vous faut étudier
+    <strong>avant</strong> la séance de TP.
+
+  </li><li>La section 2 est la partie de TP proprement dite.
+
+  </li><li>La section 3 comporte des "questions d'observation".
+</li></ul>
+
+<hr>
+
+<h2>Partie de cours sur le protocole HTTP</h2>
+
+<h3>Introduction: le Web (WWW ou <em>World Wide Web</em>)</h3>
+
+Le Web est un ensemble de pages d'information rédigées dans le langage HTML et
+distribuées grâce au réseau mondial Internet.  Il se compose&nbsp;:
+
+<ul>
+  <li>de logiciels <strong>clients</strong>&nbsp;: les navigateurs Web
+  (<em>browsers</em> en anglais, butineurs au Québec) comme par exemple
+  Firefox, Chrome/Chromium, MSIE/Edge, Safari, ... qui interrogent les serveurs
+  et affichent les pages (et éventuellement permettent de les publier).
+
+  </li><li>de logiciels <strong>serveurs</strong>&nbsp;: les serveurs Web (ou serveurs
+  HTTP) qui délivrent l'information aux clients.  Les serveurs HTTP les plus
+  utilisés sont Apache (que nous allons voir dans ce TP) et MS-IIS
+  (<a href="http://news.netcraft.com/archives/web_server_survey.html">statistiques d'utilisation</a>).
+
+  </li><li>du <strong>protocole</strong> HTTP (HyperText Transport Protocol) qui est
+  un protocole de niveau application définissant les règles de communication
+  entre serveur et client.  Un serveur Web peut donc aussi être appelé "serveur
+  HTTP" et un client peut être appelé "client HTTP".
+</li></ul>
+
+<h3>Le protocole HTTP (<em>HyperText Transfer Protocol</em>)</h3>
+
+<h4>Requête du client</h4>
+
+Un client HTTP contacte un serveur HTTP grâce à une adresse appelée URL
+(<em>Uniform Resource Locator</em>), par exemple&nbsp;:
+
+<ul>
+  <li><samp>http://www-info.iut2.univ-grenoble-alpes.fr/intranet/</samp>
+  </li><li><samp>http://cups-info.iut2.upmf-grenoble.fr:631/</samp>
+  </li><li><samp>http://www-etu-info.iut2.univ-grenoble-alpes.fr/~toto/monsite.html</samp>
+</li></ul>
+
+L'URL contient&nbsp;:
+
+<ol>
+  <li>le nom du protocole à utiliser, ici HTTP (d'autres protocoles existent
+  comme HTTPS ou FTP).
+
+  </li><li>le nom du serveur à contacter (qui permettra au server DNS de trouver son adresse IP).
+
+  </li><li>éventuellement un numéro de port (le port 80 est utilisé par défaut s'il
+  n'est pas précisé).
+
+  </li><li>le chemin d'accès au fichier ou à la ressource désiré.
+</li></ol>
+
+Le client établit une connexion TCP (nous verrons ce protocole plus tard)
+avec le serveur sur le port indiqué (ou le port 80 si aucun numéro de port
+n'est précisé).  Dans cette connexion TCP, le client envoie au serveur une
+requête HTTP.  Un exemple simple de requête est&nbsp;:
+
+<pre style="position: relative;">GET / HTTP/1.0
+                                   [ceci est une ligne vide]
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+Cette requête est composée de 2 lignes&nbsp;:
+
+<ul>
+  <li>1<sup>ère</sup> ligne, composée de 3 parties&nbsp;:
+
+  <ol>
+    <li>une commande HTTP, ici la commande "GET".  Cette commande a pour effet de
+    réclamer au serveur qu'il renvoie une page Web.  D'autres commandes existent,
+    comme par exemple POST (pour envoyer des données au serveur) ou HEAD (pour ne
+    réclamer que des informations sur une page Web, sans la page elle-même).
+
+    </li><li>le chemin désignant l'objet désiré (une page HTML, une image, un script,
+    ...), ici «/» qui désigne la racine du serveur.
+
+    </li><li>la version du protocole HTTP qu'utilise le client (ici 1.0).  <br>
+    Remarque&nbsp;: La version du protocole HTTP utilisée actuellement est la version
+    1.1, qui nécessite une requête plus complexe, que nous verrons plus
+    loin.
+
+  </li></ol>
+
+  </li><li>2<sup>ème</sup> ligne&nbsp;: une ligne blanche (!) qui termine l'en-tête (et
+  la requête dans cet exemple).
+
+</li></ul>
+
+Le client peut aussi envoyer d'autres informations (plus ou moins
+indiscrètes!).  Voici un exemple de requête plus complexe&nbsp;:
+
+<pre style="position: relative;">GET / HTTP/1.1
+Host: www-etu-info.iut2.univ-grenoble-alpes.fr
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:70.0) Gecko/20100101 Firefox/70.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://www-info.iut2.univ-grenoble-alpes.fr/
+DNT: 1
+Connection: keep-alive
+If-Modified-Since: Thu, 28 Aug 2019 13:44:40 GMT
+If-None-Match: "79b6-2d-4558556ac8200"
+Cache-Control: max-age=0<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<ol>
+  <li>le logiciel client utilisé, sa version, le système d'exploitation
+  utilisé, le type de micro-processeur utilisé, ...  Le client peut «mentir»
+  sur son identification c'est-à-dire altérer son identification pour passer
+  outre des restrictions abusives imposées par certains sites Web.
+
+  </li><li>les types de fichiers reconnus par le client, avec un ordre de préférence
+  au cas où la même ressource est disponible dans plusieurs formats.  Ces types
+  sont appelés "types MIME" (<em>Multipurpose Internet Mail Extensions</em>) et
+  sont aussi utilisés dans le courrier électronique pour envoyer des fichiers
+  attachés.
+
+  </li><li>les algorithmes de compression reconnus.
+
+  </li><li>l'URL de la page visitée juste avant par le navigateur
+  (<em>Referer</em>).  Attention, ceci permet aux sites Web de suivre leurs
+  visiteurs à la trace, grâce aux <em>logs</em> du serveur !
+
+  </li><li>la variable DNT (Do Not Track) qui indique que l'utilisateur du
+  navigateur souhaite ne pas être tracé par le serveur Web.
+
+  </li><li>une date et des paramètres de cache qui permettent au serveur de ne pas
+  retransmettre le contenu s'il n'a pas changé entre temps.
+
+  </li><li>...
+</li></ol>
+
+<h4>Réponse du serveur</h4>
+
+Le serveur Web répond au client avec le message suivant (certains champs ont
+été omis)&nbsp;:
+
+<pre style="position: relative;">HTTP/1.1 200 OK
+Date: Wed, 07 May 2019 12:14:30 GMT
+Server: Apache/2.4 (Debian)
+X-Powered-By: PHP
+Last-Modified: Thu, 12 Oct 2018 12:38:05 GMT
+ETag: "2da0b4b-0-41f9c716a6540"
+Accept-Ranges: bytes
+Content-Length: 178
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html
+
+&lt;!DOCTYPE ...
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;
+...
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+composé de&nbsp;:
+
+<ol>
+  <li>une ligne donnant la version du protocole HTTP (ici la version 1.1), le
+  code statut de la réponse (ici 200) qui indique si la requête s'est bien
+  déroulée et un message de succès (ici "OK") ou d'erreur.
+
+  </li><li>la date et l'heure de la requête.
+
+  </li><li>l'identification du logiciel serveur, son numéro de version, ...
+
+  </li><li>la date et l'heure de la dernière modification du document
+  demandé (utile pour mettre le document dans un cache).
+
+  </li><li>la longueur du document en octets (peut servir à afficher un indicateur
+  de progression du chargement).
+
+  </li><li>le type MIME (champ Content-type) du document demandé (utile pour savoir
+  comment l'afficher ou quel logiciel lancer pour le visualiser).
+
+  </li><li>une ligne blanche qui termine l'en-tête de la réponse.
+
+  </li><li>le corps de la réponse, c'est-à-dire l'objet demandé par le
+  client (page HTML, image, fichier quelconque, ...)
+</li></ol>
+
+<p>Remarque&nbsp;: Il faut bien noter qu'à chaque nouvelle requête d'un client, le
+même mécanisme a lieu.  Ainsi, chaque requête est en principe indépendante des
+autres et aucune connexion entre client et serveur n'est maintenue.  Ce
+mécanisme de base peut être remplacé par le mode <a href="https://fr.wikipedia.org/wiki/Pipelining_HTTP">"pipe-line"</a> depuis la
+version HTTP1.1, qui permet de maintenir une connexion ouverte pour plusieurs
+requêtes d'un même client vers un même serveur.
+
+</p><p>La figure suivante illustre des échanges entre des clients et un serveur&nbsp;:
+
+</p><p class="centre"> <img src="R%C3%A9seaux%20R2.05%20-%20TP13_fichiers/http_elementaire.png" height="342" width="561" alt="Échanges HTTP">
+
+</p><h2>Partie TP sur HTTP </h2>
+
+<h3>Serveur Web Apache et PHP</h3>
+
+<h4>Installation</h4>
+
+Le système d'exploitation de votre machine virtuelle est la distribution Debian
+GNU/Linux.  Elle propose un outil de gestion des paquetages permettant
+d'automatiser le téléchargement, l'installation, la configuration et la mise à
+jour des logiciels fournis par la distribution Linux.
+
+<ol>
+  <li>Lancer votre machine virtuelle et lancer un shell root.
+
+  </li><li>Le fichier <code>/etc/apt/sources.list</code> donne les URL auxquelless les
+    paquetages sont disponibles.  Consulter ce fichier et donner le nom du
+    serveur utilisé pour télécharger les paquetages Debian (dans une URL, le nom
+    du serveur est la chaîne de caractères située entre "://" et le premier
+    "/")&nbsp;:
+
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Le nom du serveur que vous venez de trouver est en fait un "alias" DNS.
+    Pour connaître le "vrai" nom du serveur, utiliser la commande <kbd>host
+    NOM_DE_MACHINE_OU_ALIAS</kbd>.  Noter le vrai nom du serveur&nbsp;:
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Mettre à jour la base de données des packages disponibles&nbsp;: <kbd>apt update</kbd>
+
+  </li><li>Mettre à jour (si besoin) les packages installés&nbsp;: <kbd>apt upgrade</kbd>
+
+  </li><li>Installer, configurer et lancer Apache et le module PHP avec la commande suivante&nbsp;:
+    <kbd>apt install libapache2-mod-php</kbd>
+
+  </li><li>Supprimer les packages téléchargés&nbsp;: <kbd>apt clean</kbd>
+
+  </li><li>Vérifier que le serveur tourne bien en y accédant par cette URL&nbsp;:
+    <code>http://localhost/</code>
+</li></ol>
+
+<h4>Mise en place des pages du serveur</h4>
+
+<ol>
+  <li>Les pages du serveur doivent être mises dans le
+    répertoire <code>/var/www/html/</code>.  Copier l'exemple de site fourni
+    dans le répertoire <code>/users/info/pub/commun/reseaux/site-demo/</code>.
+    Pour cela on pourra utiliser la commande suivante&nbsp;:
+
+  <pre style="position: relative;">scp NOM_DE_LOGIN@transit.iut2.univ-grenoble-alpes.fr:/users/info/pub/commun/reseaux/site-demo/* /var/www/html/<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Relancer le serveur apache2 pour que le module php soit activé avec la
+    commande <kbd>systemctl restart apache2</kbd>
+
+  </li><li>Visualiser la page <code>formulaire.php</code> dans un navigateur en utilisant le serveur Web.
+
+  </li><li>Modifier votre site pour le personnaliser un minimum (par exemple, y
+    inscrire votre nom).
+</li></ol>
+
+<h3>Observation du protocole avec des requêtes HTTP simulées</h3>
+
+Afin de pouvoir observer les échanges entre client et serveur HTTP, nous allons
+utiliser la commande <kbd>telnet</kbd> au lieu d'un client HTTP classique.
+Nous utiliserons donc telnet comme programme client et nous allons envoyer
+directement sous forme de texte une requête à un serveur et ainsi récupérer sa
+réponse sous forme de texte.
+
+<h4>Procédure pour simuler une reqête HTTP avec telnet</h4>
+
+Nous allons tester l'utilisation de telnet sur le serveur HTTP de la machine
+<code>transit</code> et d'autres serveurs Web de l'IUT2.
+
+<ol>
+  <li>Lancer <code>telnet</code>, sur votre poste Linux (votre machine
+    physique), de la façon suivante&nbsp;:
+
+  <pre style="position: relative;">telnet NOM_DU_SERVEUR 80<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  <code>NOM_DU_SERVEUR</code> est transit, www-info ou un autre serveur,
+  et <code>80 </code> est le numéro du port couramment utilisé pour le
+  Web.<br>
+
+ </li><li>La commande telnet affiche alors&nbsp;:
+
+<pre style="position: relative;">Trying ...
+Connected to ...
+Escape character is '^]'
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  et attend que l'utilisateur tape une commande.  Attention, l'attente est de
+  courte durée, donc il faut se dépêcher pour taper la requête.
+
+  </li><li>Taper aussitôt : (attention, il y a une 2<sup>ème</sup> ligne qui doit
+  être vide, il faut donc taper deux fois sur la touche "Entrée" !)
+<pre style="position: relative;">GET /chemin_fichier HTTP/1.0
+                                     [ceci est une ligne vide]
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  S'il n'y a pas de <code>chemin_fichier</code> à indiquer (page web par défaut),
+  il faut mettre <code>/</code>.
+
+  </li><li>Puis le serveur répond.  Quelle réponse obtenez-vous&nbsp;?
+
+  <div class="aremplir" style="height: 2em"></div>
+
+</li></ol>
+
+<h4>Analyse de requêtes simulées</h4>
+
+<ol>
+  <li>Remplir ce tableau de traduction entre URL et commande telnet + requête
+  HTTP sur le modèle de la 1<sup>ère</sup> ligne et faire les requêtes
+  correspondantes.
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th>URL</th>
+      <th>Commande telnet<br>+ requête HTTP</th>
+    </tr>
+
+    <tr>
+      <td>http://transit:80/index.html</td>
+      <td>
+<pre style="position: relative;">telnet&nbsp;transit&nbsp;80
+GET /index.html HTTP/1.0
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+      </td>
+    </tr>
+
+    <tr>
+      <td>http://transit/dc/index.html</td>
+      <td>
+<pre style="position: relative;">telnet&nbsp;<span><input type="text"></span>
+GET <span><input type="text"></span>
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+      </td>
+    </tr>
+
+    <tr>
+      <td>http://cups-info:631/</td>
+      <td>
+<pre style="position: relative;">telnet&nbsp;<span><input type="text"></span>
+GET <span><input type="text"></span>
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+<pre style="position: relative;">telnet&nbsp;www&nbsp;80
+GET / HTTP/1.0
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+      </td>
+    </tr>
+
+  </tbody></table>
+
+  </li><li>Dans une requête HTTP, remplacer la commande GET par la commande HEAD.
+  <ol>
+    <li>Que renvoie le serveur&nbsp;?
+      <div class="aremplir" style="height: 2em"></div>
+
+    </li><li>À partir des informations renvoyées par le serveur, indiquer quelle
+      peut être l'utilité de cette commande HEAD pour un navigateur Web&nbsp;:
+      <div class="aremplir" style="height: 3em"></div>
+  </li></ol>
+
+    <p class="newpage">
+
+  </p></li><li>À l'aide de commandes HEAD sur le serveur HTTP de <code>transit</code>,
+  remplir le tableau suivant&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th style="width: 30%">URL</th>
+      <th style="width: 25%">Code de la<br>réponse HTTP<br>du serveur</th>
+      <th style="width: 40%">Réponse ou<br>message d'erreur</th>
+    </tr>
+    <tr>
+      <td>http://transit/</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://transit/inexistant.html</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://transit/protege/</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://transit/dc</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://transit/dc/</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+</li><li>À l'aide de commandes HEAD sur les serveurs demandés, remplir le tableau
+suivant&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th>Site Web</th>
+      <th style="width: 60%">Logiciel serveur utilisé<br>et version</th>
+    </tr>
+    <tr>
+      <td>http://www-info/</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://www.microsoft.com/</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Serveur de votre choix:</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+</li></ol>
+
+<h3>Requêtes HTTP capturées</h3>
+
+Grâce aux machines virtuelles, nous allons pouvoir capturer une requête HTTP
+réelle et sa réponse telles qu'elles circulent sur le réseau.  Pour cela nous
+allons utiliser le logiciel <code>wireshark</code>.
+
+<h4>Procédure de capture de trames</h4>
+
+<ol>
+  <li>Lancer le logiciel <kbd>wireshark</kbd> dans un <strong>shell
+      root</strong> de la machine virtuelle et lancer une capture sur
+    l'interface <code>lo</code> (<em>loopback</em>).
+
+  </li><li>Depuis le navigateur Firefox de votre machine virtuelle, consulter la
+    page désirée (vider au préalable le cache du navigateur si besoin).
+
+  </li><li>Cliquer sur une trame faisant partie d'une requête HTTP.
+
+  </li><li>Cliquer sur le menu "Analyse -&gt; Follow TCP Stream".  La requête du client
+    et la réponse du serveur doivent alors apparaître en entier dans une
+    nouvelle fenêtre, avec 2 couleurs différentes.
+</li></ol>
+
+<h4>Questions</h4>
+
+<ol>
+  <li>Selon la procédure ci-dessus, capturer les échanges lors de l'accès à la
+    page principale du serveur Web tournant sur votre machine virtuelle.  Faire
+    un copier coller de la requête du client dans un fichier.
+
+  </li><li>Recommencer une capture lors de la soumission du formulaire par la
+    méthode GET et la copier dans le même fichier.  Noter les différences avec la
+    requête précédente.
+
+    <div class="aremplir" style="height: 5em"></div>
+
+  </li><li>Recommencer une capture lors de la soumission du formulaire par la
+    méthode POST et la copier dans le même fichier.  Noter les différences entre
+    les requêtes GET et POST.
+
+    <div class="aremplir" style="height: 4em"></div>
+
+    <p class="newpage">
+
+  </p></li><li>Saisir des caractères accentués dans le formulaire et refaire une capture
+    lors de sa soumission.  Noter dans le tableau suivant comment ces caractères
+    sont encodés&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th>Caractère accentué</th>
+      <th style="width: 50%">Code</th>
+    </tr>
+    <tr>
+      <td>é</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>è</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ç</td>
+      <td></td>
+    </tr>
+
+  </tbody></table>
+
+  </li><li>Quelle notation est utilisée pour écrire les octets représentant ces caractères&nbsp;?
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Quel encodage est utilisé&nbsp;?  Pour cela, vous pouvez vous aider de cet
+    article&nbsp;:
+
+    <p><a href="https://fr.wikipedia.org/wiki/UTF-8#Exemples">https://fr.wikipedia.org/wiki/UTF-8#Exemples</a>
+
+      </p><div class="aremplir" style="height: 2em"></div>
+
+   </li><li>Comment s'appelle le jeu de caractères (ou "répertoire universel de
+     caractères codés") utilisé&nbsp;? (Regarder le début de l'article.)
+
+     <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Finalement, combien d'octets sont transmis sur le réseau pour représenter
+    un caractère accentué&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+</li></ol>
+
+<h2>Observation du serveur Apache en fonctionnement</h2>
+
+<h3>Effets de l'installation du serveur Apache sur le système</h3>
+
+<ol>
+
+  <li>Apache est un serveur modulaire.  Le serveur «de base» est assez petit,
+  mais il est complété par de nombreux modules que l'administrateur peut
+  activer ou désactiver à sa convenance.  Les modules sont des bibliothèques
+  dynamiques (extension <code>.so</code>) chargées à la demande par le serveur.
+  Remplir le tableau suivant&nbsp;:
+
+  <table class="aremplir">
+
+    <tbody><tr>
+      <td>Taille du serveur en Ko (fichier <code>/usr/sbin/apache2</code>)</td>
+      <td style="width: 10%"></td>
+    </tr>
+
+    <tr>
+      <td>Nombre de modules installés dans <code>/usr/lib/apache2/modules/</code></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Taille du module PHP en Ko (fichier <code>/usr/lib/apache2/modules/libphp?.?.so</code>)</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+  </li><li>Les fichiers de configuration du serveur se trouvent dans le répertoire
+  <code>/etc/apache2/</code>.  Ils sont répartis dans plusieurs répertoires et
+  contiennent des directives de configuration.  Pour trouver le fichier
+  contenant une directive particulière, on pourra utiliser la commande
+  <kbd>grep -r DIRECTIVE /etc/apache2/</kbd>.  Remplir le tableau suivant&nbsp;:
+
+    <table class="aremplir">
+    <tbody><tr>
+      <td>Répertoire où doivent être mises les pages du serveur<br>(directive <code>DocumentRoot</code>)</td>
+      <td style="width: 40%"></td>
+    </tr>
+    <tr>
+      <td>Numéro de port sur lequel doit tourner le serveur<br>(directive <code>Listen</code>)</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+  </li><li>Combien de processus apache «tournent» (commande <kbd>ps aux</kbd>)&nbsp;?
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Dessiner le sous-arbre des processus apache (commande <kbd>pstree
+  -cp</kbd>) ainsi que leur processus père.
+
+    <div class="aremplir" style="height: 8em"></div>
+
+  </li><li>Quel est le processus père du processus racine de ce sous-arbre&nbsp;?
+  Comparer avec les autres démons tournant sur la machine (par exemple
+  le démon ssh).
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>La commande <kbd>netstat -lpn</kbd> permet de lister les ports réseaux
+  actifs sur le serveur ainsi que le PID et le nom des processus attachés à ces
+  ports.  Sur quel port tourne le serveur apache&nbsp;?  Utilise-t-il UDP ou TCP&nbsp;?
+
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Dans l'arbre des processus ci-dessus, entourer celui qui est à l'écoute
+  sur le port réseau trouvé à la question précédente.
+</li></ol>
+
+<h3>Informations sur le fonctionnement du serveur</h3>
+
+Pour obtenir ces informations, il faut commencer par activer et configurer 2
+modules dans le serveur.
+
+<ol>
+  <li>Activer le module "info": <kbd>a2enmod info</kbd>
+  </li><li>Activer le module "status": <kbd>a2enmod status</kbd>
+  </li><li>Redémarrer Apache
+</li></ol>
+
+<h4>Questions&nbsp;:</h4>
+
+<ol>
+  <li>Accéder à l'URL qui donne des informations sur la configuration du
+  serveur (<code>http://localhost/server-info/</code>) et remplir le tableau suivant&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <td>Version du serveur Apache</td>
+      <td style="width: 40%"></td>
+    </tr>
+    <tr>
+      <td>Version du module PHP</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Date de compilation du serveur</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Racine du serveur (<code>Server Root</code>)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Fichier de configuration (<code>Config File</code>)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Nombre de modules actifs</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+  </li><li>Accéder à l'URL qui donne des informations sur l'activité du serveur
+  (<code>http://localhost/server-status/</code>) et remplir le tableau suivant&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <td>Heure de (re-)démarrage</td>
+      <td style="width: 40%"></td>
+    </tr>
+    <tr>
+      <td>Heure actuelle</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Server Uptime</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Signification du Uptime</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Nombre d'accès au serveur</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Volume des informations servies par le serveur (en Ko)</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+
+</li></ol>
+
+<h3>Journaux d'accès</h3>
+
+Consulter le fichier <code>/var/log/apache2/access.log</code> qui contient le
+journal des requêtes reçues par le serveur (<em>logs</em>).
+
+<ol>
+  <li>À quel événement correspond chaque ligne&nbsp;?
+
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Les directives <code>LogFormat</code> et <code>CustomLog</code> dans les
+  fichiers de configuration indiquent au serveur quelles informations il doit
+  écrire dans chaque ligne du journal.  La directive <code>LogFormat</code>
+  permet de définir plusieurs formats de <em>logs</em> parmi lesquels on peut
+  ensuite choisir grâce à la directive <code>CustomLog</code>.  Les formats de
+  <em>logs</em> s'interprètent d'une façon similaire à une chaîne de format de
+  la fonction <code>printf()</code> en langage C (cf. la
+
+  <a href="http://httpd.apache.org/docs/mod/mod_log_config.html">documentation de Apache</a>).
+
+  Le tableau suivant indique les champs contenus dans chaque ligne.
+
+  <table class="aremplir">
+    <tbody><tr>
+      <th>Chaîne de format</th>
+      <th>Signification du champ</th>
+    </tr>
+    <tr>
+      <td>%h</td>
+      <td>Adresse IP ou nom DNS du client</td>
+    </tr>
+     <tr>
+      <td>%l</td>
+      <td>Nom de login de l'utilisateur distant (si disponible)</td>
+    </tr>
+    <tr>
+      <td>%u</td>
+      <td>Nom donné par l'utilisateur distant (si une authentification est demandée par le serveur)</td>
+    </tr>
+    <tr>
+      <td>%t</td>
+      <td>Date et heure de la requête</td>
+    </tr>
+    <tr>
+      <td>%r</td>
+      <td>Première ligne de la requête (commande HTTP)</td>
+    </tr>
+    <tr>
+      <td>%s</td>
+      <td>Code de retour renvoyé par le serveur, indiquant le résultat de la requête</td>
+    </tr>
+    <tr>
+      <td>%b</td>
+      <td>Nombre d'octets envoyés par le serveur en réponse à la requête</td>
+    </tr>
+    <tr>
+      <td>%{Referer}</td>
+      <td>URL de la page Web affichée par le navigateur, juste avant de faire cette nouvelle requête (page précédente)</td>
+    </tr>
+    <tr>
+      <td>%{User-Agent}</td>
+      <td>Nom du navigateur Web utilisé</td>
+    </tr>
+
+  </tbody></table>
+
+  </li><li>Donner quelques types de statistiques que les responsables d'un site
+    peuvent faire de ces informations.  Regarder un exemple d'utilisation de
+    l'application Web <a href="http://www.mrunix.net/webalizer/">webalizer</a>
+    pour les <a href="http://www-info.iut2.univ-grenoble-alpes.fr/webalizer/">statistiques du
+      site www-info</a>.  Regarder en particulier les statistiques détaillées du mois
+    en cours.
+
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Parmi les statistiques affichées par Webalizer, lesquelles ne pourraient
+    pas exister sans le champ Referer des logs de Apache&nbsp;?
+
+    <div class="aremplir" style="height: 3em"></div>
+
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

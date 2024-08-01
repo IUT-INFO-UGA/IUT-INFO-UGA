@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP03</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP03_files/style.css">
+<script src="R%C3%A9seaux%20R2.04b%20-%20TP03_files/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP03&nbsp;: Introduction aux réseaux de l'IUT2</h1>
+
+<hr>
+
+Les objectifs de ce TP sont&nbsp;:
+
+<ul>
+  <li>Vous familiariser avec les réseaux de l'IUT2, c'est-à-dire ceux du
+    domaine <code>iut2.univ-grenoble-alpes.fr</code>.
+
+  </li><li>Vous repérer dans le réseau national <strong>Renater</strong> ainsi
+    que dans le réseau européen <strong>Géant</strong>.
+
+  </li><li>Observer le routage depuis votre poste Linux.
+</li></ul>
+
+<hr>
+
+<h2>Découverte des réseaux de l'IUT2 (site Doyen Gosse)</h2>
+
+Le schéma du TP01 donne une vue partielle des réseaux (utilisés par le
+département informatique) du site Doyen Gosse (les locaux où nous sommes) et de
+la connexion vers l'extérieur (Internet).
+
+<p>On distingue sur ce schéma les 3 réseaux principaux&nbsp;:
+
+</p><ul>
+  <li>Le réseau <strong>DG-TX</strong> (DG&nbsp;: Doyen Gosse TX&nbsp;: postes de travail
+  Linux, en rouge) comprend les stations Linux des salles de TP, les machines
+  (on dit aussi serveurs) <code>epperly4</code> et <code>erebus4</code>, des
+  commutateurs.<br>
+
+  <strong>Remarque:</strong> votre répertoire personnel est physiquement sur un
+  disque de la machine <code>erebus4</code> et le serveur
+  <code>epperly4</code> sert au clonage des stations Linux.
+
+  </li><li>Le réseau <strong>INFOMM</strong> (INFO&nbsp;: Informatique MM&nbsp;: MultiMédia,
+  en vert) comprend entre autres les postes de travail (Linux, Windows, Mac)
+  des personnels enseignants et administratifs du département
+  informatique.
+
+  </li><li>Le réseau <strong>CI</strong> (CI&nbsp;: Centre Informatique, en bleu) comprend
+  en particulier la machine <code>meije</code>, qui sert de <strong>serveur
+  DNS</strong> primaire (Domain Name Service), ainsi que d'autres équipements
+  (serveurs Windows, imprimantes,...) non représentés sur la figure.
+</li></ul>
+
+<p>Un autre réseau, le réseau <strong>DMZ</strong> est "isolé" du reste des
+réseaux.  On y trouve des machines qui peuvent potentiellement poser des
+problèmes de sécurité pour les machines des réseaux internes.
+
+</p><p>On notera que les autres réseaux du site Doyen Gosse ne sont pas représentés
+(en particulier les réseaux pédagogiques des machines sous Windows).  Il en est
+de même pour les réseaux des autres sites de l'IUT2 (autres départements situés
+Place de Verdun, à Vienne et sur le campus).  Toutes les machines de ces
+réseaux font partie du même <strong>domaine DNS</strong>&nbsp;: le
+domaine <code>iut2.univ-grenoble-alpes.fr</code>.  Ce domaine est lui-même un
+sous-domaine du domaine <code>univ-grenoble-alpes.fr</code> (organisation
+hiérarchique des noms de domaines DNS).  Notons qu'en interne à l'IUT2,
+l'ancien nom de domaine <code>iut2.upmf-grenoble.fr</code> est encore utilisé.
+
+</p><p>Enfin, on remarquera la présence d'une machine spécifique (routeur dédié à
+la sécurité) entre Internet et les réseaux de l'IUT2.  Cette machine est un
+routeur/pare-feu (<em>firewall</em>) d'entrée de site dont le rôle est
+d'assurer la sécurité des machines internes en filtrant les entrées et en
+contrôlant les sorties.
+
+</p><p>Récapitulatif à remplir&nbsp;:
+
+  </p><ol>
+    <li>Nom actuel du domaine DNS de l'IUT2&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Ancien nom du domaine DNS de l'IUT2&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Nombre et types des nœuds (commutateurs ou routeurs) du réseau <code>DG-TX</code>&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Nombre et types des nœuds (commutateurs ou routeurs) du réseau <code>INFOMM</code>&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Rôle de la machine <code>meije</code>&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Rôle de la machine <code>epperly4</code>&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+
+    </li><li>Rôle de la machine <code>erebus4</code>&nbsp;:
+      <div class="aremplir" style="height: 1.8em"></div>
+  </li></ol>
+
+<h2>Cartes de réseaux</h2>
+
+Nous allons maintenant voir comment l'IUT2 est relié à Internet, ce qui vous a
+déjà été introduit dans la ressource R1.04.  Pour cela, consulter
+le <a href="https://www.renater.fr/">site de Renater</a>.
+
+<p>À partir du menu, consulter la page "Réseau - Le réseau Renater".</p>
+
+<ol>
+  <li>Que désigne-t-on par NR (Nœud Renater), aussi appelé "point de
+    présence" ?
+      <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Combien y a-t-il de NRs en France&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Quel est le débit de base entre les NRs&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Par quelles villes Renater est-il relié au reste d'Internet&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+</li></ol>
+
+À partir du menu, consulter la page "Réseau - Le réseau Renater - Disponibilité du Réseau
+- Métropole"
+
+<ol>
+  <li>Préciser les liaisons internationales (régions du monde, débits)&nbsp;:
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Y a-t-il des liaisons indisponibles&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Quelles sont les liaisons avec le plus grand débit&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Quelles sont les liaisons les plus chargées&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+</li></ol>
+
+Sur le site du réseau Géant, consulter
+la <a href="https://resources.geant.org/maps/">page des cartes de réseau</a>.
+
+<ol>
+  <li>Combien de pays européens participent au réseau Géant ?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Lister les pays auxquels la France est rattachée par le réseau Géant.
+    <div class="aremplir" style="height: 1.8em"></div>
+</li></ol>
+
+<p class="newpage">
+
+</p><h2>Observation du routage</h2>
+
+Le logiciel <code>traceroute</code> permet de découvrir le chemin entre deux
+machines sur Internet, en affichant la liste des routeurs traversés.  Il envoie
+des paquets avec une durée de vie limitée pour forcer les routeurs à révéler
+leur présence.  Pour chaque routeur, 3 paquets de tests sont envoyés et les
+temps d'aller retour sont affichés.  Lorsqu’il ne parvient pas à déterminer
+l’adresse IP d’un routeur, traceroute affiche à la place une étoile (*).
+
+<p>Utiliser la commande <kbd>traceroute NOM_MACHINE</kbd> ou <kbd>traceroute -I
+NOM_MACHINE</kbd> (selon les cas, c'est l'une ou l'autre qui donne les
+meilleurs résultats) pour les serveurs suivants.  Parfois il est nécessaire
+d'exécuter la commande 2 fois pour obtenir un résultat satisfaisant.
+
+</p><table class="aremplir">
+  <tbody><tr>
+    <th>Emplacement supposé du serveur</th>
+    <th>Nom du serveur</th>
+  </tr>
+  <tr>
+    <td>Serveur situé en France</td>
+    <td><code>www.univ-lorraine.fr</code></td>
+  </tr>
+  <tr>
+    <td>Serveur situé en Europe</td>
+    <td><code>www.uni-ulm.de</code></td>
+  </tr>
+</tbody></table>
+
+<ol>
+  <li>Vérifier qu'un paquet sort du réseau des stations Linux toujours par le
+    même routeur.  Quel est le nom de ce routeur et quelle est son adresse IP&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Vérifier qu'un paquet à destination de l'extérieur de l'IUT2 passe
+    ensuite toujours par le même routeur.  Quel est son nom&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Puis, quel est le nom du routeur suivant&nbsp;?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Repérer ces 3 routeurs sur le plan du réseau IUT2-DG du TP01.
+
+  </li><li>Parmi les chemins affichés par traceroute, donner le nom d'un routeur du
+    réseau Renater.
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Pour aller de Grenoble à Nancy (Université de Lorraine), lister les
+    villes traversées par les paquets IP.
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Parmi les chemins affichés par traceroute, donner le nom d'un routeur du
+    réseau Géant.
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Pour aller de Grenoble à Ulm (Allemagne), par quel pays intermédiaire
+    passent les paquets IP ?
+    <div class="aremplir" style="height: 1.8em"></div>
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 1.8em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

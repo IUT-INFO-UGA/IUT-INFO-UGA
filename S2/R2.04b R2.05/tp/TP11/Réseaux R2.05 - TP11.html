@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP11</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP11_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.05%20-%20TP11_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP11&nbsp;: DNS et résolution de nom</h1>
+
+<hr>
+
+<p>Le service DNS (Domain Name System) est un service réseau mondial et
+  distribué qui permet d'obtenir la correspondance, dans les 2 sens,
+  entre <b>noms de machine</b> d'une part et <b>adresses IP</b> d'autre part.
+  Il est crucial pour le bon fonctionnement du Web et de tous les autres
+  services sur Internet.  Il est mis en œuvre par un ensemble de serveurs DNS
+  et une base de données (mondiale et distribuée).  Chaque site relié à
+  Internet met sur le réseau un serveur DNS qui contient les associations entre
+  noms de machine et adresses IP que l'administrateur de ce site souhaite
+  rendre publiques.
+
+</p><p>L'action d'interroger le DNS pour obtenir une adresse IP ou un nom s'appelle
+  une "<b>requête DNS</b>" et le mécanisme qui fournit une réponse s'appelle
+  une "<b>résolution DNS</b>".
+
+</p><p>Ce TP a pour objectif d'apprendre à utiliser le DNS et d'étudier les
+  mécanismes de résolution de nom dans les systèmes Linux.
+
+</p><hr>
+
+<h2>Requêtes DNS simples</h2>
+
+En tant qu'utilisateur, on peut accéder au service DNS grâce à différents
+logiciels spécialisés.
+
+<h3>Logiciel host</h3>
+
+Ce logiciel est celui dont les réponses sont les plus simples à interpréter.
+
+<ul>
+  <li>Pour connaître l'adresse IP éventuellement associée à un nom de machine,
+    on utilisera la commande <kbd>host <em>NOM_DE_MACHINE</em></kbd>
+
+  </li><li>Inversement, pour connaître le nom éventuellement associé à une adresse
+    IP, on utilisera la commande <kbd>host <em>ADRESSE_IP</em></kbd>
+</li></ul>
+
+<ol>
+  <li>Trouver l'adresse IP du serveur <code>gricad-gitlab.univ-grenoble-alpes.fr</code>
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Inversement, interroger le DNS avec l'adresse IP que vous venez de
+    trouver.  Quel nom obtient-on ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Parfois, la correspondance entre nom et adresse IP n'est pas parfaite.
+    Il peut s'agir par exemple d'une machine appartenant à plusieurs domaines.
+    Trouver l'adresse IP du
+    serveur <code>transit.iut2.univ-grenoble-alpes.fr</code>
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Inversement, interroger le DNS avec l'adresse IP que vous venez de
+    trouver.  Quel nom obtient-on ?  Comparer.
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Parfois, la correspondance entre nom et adresse IP est plus complexe (pas
+    bijective).  Il peut s'agir par exemple d'une machine sur laquelle tournent
+    plusieurs services réseau.  Essayer par exemple avec le
+    nom <code>mail.iut2.univ-grenoble-alpes.fr</code>.  Quel autre nom
+    trouve-t-on quand on suit le chemin NOM → ADRESSE_IP → NOM ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Certaines machines ont à la fois une adresse IPv4 et une adresse IPv6.
+    Essayer par exemple avec <code>www.debian.org</code>
+    <div class="aremplir">Adresse IPv4 :<br>Adresse IPv6 :</div>
+
+  </li><li>Certains noms peuvent être associés à plusieurs adresses IPv4 et/ou
+    plusieurs adresses IPv6.  Il s'agit par exemple d'un service Web constitué
+    de plusieurs serveurs Web redondants.  Essayer par exemple
+    avec <code>debian.org</code>
+    <div class="aremplir">Nombre d'adresses IPv4 :<br>Nombre d'adresses IPv6 :</div>
+
+  </li><li>Dans ce cas, quelles autres informations donne le DNS ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quel message d'erreur est affiché pour un nom qui n'existe pas ?  Essayer
+    par exemple avec <code>siteinconnu.org</code>.
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quel message d'erreur est affiché pour une adresse IP qui n'est associée
+    à aucun nom ?  Essayer par exemple avec <code>141.94.212.184</code>.
+    <div class="aremplir" style="height: 2em"></div>
+
+</li></ol>
+
+<h3>Logiciel nslookup</h3>
+
+Ce logiciel existe sur la plupart des systèmes d'exploitation.  Il s'utilise
+de la même manière que <code>host</code>, mais l'interprétation de son
+affichage nécessite plus d'attention car 2 adresses sont données.
+
+<p>Compléter et interpréter l'exemple ci-dessous :
+
+</p><pre style="position: relative;">$ nslookup transit.iut2.univ-grenoble-alpes.fr
+Server:
+Address:
+
+Non-authoritative answer:
+Name:
+Address:
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<ol>
+  <li>Parmi les 2 adresses affichées, laquelle est celle que l'on recherche ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>L'autre adresse est celle du serveur DNS qui a répondu.  La noter ici,
+    elle servira plus tard...
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Inversement, interroger le DNS avec l'adresse IP de <code>transit</code>.
+    Quel nom obtient-on ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h3>Logiciel dig</h3>
+
+Ce logiciel est plus complexe et sera étudié plus tard dans votre formation.
+Il est surtout utile quand on administre soi-même un serveur DNS.
+
+<h2>Web et DNS</h2>
+
+Le DNS est utilisé par les navigateurs Web pour obtenir les adresses IP des serveurs Web.
+
+<p>Par exemple pour un site situé à cette URL:
+
+</p><pre style="position: relative;"> https://www-info.iut2.univ-grenoble-alpes.fr/intranet/enseignements/reseaux1A/ <div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+un navigateur Web fait le découpage suivant :
+
+<table class="aremplir">
+  <tbody><tr>
+    <td>Protocole réseau de niveau application</td>
+    <td>HTTPS (HTTP sur TLS)</td>
+  </tr>
+  <tr>
+    <td>Nom du serveur Web</td>
+    <td>www-info.iut2.univ-grenoble-alpes.fr</td>
+  </tr>
+  <tr>
+    <td>Nom du répertoire ou de la page sur ce serveur</td>
+    <td>/intranet/enseignements/reseaux1A/</td>
+  </tr>
+</tbody></table>
+
+<ol>
+  <li>Obtenir l'adresse IP du serveur du site de l'exemple précédent.
+
+  </li><li>Vérifier que l'on peut accéder à la même page Web en remplaçant dans
+    l'URL le nom du serveur par son adresse IP.  Il faudra passer outre les
+    avertissements du navigateur concernant la sécurité.
+
+  </li><li>Si un site utilise un hébergeur, le DNS permet souvent de savoir quel
+    hébergeur est utilisé.  Par exemple, pour le site
+    d'URL <pre style="position: relative;">http://www.lig.fr/<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre> suivre le chemin NOM → ADRESSE_IP →
+    NOM pour en déduire le nom de l'hébergeur utilisé.
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Dans le cas d'un hébergement mutualisé, l'adresse IP ne peut pas être
+    utilisée.  Sur quelle page tombe-t-on si on utilise l'adresse IP du site de
+    la LIG dans l'URL ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h2>Noms abrégés et noms complets</h2>
+
+<ol>
+  <li>Sur un système Linux, on peut utiliser des noms abrégés à la place des
+    noms complets.
+
+    <p>Par exemple vérifier que les 2 commandes suivantes fonctionnent:
+
+</p><pre style="position: relative;">  ssh transit.iut2.univ-grenoble-alpes.fr
+  ssh transit
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Ceci est rendu possible par le fichier de
+    configuration <code>/etc/resolv.conf</code>
+
+    <p>Visualiser ce fichier et noter ici la ligne qui permet d'utiliser des
+      noms abrégés.
+      </p><div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Un nom complet s'appelle un FQDN.  Consulter
+    la <a href="https://fr.wikipedia.org/wiki/Fully_qualified_domain_name">page
+      Wikipedia du sigle FQDN</a> et noter ici la signification de ce sigle.
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h2>Mécanismes de résolution de nom dans les systèmes Linux</h2>
+
+Plusieurs mécanismes de résolution de nom existent dans les systèmes
+Linux.  On peut trouver la liste de ceux qui sont utilisés dans le
+fichier de configuration <code>/etc/nsswitch.conf</code>
+
+<ol>
+  <li>Visualiser ce fichier, en particulier la ligne commençant par "<code>hosts:</code>"
+
+  </li><li>Noter ici les noms des 3 premiers mécanismes qui sont utilisés
+  successivement pour résoudre les noms de machines.  On ignore le 4ème
+  ("mymachines").
+
+    <table class="aremplir">
+      <tbody><tr>
+	<td style="width: 20%">Mécanisme 1</td>
+	<td></td>
+      </tr>
+      <tr>
+	<td>Mécanisme 2</td>
+	<td></td>
+      </tr>
+      <tr>
+	<td>Mécanisme 3</td>
+	<td></td>
+      </tr>
+    </tbody></table>
+
+</li></ol>
+
+Nous allons maintenant détailler ces 3 mécanismes.
+
+<h3>Mécanisme 1 : Fichier <code>/etc/hosts</code></h3>
+
+Ce fichier contient des associations ADRESSE_IP ↔ NOM_DE_MACHINE qui sont
+utilisée en priorité par tout logiciel ayant besoin de résoudre un nom de
+machine.
+
+<ol>
+  <li>Visualiser ce fichier.
+
+  </li><li>Quel nom est associé à l'adresse IP <code>127.0.0.1</code> ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle est l'adresse IPv6 associée au nom <code>localhost</code> ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quand on exécute la commande <kbd>ping localhost</kbd> laquelle des 2
+    adresses IP (v4 ou v6) est utilisée ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>On peut ajouter dans ce fichier des entrées qui ne figurent dans le DNS.
+    Par exemple vérifier que la commande <kbd>ping toto</kbd> fonctionne.
+
+  </li><li>Vérifier aussi que l'URL <code>http://toto/</code> fonctionne.
+</li></ol>
+
+<p class="newpage">
+
+</p><h3>Mécanisme 2 : Démon <code>systemd-resolved</code></h3>
+
+Un démon est un logiciel qui tourne en permanence sur un système pour rendre un
+service (réseau ou autre).
+
+<p>Ce démon joue le rôle de résolveur DNS et de cache DNS pour les autres
+processus du système.  Il est utilisé dans la plupart des distributions Linux
+modernes.
+
+</p><ol>
+  <li>Vérifier qu'un processus <code>systemd-resolved</code> tourne bien sur
+    votre station Linux.
+
+  </li><li>On peut interagir avec lui grâce au logiciel <kbd>resolvectl</kbd>.
+    Lancer ce logiciel et analyser son affichage.
+
+  </li><li>Quelles sont les adresses IP des machines jouant le rôle de
+    serveurs DNS ?
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Quels sont les noms de ces machines ?
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>On trouve en général 2 serveurs de noms: un primaire et un secondaire,
+    qui sert en cas de défaillance du premier.  Lequel est utilisé actuellement ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Pourquoi les serveurs DNS apparaissent-ils sous forme d'adresse IP et
+    pas de nom ?
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Choisir un site Web et utiliser la commande
+
+<pre style="position: relative;">  resolvectl query NOM_DU_SERVEUR_WEB
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Combien de temps a pris l'exécution de cette 1ère requête ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Refaire la même requête.
+    Combien de temps a pris l'exécution de cette 2ème requête ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Cacluler le facteur d'accélération qu'offre ce cache DNS.
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Utiliser la commande <kbd>resolvectl statistics</kbd> et calculer le taux
+    de succès du cache.
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h3>Mécanisme 3 : Interrogation DNS directe</h3>
+
+Le fichier <code>/etc/resolv.conf</code> contient (en plus de ce que nous avons
+vu précédemment) une ou plusieurs adresse(s) IP de serveur DNS.
+
+<ol>
+  <li>Quelle est l'adresse IP listée en 1er dans ce fichier ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Interroger le DNS pour savoir à quelle machine correspond cette adresse.
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+Le démon <code>systemd-resolved</code> est attaché à cette adresse IP
+particulière.  Ce mécanisme est utilisé pour que les éventuels logiciels ne
+tenant pas compte du fichier <code>/etc/nsswitch.conf</code> utilisent quand
+même le démon <code>systemd-resolved</code>.
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées
+    dans ce TP&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

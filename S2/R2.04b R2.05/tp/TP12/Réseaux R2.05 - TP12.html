@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP12</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP12_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.05%20-%20TP12_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP12 : Étude du service de courrier électronique<br>
+Protocole SMTP</h1>
+
+<hr>
+
+<p>L'objectif du TP est de comprendre les principes de fonctionnement des
+services SMTP (courrier électronique).
+
+</p><hr>
+
+<h2>Détermination du serveur SMTP du domaine</h2>
+
+Pour envoyer un message à partir de l'IUT2, il faut tout d'abord trouver quel
+est le serveur SMTP.  Cette information est enregistrée dans le DNS dans des
+enregistrements appelés "<code>MX</code>".
+
+<ol>
+  <li>Exécuter cette commande qui interrroge le DNS à propos des
+    enregistrements MX :
+    <pre style="position: relative;">host -t mx iut2.upmf-grenoble.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Combien de serveurs sont listés ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Parmi ces serveurs, lesquels font partie du domaine IUT2 ?
+    <div class="aremplir" style="height: 5em"></div>
+
+  </li><li>Parmi ces serveurs, nous utiliserons celui qui
+    s'appelle <code>jura</code>.
+</li></ol>
+
+<h2>Connexion à un serveur SMTP</h2>
+
+<h3>Envoi de message</h3>
+
+Dans un terminal, vous allez réaliser directement en ligne de commande l'envoi
+d'un message électronique (e-mail) comme le font tous les logiciels de
+messagerie.  En effet, il est possible de réaliser facilement l'envoi en ligne
+de commande car le protocole SMTP est un protocole "textuel" (tout comme le
+protocole HTTP).
+
+<p>Pour commencer, il faut se connecter à un serveur SMTP.  Dans notre cas
+c'est celui de l'IUT2.  La commande est :
+
+  </p><pre style="position: relative;">telnet SERVEUR_SMTP_DE_L'IUT2 25<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Vous allez donc vous envoyer à vous-même un message électronique sur votre
+  boîte mail UGA.  L'adresse du destinataire du message sera donc votre adresse
+  mail UGA :
+
+  </p><pre style="position: relative;">prenom.nom@etu.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Pour l'adresse de l'expéditeur, nous utiliserons l'adresse mail fictive
+  suivante :
+
+  </p><pre style="position: relative;">toto@etu.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Une fois connecté, il faut exécuter les commandes suivantes pour envoyer le
+  message (sans les crochets <code>[ ]</code>).
+
+</p><ol>
+  <li>Annoncer la machine cliente auprès du serveur :
+      <pre style="position: relative;">EHLO [nom de votre station Linux : pc-dg-XXX-YY]<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Préciser l'adresse électronique de l'émetteur :<br>
+      <pre style="position: relative;">MAIL FROM: toto@etu.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Préciser l'adresse du destinataire :
+      <pre style="position: relative;">RCPT TO: [votre adresse email]<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Indiquer que vous allez fournir le contenu du message :
+      <pre style="position: relative;">DATA <div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Saisir un texte (les retours à la ligne sont autorisés) :
+
+<pre style="position: relative;">Bonjour,
+comment vas-tu ?
+A+.
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Pour indiquer que la saisie est terminée, il faut une ligne
+    supplémentaire contenant uniquement le caractère "<code>.</code>" suivi
+    d'un retour à la ligne :
+    <pre style="position: relative;">.   [Ceci est un retour à la ligne]<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Fermer la connexion :
+      <pre style="position: relative;">QUIT<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</li></ol>
+
+<h3>Analyse du protocole SMTP</h3>
+
+<ol>
+  <li>Faire un schéma représentant votre station et le serveur SMTP ainsi que
+    les échanges numérotés représentant la séquence d'actions que vous venez de
+    réaliser :
+    <div class="aremplir" style="height: 20em"></div>
+
+  </li><li>Que penses-vous de l'adresse mail de l'expéditeur du message ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>En vous basant sur votre expérience avec, par exemple, le webmail Zimbra,
+    il semble manquer une étape préalable à l'envoi de ce mail.  Quelle est
+    cette étape ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle est son utilité ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Qu'en déduisez-vous sur le fonctionnement du serveur de
+    mail <code>jura</code> ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<p class="newpage">
+
+</p><h2>Analyse d'un email</h2>
+
+<h3>Code source d'un email</h3>
+
+<ol>
+  <li>Se connecter sur le webmail Zimbra.
+
+  </li><li>Vérifier que le message que vous vous êtes envoyé à vous-même a bien été
+    reçu.
+
+  </li><li>Afficher le code source "brut" du message (tel que traité par le serveur
+    SMTP). Pour cela :
+    <ul>
+      <li>Double-cliquer sur le message pour l'ouvrir.
+      </li><li>Dans le menu "Action", cliquer sur "Montrer l'original".
+    </li></ul>
+</li></ol>
+
+<h3>Chaîne de transmission du courrier entre relais SMTP</h3>
+
+Dans la suite, nous nous intéressons à la série de champs
+"<code>Received:</code>" qui ressemblent à l'exemple suivant :
+
+<pre style="position: relative;">Received: from [nom de machine et/ou adresse IP]
+by [nom de machine et/ou adresse IP]<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+Ces champs indiquent qui a envoyé (<code>from</code>) et qui a reçu (<code>by</code>).
+
+<p>Le champ <code>Received:</code> qui apparaît en premier dans le message indique
+le dernier relais SMTP qui a reçu le message.  À l'inverse, le dernier de la
+liste correspond au premier relais SMTP traversé.  La série de
+champs <code>Received:</code> nous informe donc sur le parcours suivi par le
+message avant d'être délivré à son destinataire.</p>
+
+<ol>
+  <li>Faire un schéma représentant les machines impliquées dans la transmission du message, en
+    indiquant et numérotant les échanges avec des flèches :
+    <div class="aremplir" style="height: 5em"></div>
+
+  </li><li>Combien de relais SMTP sont traversés ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle machine est à l'origine de l'envoi (dernier champ <code>Received:</code>) ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle est son adresse IP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Exécuter la commande suivante pour connaître les relais SMTP du domaine
+    DNS correspondant à votre adresse mail d'étudiant :
+    <pre style="position: relative;">host -t mx etu.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Observer l'avant-dernier champ <code>Received:</code> correspondant au
+    transfert du message depuis le serveur <code>jura</code> vers un autre
+    serveur SMTP.
+
+  </li><li>Analyser le résultat de la commande et indiquer comment le serveur
+    <code>jura</code> obtient l'adresse IP du serveur SMTP à contacter pour
+    transmettre le courrier électronique ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h2>Bonus : capture d'un échange SMTP</h2>
+
+<ol>
+  <li>Lancer votre machine virtuelle.
+
+  </li><li>Lancer Wireshark.
+
+  </li><li>Lancer une capture sur l'interface Ethernet.
+
+  </li><li>Dans un terminal, refaire un envoi de message par SMTP comme précédemment.
+
+  </li><li>Dans Wireshark, visualiser l'échange TCP réassemblé.
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

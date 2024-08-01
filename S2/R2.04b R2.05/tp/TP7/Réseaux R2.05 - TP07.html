@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr"><script src="R%C3%A9seaux%20R2.05%20-%20TP07_fichiers/page-script.js" id="bw-fido2-page-script"></script><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP07</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP07_fichiers/style.css">
+</head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP07&nbsp;: Routage IP</h1>
+
+<hr>
+
+Ce TP a pour objectif de comprendre comment le routage IP s'effectue dans les
+réseaux de l'IUT2 ainsi que dans les réseaux accessibles.  Le schéma ci-dessous
+représente les réseaux et routeurs de l'IUT2.  Il peut être complété
+partiellement à partir des questions des TP précédents et sera à compléter au
+fur et à mesure des questions de ce TP.
+
+<hr>
+
+<p class="centre"> <img src="R%C3%A9seaux%20R2.05%20-%20TP07_fichiers/reseaux-IP.svg" class="ajuste" alt="Réseaux IP">
+</p><p class="centre">Schéma des réseaux IP des postes Linux et des machines virtuelles.
+
+</p><h2>Réseaux du schéma et adresses des machines</h2>
+
+En observant le schéma et en utilisant les commandes réseaux déjà vues (<kbd>ip
+addr</kbd>, <kbd>ip neigh</kbd>, ...) :
+
+<ol>
+  <li>Combien de réseaux IP peut-on identifier ?  Entourer ces réseaux et
+  écrire sur le schéma l'adresse de chacun.
+
+  </li><li>Écrire sur le schéma les informations de votre machine virtuelle et du
+  routeur intégré à Qemu/KVM (cf. TP06).
+
+  </li><li>Écrire sur le schéma les informations de votre poste Linux.
+
+  </li><li>Écrire sur le schéma les informations de "<code>transit</code>" (se connecter
+  à transit pour obtenir les adresses de cette machine).
+</li></ol>
+
+<h2>Tables de routage</h2>
+
+La <strong>table de routage</strong> de chaque machine contient les
+informations nécessaires au routage des paquets IP (choix du chemin en fonction
+de l'adresse destination).  Les commandes <kbd>ip route</kbd> et <kbd>netstat
+-rn</kbd> donnent la table de routage et renseignent donc sur les réseaux
+accessibles et sur les passerelles (<em>gateway</em> ou routeurs) qui vont
+prendre en charge le routage des paquets.  On rappelle que les adresses MAC
+peuvent être obtenues à partir des adresses IP par la commande <kbd>ip
+neigh</kbd>.
+
+<ol>
+  <li>Quel est le réseau accessible directement sans passerelle depuis votre
+    poste Linux (donner son adresse CIDR)&nbsp;?
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Pour aller de votre poste Linux vers une machine quelconque d'un autre
+    réseau, par quelle machine les paquets sont-ils routés&nbsp;?  Écrire son nom,
+    son adresse IP et son adresse MAC dans le schéma de réseau ci-dessus.
+
+  </li><li>Pour aller de la machine <code>transit</code> vers une machine quelconque
+    d'un autre réseau, par quelle machine les paquets sont-ils routés&nbsp;?
+    Compléter le schéma ci-dessus.
+</li></ol>
+
+<h2>Routage dans le réseau de l'IUT2</h2>
+
+Comme vu au TP02, la commande <kbd>ping NOM_MACHINE</kbd> indique si la
+machine distante est accessible ou non.  Pour cela, un paquet IP (de type ICMP
+Echo Request) est envoyé à la machine distante et un paquet IP (de type ICMP
+Echo Reply) est renvoyé en réponse (ou pas !).
+
+<p>La commande <kbd>traceroute</kbd> ou <kbd>traceroute -I</kbd> utilise une
+succession de paquets ICMP avec des TTL de valeurs croissantes pour afficher
+le(s) routeur(s) emprunté(s) par les paquets IP pour aller sur une machine
+distante.
+
+</p><p>Utiliser cette commande pour trouver les 2 adresses IP du
+routeur central du schéma précédent et remplir le tableau&nbsp;:
+
+</p><table class="aremplir">
+  <tbody><tr>
+    <th>Adresses source et destination du paquet IP</th>
+    <th>Adresse IP du routeur</th>
+  </tr>
+
+  <tr>
+    <td>pc-dg-xxx-yy -&gt; transit</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>transit -&gt; pc-dg-xxx-yy</td>
+    <td></td>
+  </tr>
+</tbody></table>
+
+Quelles adresses IP notées précédemment retrouve-t-on&nbsp;?
+<div class="aremplir" style="height: 2em"></div>
+
+<h2>Routages multiples</h2>
+
+<h3>Logiciel traceroute</h3>
+
+Pour toutes les destinations du tableau ci-dessous, observer le chemin emprunté
+et le délai d'aller-retour (RTT), en utilisant la commande suivante&nbsp;:
+
+<pre style="position: relative;">traceroute -q1 NOM_DESTINATION<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<p>Si la route n'est pas affichée de façon complète, lancer la commande
+plusieurs fois de suite.
+
+</p><p>Pour les villes traversées, vous pourrez vous aider de
+cette <a href="https://storage.pardot.com/66332/164745521835nC3kYg/NS_map_march22.png">carte
+de "Internet2"</a>.
+
+</p><table class="aremplir">
+  <tbody><tr>
+    <th style="width: 45%">Destination</th>
+    <th style="width: 15%">Nombre de<br>routeurs</th>
+    <th style="width: 20%">Nom des villes ou lieux traversés<br>(si visibles dans la trace)</th>
+    <th style="width: 20%">Valeur approximative du dernier RTT</th>
+  </tr>
+
+  <tr>
+    <td>pc-dg-xxx-zz<br> (autre machine du réseau des postes Linux)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>3sr.univ-grenoble-alpes.fr<br> (machine située sur le campus)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>www.sandiego.edu<br> (machine située en Californie)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>algo.ics.hawaii.edu<br> (machine située à Hawaï)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>ftp.au.debian.org<br> (machine située en Australie)</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Destination de votre choix :<br>&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</tbody></table>
+
+<p class="newpage">
+
+</p><h3>Géo-localisation</h3>
+
+Des bases de données géographiques permettent en plus
+de <a href="https://en.wikipedia.org/wiki/Internet_geolocation">géolocaliser</a>
+les routeurs traversés.
+
+<p>L'application Web suivante permet d'afficher la route suivie sur un globe
+terrestre :
+
+</p><pre style="position: relative;">https://geotraceroute.com <div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<ol>
+  <li>Utiliser cette application pour visualiser les routes suivies vers les
+    destinations lointaines du tableau ci-dessus.  L'application propose
+    plusieurs réseaux source en France.  Choisir celui qui se trouve à Rennes
+    ("grifon").
+
+  </li><li>Les routes suivies sont-elles les mêmes que celles trouvées depuis
+    l'IUT2 dans la partie précédente&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Faire une recherche pour trouver ce qu'est "Grifon" dans ce contexte.
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Expliquer pourquoi les routes trouvées sont différentes.
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

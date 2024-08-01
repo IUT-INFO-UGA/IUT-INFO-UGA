@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr"><script src="R%C3%A9seaux%20R2.04b%20-%20TP06_fichiers/page-script.js" id="bw-fido2-page-script"></script><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP06</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP06_fichiers/style.css">
+</head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP06&nbsp;: Machine virtuelle et analyse de trames</h1>
+
+<hr>
+
+L'objectif de ce TP est d'analyser des trames Ethernet en utilisant une machine
+virtuelle.
+
+<hr>
+
+<h2>Les machines virtuelles</h2>
+
+<h3>Introduction </h3>
+
+Les TPs des prochaines séances nécessitent que vous disposiez de <strong>droits
+d'administrateur</strong> pour&nbsp;:
+
+<ul>
+  <li>Installer des logiciels serveur.
+  </li><li>Capturer et examiner des trames circulant sur le réseau.
+</li></ul>
+
+Comme vous ne disposez pas de ces droits sur les postes Linux, on va installer
+des <strong>machines virtuelles Linux</strong> sur lesquelles vous posséderez
+ces droits d'administrateur.  Chaque machine virtuelle s'exécutera donc comme
+un processus sur une machine physique (votre poste Linux).  Les machines
+virtuelles auront accès au réseau réel de façon transparente à travers le poste
+Linux.
+
+<p>De nombreux hyperviseurs permettent d'exécuter des machines virtuelles sur
+un système réel.  Nous utiliserons Qemu/KVM.
+
+</p><p>Les machines virtuelles que vous allez installer ont besoin d'un disque
+virtuel qui se présente sous la forme d'un fichier de grande taille (plusieurs
+Go).  Il est donc trop gros par rapport au quota disque qui vous est alloué.
+Ce fichier est donc placé sur un autre système de stockage et n'est <strong>pas
+sauvegardé</strong>.  Attention, donc, car toute fausse manipulation sera
+irréversible !
+
+</p><h3>Prise en main de votre machine virtuelle</h3>
+
+On fournit le script <kbd>R2.04-lance-machine-virtuelle</kbd> qui lance la
+machine virtuelle.  Une fois la VM lancée, il est conseillé de ne pas essayer
+de redimensionner sa fenêtre.  Elle prendra toute seule une taille plus
+confortable quand vous aurez lancé un environnement graphique à l'intérieur.
+
+<p>Les comptes créés dans la machine virtuelle sont&nbsp;:
+
+</p><table class="aremplir">
+  <tbody><tr>
+    <th style="width: 40%;"></th>
+    <th>Login</th>
+    <th>Mot de passe</th>
+  </tr>
+  <tr>
+    <td>Compte utilisateur</td>
+    <td><code>etu</code></td>
+    <td><code>etu</code></td>
+  </tr>
+  <tr>
+    <td>Compte super-utilisateur</td>
+    <td><code>root</code></td>
+    <td>—<br>(utiliser <kbd>sudo -i</kbd>)</td>
+  </tr>
+</tbody></table>
+
+Travail à réaliser&nbsp;:
+
+<ol>
+  <li>Lancer votre machine virtuelle (et ne pas redimensionner la fenêtre).
+
+  </li><li>Se logger avec le compte "<code>etu</code>".
+
+  </li><li>Ouvrir un terminal.
+
+  </li><li>Pour obtenir un <em>shell</em> root, y taper la commande suivante&nbsp;:
+    <pre style="position: relative;">sudo -i<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+    puis le mot de passe de "<code>etu</code>".
+
+  </li><li>Pour s'entraîner à le faire systématiquement, éteindre votre machine
+    virtuelle en cliquant sur "<code>etu</code>" en haut à droite, puis sur
+    "<em>Shut Down</em>".
+</li></ol>
+
+<p class="newpage">
+
+</p><h3>Paramètres réseau de votre machine virtuelle</h3>
+
+Cette partie est à réaliser dans votre machine virtuelle.
+
+<ol>
+  <li>Utiliser la commande <kbd>ip addr</kbd> pour afficher les paramètres
+    réseau de votre VM et remplir les 4 premières lignes du tableau suivant.
+
+  </li><li>Utiliser la commande <kbd>ip route</kbd>, qui affiche la table de routage
+    d'une machine, pour remplir la dernière ligne du tableau.
+</li></ol>
+
+<table class="aremplir">
+  <tbody><tr>
+    <td style="width: 50%;">Nom de l'interface réseau</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Adresse MAC</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Adresse IP</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Masque de réseau</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Adresse IP du routeur par défaut</td>
+    <td></td>
+  </tr>
+</tbody></table>
+
+<p class="newpage">
+
+</p><h2>Capture et analyse de trames</h2>
+
+Toutes les opérations suivantes sont à faire dans votre machine virtuelle.
+
+<ol>
+  <li>Dans un <em>shell</em> <strong>root</strong>, lancer le logiciel
+    <kbd>wireshark</kbd> (ne pas tenir compte de l'avertissement de
+    Wireshark).
+
+  </li><li>Dans Wireshark, visualiser la liste des interfaces réseau de la VM.
+
+  </li><li>Trouver l'interface réseau qui permettra de faire une capture sur le
+    réseau Ethernet virtuel de la VM.
+
+  </li><li>Lancer une capture de trames sur l'interface réseau choisie.
+
+  </li><li>Pendant que la capture tourne, faire un "ping" vers le routeur par défaut
+    de la machine virtuelle, puis arrêter la capture.  NB: les "ping" vers des
+    machines externes ne fonctionnent pas car l'émission de paquets ICMP est
+    interdite par l'OS de la station Linux pour le processus non privilégié
+    Qemu dans lequel tourne votre VM.
+
+  </li><li>Parmi des trames capturées, repérer celles qui correspondent au ping
+    (protocole ICMP).  On doit trouver une requête ICMP et une réponse ICMP.
+
+  </li><li>Noter les noms des protocoles utilisés, tels que <code>wireshark</code>
+    les a identifiés par le décodage des données encapsulées dans les trames
+    (cf. cours)&nbsp;:
+
+  <table class="aremplir">
+    <tbody><tr>
+      <td style="width: 30%;">Niveau interface (liaison/physique)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Niveau réseau</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Niveau réseau</td>
+      <td></td>
+    </tr>
+  </tbody></table>
+
+  </li><li>Pour les 2 trames repérées, relever les informations suivantes dans les
+  en-têtes Ethernet et IP&nbsp;:
+  <table class="aremplir">
+    <tbody><tr>
+      <th style="width: 32%"></th>
+      <th>Trame 1</th>
+      <th>Trame 2</th>
+    </tr>
+    <tr>
+      <td>Longueur de la trame</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Adresse Ethernet source</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Adresse Ethernet destination</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Protocole encapsulé dans la trame ("Type")</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Version de IP</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Longueur de l'en-tête IP</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Taille totale du paquet IP</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Protocole encapsulé dans le paquet IP ("Protocol")</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Adresse IP source</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Adresse IP destination</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Longueur du paquet ICMP</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Interprétation du paquet donnée par wireshark<br>(colonne "Info")</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+  </tbody></table>
+
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

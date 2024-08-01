@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP04</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP04_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.04b%20-%20TP04_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP04&nbsp;: Paramètres IP et protocole ARP</h1>
+
+<hr>
+
+Ce TP a pour objectif d'étudier les paramètres IP des machines et le protocole
+ARP.
+
+<hr>
+
+<h2>Paramètres IP d'une machine</h2>
+
+Contrairement à l'adresse Ethernet qui est fixée par le fabricant de la
+carte réseau, l'adresse IP d'une machine est attribuée par l'administrateur du
+réseau.  Cela est fait soit <em>manuellement</em> (adresse inscrite dans un
+fichier de configuration), soit <em>automatiquement</em> (grâce en général au
+protocole DHCP que nous verrons plus tard).
+
+<p>La commande <kbd>ip addr</kbd> affiche les paramètres réseau d'une
+machine sous Linux.
+
+</p><p>Utiliser cette commande pour remplir le tableau ci-dessous en suivant ces
+indications&nbsp;:
+
+</p><ul>
+  <li>pour la ligne <code>erebus4</code> utiliser les données du TP01
+
+  </li><li>pour la ligne <code>transit</code>, faire une connexion SSH vers cette machine
+
+  </li><li>pour la colonne "Adresse du réseau", les valeurs ne sont pas affichées
+    par <code>ip addr</code>, c'est à vous de les calculer en vous aidant de ce que
+    vous avez vu en cours.
+</li></ul>
+
+<table class="aremplir">
+  <tbody><tr>
+    <th style="width: 15%"></th>
+    <th style="width: 15%">Adresse IPv4 de l'interface</th>
+    <th style="width: 15%">Masque de réseau</th>
+    <th style="width: 15%">Adresse du réseau en notation CIDR</th>
+    <th style="width: 15%">Adresse privée ou publique&nbsp;?</th>
+    <th style="width: 15%">Adresse de diffusion du réseau (<em>broadcast</em>)</th>
+  </tr>
+
+  <tr>
+    <td style="font-size: small">interface Ethernet de votre poste Linux</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td style="font-size: small">interface Ethernet de erebus4</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td style="font-size: small">interface Ethernet de transit</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td style="font-size: small">interface <code>lo</code><br>(<em>loopback</em>) des postes Linux</td>
+    <td></td>
+    <td></td>
+    <td class="noirci"></td>
+    <td class="noirci"></td>
+    <td class="noirci"></td>
+  </tr>
+
+</tbody></table>
+
+<p class="newpage">
+
+</p><h2>Lien entre Ethernet et IP&nbsp;: le protocole ARP</h2>
+
+ARP <em>(Address Resolution Protocol)</em> permet à une machine de
+déterminer l'adresse physique d'une autre machine connaisant son adresse IP et
+ainsi mettre à jour son <strong>cache ARP</strong>, c'est-à-dire sa table de
+correspondance adresse physique/adresse IP.
+
+<p>Ainsi, si une machine émettrice, connaissant l'adresse IP du destinataire,
+cherche à obtenir son adresse physique parce qu'elle n'en dispose pas dans son
+cache ARP, elle émet un <em>broadcast</em> Ethernet sur le réseau local qui va
+être reçu par toutes les machines <strong>du même réseau Ethernet</strong>.
+
+</p><h3>Cache ARP</h3>
+
+Les questions ci-dessous permettent d'observer et de comprendre le contenu du
+cache ARP de votre poste Linux.  Nous verrons dans la section suivante en
+détail le fonctionnement de ce protocole grâce à l'analyse d'une capture de
+trames.
+
+<p>La commande <kbd>ip neigh</kbd> permet d'afficher le cache ARP d'un poste
+Linux.
+
+</p><ol>
+  <li>Quelles sont les machines répertoriées dans le cache&nbsp;?
+    <div class="aremplir" style="height: 4em"></div>
+
+  </li><li>Choisir le nom d'une autre station que la vôtre dans la même salle.
+    L'adresse Ethernet de cette machine est-elle dans le cache ARP de votre
+    poste Linux&nbsp;?  Réaliser un échange avec cette machine en utilisant la
+    commande <kbd>ping NOM_DE_STATION</kbd>, puis consulter de nouveau le cache
+    ARP.  Expliquer ce qui s'est passé.
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>L'adresse Ethernet de la machine <code>transit</code> est-elle dans le
+    cache ARP de votre poste Linux&nbsp;?  Réaliser un échange avec cette machine en
+    faisant <kbd>ping transit</kbd>, puis consulter de nouveau le cache ARP.
+    L'adresse Ethernet de <code>transit</code> est-elle dans le cache ARP&nbsp;?
+    Expliquer.
+    <div class="aremplir" style="height: 3em"></div>
+</li></ol>
+
+<h3>Échange ARP</h3>
+
+On vous founit dans ce <a href="https://www-info.iut2.univ-grenoble-alpes.fr/intranet/enseignements/reseaux1A/tp/capture-ARP.pcapng">fichier de capture de
+trames</a> la capture d'un échange de trames ARP entre 2 stations Linux.  Cette
+capture a été obtenue lors d'un ping entre 2 machines qui n'ont jamais échangé
+de paquets IP entre elles.  Grâce au logiciel <kbd>wireshark</kbd>, on vous
+demande d'analyser ces trames, et de remplir le tableau suivant&nbsp;:
+
+<table class="aremplir">
+  <tbody><tr>
+    <th style="width: 40%"></th>
+    <th>Trame 1</th>
+    <th>Trame 2</th>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet source</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse Ethernet destination</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP de la machine qui fait la requête (donnée dans les paramètres de la requête ARP)</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Adresse IP cible (donnée dans les paramètres de la requête ARP)</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Interprétation de cette trame donnée par <code>wireshark</code> (champ <code>info</code> de la capture)</td>
+    <td></td>
+    <td></td>
+  </tr>
+ <tr>
+    <td>Interprétation que vous pouvez faire de cette trame</td>
+    <td></td>
+    <td></td>
+  </tr>
+</tbody></table>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées
+    dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de
+    ces TPs.
+</li></ol>
+
+
+
+</body></html>

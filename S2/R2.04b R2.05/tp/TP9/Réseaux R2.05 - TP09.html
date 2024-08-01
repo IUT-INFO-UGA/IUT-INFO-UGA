@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr"><script src="R%C3%A9seaux%20R2.05%20-%20TP09_fichiers/page-script.js" id="bw-fido2-page-script"></script><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP09</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link href="R%C3%A9seaux%20R2.05%20-%20TP09_fichiers/style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP09&nbsp;: Analyse des trames d'un échange TCP</h1>
+
+<hr>
+
+L'objectif du TP est de comprendre les principes TCP à l'aide de captures de
+trames faites depuis votre machine virtuelle.
+
+<hr>
+
+<h2>Introduction</h2>
+
+Comme cela a été étudié en cours, l'architecture TCP/IP regroupe un ensemble de
+protocoles organisé en 4 niveaux.  Quelques protocoles "classiques" sont
+présentés dans la figure de ce transparent, mais il en existe bien d'autres.
+
+<p>Nous avons en particulier observé, lors des TP précédents, le fonctionnement
+des protocoles ARP et ICMP (niveau réseau) ainsi que ceux des protocoles DHCP
+et HTTP (niveau application). Dans ce TP, nous allons analyser les échanges de
+niveau transport (TCP) qui sont nécessaires pour transmettre les requêtes et
+réponses du protocole HTTP entre un client Web (navigateur firefox) et un
+serveur web.
+
+</p><h2>Capture des trames</h2>
+
+<ol>
+  <li>Lancer votre <strong>machine virtuelle</strong> et sur cette machine
+  lancer firefox (cliquer sur l'icône).
+
+  </li><li>Lancer <kbd>wireshark</kbd> depuis un <strong><em>shell</em> root</strong>.
+
+  </li><li>Lancer une capture sur l'interface Ethernet (sélectionner l'interface <code>eth0</code>).
+
+  </li><li>Vider le cache du navigateur et charger cette page Web&nbsp;:
+  <code>http://transit.iut2.univ-grenoble-alpes.fr/index-old.html</code>
+
+  </li><li>Fermer le navigateur.
+
+  </li><li>Arrêter la capture.
+
+  </li><li>Observer l'affichage dans wireshark et en particulier les colonnes
+  d'adresse IP&nbsp;: repérer les trames émises et reçues par le serveur
+  <code>transit</code> (retrouver si besoin dans le TP07 son adresse IP) et donc
+  celles qui ont transporté la connexion TCP et la requête HTTP.
+
+  </li><li>Isoler dans wireshark les trames de cette connexion TCP : sélectionner
+  une trame de ce flux TCP et cliquer sur <em>Follow TCP stream</em> dans le
+  menu <em>Analyze</em>).
+</li></ol>
+
+<h2>Analyse de la capture</h2>
+
+<ol>
+  <li>Remplir le tableau suivant pour la 2ème trame, c'est-à-dire celle qui
+  contient le 2ème paquet IP qui lui-même contient la réponse TCP envoyée par
+  le serveur lors de l'ouverture de cette connexion TCP (segment TCP avec les
+  flags [SYN, ACK])&nbsp;:
+
+  <table class="aremplir">
+
+    <tbody><tr>
+      <th></th>
+      <th>Adresse Ethernet</th>
+      <th>Adresse IP</th>
+    </tr>
+
+    <tr>
+      <td>Source</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td>Destination</td>
+      <td></td>
+      <td></td>
+    </tr>
+
+  </tbody></table>
+
+  </li><li>À quelle machine appartient l'adresse IP source&nbsp;? (se reporter au schéma
+    fait dans un TP précédent avec les adresses IP et MAC de toutes les
+    machines)
+    <div class="aremplir" style="height: 1em"></div>
+
+  </li><li>À quelle machine appartient l'adresse Ethernet source&nbsp;?
+    <div class="aremplir" style="height: 1em"></div>
+
+  </li><li>Expliquer pourquoi ce n'est pas la même machine.
+    <div class="aremplir" style="height: 2em"></div>
+
+    <p class="newpage">
+
+  </p></li><li>Dans la capture, repérer les 10 ou 11 trames "utiles" de l'échange HTTP.
+    Wireshark peut avoir capturé des trames superflues (trames doubles ou
+    dupliquées).  Ignorer ces trames.  Garder les trames suivantes:
+    <ul>
+      <li>les 7 premières trames de la connexion : ouverture et 2 premiers
+	échanges, acquittements compris.  Ignorer les trames en rapport avec
+	favicon.ico.
+      </li><li>les 3 ou 4 trames à partir du premier <em>flag</em> FIN
+    </li></ul>
+
+  </li><li>Remplir <strong>ligne par ligne </strong> le tableau suivant grâce au
+    décodage des champs TCP fait par <code>wireshark</code>.
+
+    <p>Attention, <code>wireshark</code> n'utilise pas les mêmes notations que
+      le cours pour désigner les champs de l'en-tête TCP.  Quelques explications
+      sont données ci-dessous&nbsp;:</p>
+
+  <ul>
+    <li>Etape de la connexion&nbsp;: Ouverture (O), Échange (E) ou Fermeture (F).
+    </li><li>N° de trame ou de paquet&nbsp;: ce sont les numéros de wireshark.  Vérifier
+      que les numéros sont dans l'ordre croissant.
+    </li><li>Sens de parcours du paquet&nbsp;: Client → Serveur (C→S) ou Serveur → Client (C←S)
+    </li><li>Port source et port destination&nbsp;: ne remplir que les 3 premières lignes de ces colonnes.
+    </li><li>Flags TCP&nbsp;: ils sont contenus dans le champ contrôle de TCP, noter ceux qui sont activiés (à 1)
+    </li><li>Taille des données contenues dans le segment TCP&nbsp;: notée "Len"
+    </li><li>Numéro de séquence&nbsp;: noté "Seq" (correspond à Sn dans le cours)
+    </li><li>Numéro d'acquittement&nbsp;: noté "Ack" (correspond à An dans le cours)
+  </li></ul>
+
+    <p>Écrire au crayon à papier pour corriger si besoin.</p>
+
+  <table class="aremplir">
+
+    <tbody><tr style="font-size: 9pt">
+      <th style="width: 8%">N° de trame</th>
+      <th style="width: 12%">Sens de parcours<br>(C→S ou C←S)</th>
+      <th style="width: 8%">Port<br>src.</th>
+      <th style="width: 8%">Port<br>dest.</th>
+      <th style="width: 12%">Flags TCP</th>
+      <th style="width: 10%">Étape (O/E/F)</th>
+      <th style="width: 12%">Taille des données contenues dans le segment TCP</th>
+      <th style="width: 15%">N° de séquence</th>
+      <th style="width: 15%">N° d'acquittement</th>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+    <tr>
+      <td><br></td>
+      <td></td>
+      <td class="noirci"></td>
+      <td class="noirci"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+
+  </tbody></table>
+<br>
+<br>
+
+  </li><li>Quel est le numéro de la trame qui contient la requête GET&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quel est le numéro de la trame qui contient le segment TCP qui acquitte
+    le segment TCP contenant la requête GET&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Écrire la relation qui relie un numéro de séquence, une longueur de
+    segment TCP et un numéro d'acquittement (dans les segments TCP examinés
+    dans les 2 questions précédentes) qui montre que la requête HTTP du client
+    a bien été acquittée par le serveur.
+    <div class="aremplir" style="height:  2em"></div>
+
+  </li><li>Même question pour la réponse HTTP.
+    <div class="aremplir" style="height:  2em"></div>
+
+    <p class="newpage">
+
+  </p></li><li>Représenter sur le schéma ci-dessous les échanges <strong>au niveau
+      TCP</strong> (diagramme d'échanges tels que ceux vus en cours et TD, en
+    notant pour chaque segment TCP : les flags, les indices Sn et An ainsi
+    que le volume de données).
+
+  </li><li>Représenter à côté le diagramme d'échange des messages entre client et
+    serveur <strong>au niveau application (HTTP)</strong>.  Placer les
+    requêtes/réponses HTTP en face des segments TCP qui les contiennent.
+</li></ol>
+
+<p class="centre"> <img src="R%C3%A9seaux%20R2.05%20-%20TP09_fichiers/TCP+appli.svg" class="ajuste" alt="Diagramme d'échanges"></p>
+
+
+
+</body></html>

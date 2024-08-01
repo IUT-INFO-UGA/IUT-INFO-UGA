@@ -1,0 +1,139 @@
+body
+{
+  background-color: white;
+  color: black;
+  font-family: "dejavu sans", arial, helvetica, sans-serif;
+  }
+
+h1 { text-align: center }
+h1, h2, h3, h4
+{
+  font-family: "dejavu sans", arial, helvetica, sans-serif;
+}
+
+/* Numérotation automatique des sections */
+
+body { counter-reset: section; }
+
+h2:before
+{
+  content: counter(section) ". ";
+  counter-increment: section;
+  }
+
+h2
+{
+  counter-reset: sous-section;
+  }
+
+
+h3:before
+{
+  content: counter(section) "." counter(sous-section) ". ";
+  counter-increment: sous-section;
+  }
+
+pre
+{
+  margin-left: 2em;
+  margin-right: 2em;
+  padding-top: 1ex;
+  padding-bottom: 1ex;
+  padding-left: 1em;
+  padding-right: 1em;
+  border: solid thin black;
+  background-color: lightgrey;
+  }
+
+kbd
+{
+  background-color: yellow;
+  white-space: nowrap ;
+  }
+
+.noirci
+{
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzEnLz4KPC9zdmc+Cg==");
+    background-repeat: repeat;
+}
+
+div.aremplir
+{ 
+  border: solid thin;
+  margin-bottom: 2ex;
+ }
+
+table.aremplir
+{
+  width: 100%;
+  margin-top: 1ex;
+  margin-bottom: 2ex;
+  border: solid;
+  border-collapse: collapse;
+  }
+table.aremplir th, table.aremplir td
+{
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 1ex;
+  padding-bottom: 1ex;
+  border: solid;
+  }
+
+div.exemple
+{
+  width: 60%;
+  margin-top: 1ex;
+  margin-bottom: 1ex;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 1ex;
+  border: solid thin black;
+  background-color: wheat;
+  }
+
+.centre
+{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
+.hide { display: none }
+
+p.travail
+{ 
+  text-decoration: underline;
+  font-weight: bolder;
+  font-family: cursive;
+  }
+
+.valid
+{ 
+  font-weight: bold;
+  }
+
+img.ajuste { width: 90% }
+
+/* Impression  */
+@media print {
+
+  body {
+         /* font-size: large; */
+         orphans: 2;
+         widows: 2;
+         }
+
+  h1, h2, h3, h4
+  {
+    page-break-after: avoid;
+    }
+
+  .newpage {page-break-before: always}
+
+  .annonce {page-break-after: avoid;}
+  
+  pre, img, table, div.exemple, div.aremplir {page-break-inside: avoid}
+}

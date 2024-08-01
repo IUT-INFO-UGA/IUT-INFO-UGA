@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP01</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP01_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.04b%20-%20TP01_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP01&nbsp;: Observation de réseaux Ethernet</h1>
+
+<hr>
+
+<h2>Préambule</h2>
+
+<ul>
+  <li>Les TP complètent les cours et les TD de cette ressource. Ils contiennent
+    des notions qui ne sont pas dans les autres documents du module.  Aussi il
+    est nécessaire de rédiger soigneusement les compte-rendus et de les réviser
+    avant les contrôles.
+
+  </li><li>Un sujet est fourni par séance.  Il est à finir avant la séance suivante,
+    soit en temps de AA soit en libre service.
+
+  </li><li>Les réponses sont à écrire directement sur le sujet papier.
+
+  </li><li>Les sujets sont en ligne sur le serveur intranet du département info,
+    dont le lien est accessible depuis votre plate-forme pédagogique.  Il est
+    recommandé de toujours visualiser le sujet de TP durant la séance (les
+    couleurs, liens, documents complémentaires, ... sont alors accessibles).
+
+  </li><li>Au fur et à mesure des TP, noter dans le tableau récapitulatif prévu à
+    cet effet chaque logiciel "réseau" utilisé, son rôle et ses paramètres
+    éventuels.  Ces commandes vous seront utiles dans les autres TP de cette
+    ressource ainsi que dans d'autres ressources qui viendront plus tard.
+</li></ul>
+
+<hr>
+
+Les objectifs de ce TP sont&nbsp;:
+
+<ul>
+  <li>Découvrir les réseaux Ethernet des salles de TP Linux.
+  </li><li>Observer les commutateurs Ethernet qui desservent ces salles.
+  </li><li>Observer l'interface Ethernet de votre station Linux.
+</li></ul>
+
+<hr>
+
+<h2>Réseau Ethernet des salles de TP</h2>
+
+<p class="centre"> <img src="R%C3%A9seaux%20R2.04b%20-%20TP01_fichiers/reseauDG.svg" class="ajuste" alt="Réseaux IUT2-DG">
+</p><p class="centre">Figure 1&nbsp;: Schéma des réseaux Ethernet des salles de TP
+
+</p><p class="newpage">
+
+</p><h2>Commutateurs Ethernet</h2>
+
+<p>D'après le schéma, on voit que les postes Linux sont raccordés à des
+<strong>commutateurs</strong> de modèle Aruba 6100.  Il est possible de
+consulter et modifier à distance la configuration de ces commutateurs.  Pour
+cela, chaque commutateur est muni d'une adresse IP, d'un serveur SSH et d'un
+serveur Web.  On peut utiliser&nbsp;:
+
+</p><ul>
+  <li>soit un client SSH pour effectuer ces opérations en mode texte (CLI ou TUI)
+  </li><li>soit un navigateur Web pour effectuer ces opérations en mode graphique (GUI)
+</li></ul>
+
+Nous allons utiliser l'interface Web de ces commutateurs.  Les URL pour y
+accéder sont&nbsp;:
+
+<ul>
+  <li><code>https://sw-dg-027-1.iut2.upmf-grenoble.fr/</code>
+  </li><li><code>https://sw-dg-035-1.iut2.upmf-grenoble.fr/</code>
+  </li><li><code>https://sw-dg-037-1.iut2.upmf-grenoble.fr/</code>
+</li></ul>
+
+Les informations de login à entrer sont les suivantes&nbsp;:
+
+<ul>
+  <li>Username: <code>operator</code>
+  </li><li>Password: <code>cfmr</code>
+</li></ul>
+
+Le serveur Web des commutateurs n'est pas fait pour accueillir simultanément de
+nombreux étudiants.  Essayez de vous connecter à l'un des 3 et si cela ne
+fonctionne pas, passez à la suite et revenez à cette à cette partie un peu plus
+tard.
+
+<p>Naviguer dans les menus du commutateur et noter les informations
+suivantes&nbsp;:
+
+</p><table class="aremplir">
+
+  <tbody><tr>
+    <td style="width: 50%">Nom du commutateur</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Durée depuis la dernière mise en marche</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Nombre total de ports</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Nombre de ports utilisés</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Nombre de ports fonctionnant à 1Gb/s</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Nombre de ports fonctionnant à 10Gb/s</td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Nombre de trames perdues (<em>Drops</em>)</td>
+    <td></td>
+  </tr>
+
+</tbody></table>
+
+<h2>Carte Ethernet d'une station</h2>
+
+<h3>Aspect matériel</h3>
+
+L'adresse Ethernet d'un poste Linux (aussi appelée adresse physique ou adresse
+MAC) est fixée dans la carte réseau (CIR, <em>NIC</em> en anglais) avant même
+qu'un système d'exploitation soit chargé.  Pour illustrer ce fait, effectuer la
+manipulation suivante&nbsp;:
+
+<ol>
+  <li>Redémarrer votre station Linux.
+
+  </li><li>Attendre le message "Initializing and establishing link..." (une dizaine
+    de secondes après l'allumage).
+
+  </li><li>Tout de suite après, le BIOS effectue une requête DHCP et l'adresse
+    Ethernet/MAC est affichée sur l'écran.  Débrancher immédiatement le câble
+    Ethernet de la station Linux (le délai est assez court !) pour avoir le temps
+    de noter l'adresse ici&nbsp;:
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h3>Aspect logiciel</h3>
+
+<h4>Pilote de la carte réseau</h4>
+
+<p>Sur vos postes Linux, le pilote (<em>driver</em>) de la carte Ethernet a
+pour nom <code>e1000e</code>.  Les commandes <kbd>dmesg | grep
+NOM_DU_PILOTE</kbd> et <kbd>dmesg | grep eth0</kbd> affichent tous les messages
+récemment transmis par le pilote au système Linux.  Parmi ces messages se
+trouvent l'adresse Ethernet (MAC), le débit et le
+mode <a href="https://fr.wikipedia.org/wiki/Duplex_%28canal_de_communication%29">
+duplex</a> (half-duplex ou full-duplex).</p>
+
+<ol>
+  <li>Noter l'adresse Ethernet donnée par le pilote de la carte réseau.
+    Comparer avec l'adresse trouvée précédemment.
+
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Débrancher puis rebrancher immédiatement le câble réseau.  Après avoir
+    rebranché, noter le message d'erreur affiché.
+
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Avec quel débit Ethernet fonctionne la carte réseau du poste Linux que
+    vous utilisez&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Si ce débit n'est pas 1Gb/s, redémarrer la station Linux et revérifier.
+
+  </li><li>Dans quel mode duplex fonctionne la carte réseau du poste que vous utilisez&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Ces informations, et quelques autres, peuvent aussi être obtenues grâce à
+    la commande <kbd>/sbin/ethtool eth0</kbd>.  Vérifier qu'elles sont cohérentes.
+
+  </li><li>Avec cette commande, déterminer quel support de transmission Ethernet est
+    utilisé&nbsp;(champ <code>port</code>) :
+    <div class="aremplir" style="height: 2em"></div>
+
+</li></ol>
+
+<h4>Paramètres réseau vus depuis le système d'exploitation</h4>
+
+La commande <kbd>ip addr</kbd> permet d'afficher les <strong>interfaces
+réseau</strong> d'une machine et leurs paramètres.  Cette commande sera
+réutilisée dans d'autres TP.  Notez-la sur la première page du livret de TP.
+
+<p>Voici ce que l'on obtient pour le serveur <code>erebus4</code>, qui dispose
+de 4 ports Ethernet&nbsp;:
+
+</p><pre class="petit" style="position: relative;">root@erebus4:~# ip addr
+1: lo: LOOPBACK,UP,LOWER_UP mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eno1: BROADCAST,MULTICAST mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether d0:94:66:5b:06:d9 brd ff:ff:ff:ff:ff:ff
+3: eno2: BROADCAST,MULTICAST mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether d0:94:66:5b:06:da brd ff:ff:ff:ff:ff:ff
+4: enp1s0f0: BROADCAST,MULTICAST mtu 1500 qdisc noop state DOWN group default qlen 1000
+    link/ether b4:96:91:2a:18:04 brd ff:ff:ff:ff:ff:ff
+5: enp1s0f1: BROADCAST,MULTICAST,UP,LOWER_UP mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether b4:96:91:2a:18:06 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.141.8/24 brd 192.168.141.255 scope global enp1s0f1
+       valid_lft forever preferred_lft forever
+    inet6 fd00::8/64 scope global
+       valid_lft forever preferred_lft forever
+    inet6 fe80::b696:91ff:fe2a:1806/64 scope link
+       valid_lft forever preferred_lft forever
+<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+La commande affiche un paragraphe pour chacune des 5 interfaces réseau&nbsp;:
+
+<ul>
+  <li>l'interface <code>lo</code> (<em>loopback</em>) qui est une interface virtuelle,
+  toujours présente, même sur une machine sans carte réseau.
+
+  </li><li>l'interface <code>enp1s0f1</code> qui est une interface Ethernet active
+  (<code>state UP</code>)
+
+  </li><li>les interfaces <code>eno1</code>, ..., <code>enp1s0f0</code> dont la
+  machine est équipée, mais qui ne sont pas utilisées (<code>state DOWN</code>)
+</li></ul>
+
+La commande affiche pour chaque interface&nbsp;:
+
+<ul>
+  <li> l'adresse MAC (ici adresse Ethernet) (ligne <code>link/ether</code>)
+  </li><li> ses paramètres IPv4 (ligne <code>inet</code>)
+  </li><li> ses paramètres IPv6 (lignes <code>inet6</code>)
+</li></ul>
+
+<ol>
+  <li>Dans l'affichage de <kbd>ip addr</kbd> reproduit ci-dessus, entourer
+    l'adresse MAC de l'interface utilisée, son adresse IPv4, son adresse IPv6.
+
+  </li><li>Exécuter la commande <kbd>ip addr</kbd> sur votre station Linux.
+
+    <p class="newpage">
+
+  </p></li><li>Remplir le tableau suivant.  Le fabricant des cartes peut être trouvé dans
+    le fichier texte <code>/usr/share/wireshark/manuf</code>
+
+<table class="aremplir">
+  <tbody><tr>
+    <th style="width: 25%"></th>
+    <th style="width: 25%">Nom de l'interface réseau</th>
+    <th style="width: 27%">Adresse Ethernet/MAC</th>
+    <th style="width: 23%">Fabricant de la carte réseau</th>
+  </tr>
+
+  <tr>
+    <td>Carte de votre station</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>Carte du serveur <code>erebus4</code></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</tbody></table>
+
+  </li><li>L'adresse MAC donnée par le système d'exploitation est-elle la même que
+    celle donnée par la machine lors de son démarrage (section 3.1)&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Que signifie l'acronyme MTU (faire une recherche sur Internet)&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Quelle est sa valeur sur toutes les cartes Ethernet&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Comment interpréter sa valeur&nbsp;? (consulter le format d'une trame Ethernet vu en cours)
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

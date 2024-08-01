@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.04b - TP05</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.04b%20-%20TP05_fichiers/style.css">
+<script src="R%C3%A9seaux%20R2.04b%20-%20TP05_fichiers/page-script.js" id="bw-fido2-page-script"></script></head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.04b
+
+<h1>TP05&nbsp;: Réseaux IP et sous-réseaux</h1>
+
+<hr>
+
+<p>Ce TP s'intéresse aux réseaux et sous-réseaux IP de l'IUT2.</p>
+
+<hr>
+
+<h2>Réseaux IP</h2>
+
+Consulter sur l'intranet le <a href="https://www-info.iut2.univ-grenoble-alpes.fr/intranet/informations/cellule-info/materiel.php">schéma simplifié des réseaux IP de
+l'IUT2</a>.
+
+<p>Il est possible de connaître la liste de l'ensemble des machines de son
+  domaine grâce au DNS.  Pour cela, on utilise la commande
+  </p><pre style="position: relative;">host -l NOM_DE_DOMAINE_DNS 193.55.51.34<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<ol>
+  <li>Rappeler ici les 2 noms de domaine DNS de l'IUT2 (l'ancien et le nouveau)
+
+    <div class="aremplir" style="height: 4em"></div>
+
+  </li><li>Consulter la liste des machines du domaine de l'IUT2 (cela fonctionne
+    uniquement avec l'ancien domaine).  Combien de machines environ sont
+    répertoriées&nbsp;? (s'aider de la commande <kbd>wc</kbd>)
+
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Trier cette liste grâce au script <kbd>trie-DNS</kbd> (utilisation&nbsp;:
+    <kbd>trie-DNS FICHIER_CONTENANT_LA_LISTE</kbd>).  Ce script, écrit pour ce
+    TP, est stocké dans le répertoire <code>/users/info/pub/bin/</code>.  Vous
+    pouvez en consulter le code si vous le souhaitez.
+
+  </li><li>On considère que tous les réseaux de ce domaine sont en /24 (de classe
+    C).  Combien de réseaux IP l'IUT2 utilise-t-il&nbsp;?  Indication&nbsp;: parcourir
+    manuellement le fichier d'adresses trié pour compter directement le nombre
+    de réseaux en /24, c'est-à-dire dont le préfixe réseau est sur 24 bits.
+
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Parmi ces réseaux, combien
+    sont <a href="https://fr.wikipedia.org/wiki/R%C3%A9seau_priv%C3%A9">privés</a>
+    et combien sont publics&nbsp;?  Indication : utiliser <kbd>grep</kbd> avec le
+    préfixe des adresses privées 192.168.
+
+    <div class="aremplir" style="height: 3em"></div>
+
+</li></ol>
+
+<h2>Sous-réseaux</h2>
+
+<ol>
+  <li>Certains de ces réseaux sont découpés en sous-réseaux, en particulier le réseau 193.55.51.0.
+   En combien de sous-réseaux le réseau 193.55.51.0 est-il découpé&nbsp;? (Pour cela, se reporter à
+   l'<a href="https://www-info.iut2.univ-grenoble-alpes.fr/intranet/enseignements/reseaux1A/tp/tableau-sous-reseaux-IP-IUT2.html">annexe</a>).
+
+  <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>À l'aide de l'annexe, compléter le tableau ci-dessous:
+
+<table class="aremplir">
+  <tbody><tr>
+    <th>Adresse de réseau<br>en notation CIDR</th>
+    <th>Masque de réseau</th>
+    <th>Intervalle d'adresses<br>utilisables par des machines</th>
+  </tr>
+
+  <tr>
+    <td>193.55.51.64/26</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>193.55.51.32/27</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td>193.55.51.16/28</td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</tbody></table>
+
+    <p class="newpage">
+
+  </p></li><li>Dessiner ci-après l'arbre de découpage du réseau
+    193.55.51.0 pour traduire l'emboîtement des intervalles d'adresses.<br><br>
+
+    <div class="aremplir" style="height: 60em"></div>
+
+  </li><li>À quoi peut servir ce découpage en plusieurs sous-réseaux IP&nbsp;?
+
+    <div class="aremplir" style="height: 6em"></div>
+
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées dans ce TP ?
+  <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>

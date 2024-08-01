@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr"><script src="R%C3%A9seaux%20R2.05%20-%20TP08_fichiers/page-script.js" id="bw-fido2-page-script"></script><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Réseaux R2.05 - TP08</title>
+<meta charset="utf-8">
+<meta name="author" content="IUT2 Grenoble, Département informatique">
+<link rel="stylesheet" type="text/css" href="R%C3%A9seaux%20R2.05%20-%20TP08_fichiers/style.css">
+</head>
+
+<body>
+
+Université Grenoble-Alpes - IUT2 - Département informatique - R2.05
+
+<h1>TP08&nbsp;: Configuration IPv4 manuelle, IPv6</h1>
+
+<hr>
+
+Ce TP a pour objectif d'utiliser les commandes de base qui permettent de
+configurer les paramètres IP d'un système Linux. <br> Pour réaliser ces
+configurations, utiliser un <strong><em>shell</em> root</strong> de votre
+machine virtuelle comme indiqué dans le <strong>TP06</strong>.  Consulter
+également le schéma du <strong>TP07</strong> pour comprendre les manipulations
+de ce TP et identifier les adresses utiles.
+
+<hr>
+
+<h2>Préparatifs : désactivation du client DHCP</h2>
+
+Habituellement, votre machine virtuelle utilise un client DHCP pour obtenir ses
+paramètres IPv4.  Comme nous voulons réaliser ces opérations à la main, nous
+allons temporairement désactiver le client DHCP dans la machine virtuelle.
+
+<ol>
+  <li>D'après l'adresse IPv4 actuelle de votre machine virtuelle et son masque,
+    écrire l'intervalle d'adresses de son réseau IP (utiliser <kbd>ip
+      addr</kbd>)&nbsp;:
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Noter l'adresse IP du routeur par défaut de votre machine virtuelle (cf.
+    TP06 et TP07)&nbsp;:
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Désactiver l'interface Ethernet de votre machine virtuelle&nbsp;:
+    <pre style="position: relative;">ifdown eth0<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Vérifier que l'interface <code>eth0</code> est dans l'état DOWN et qu'il
+    n'y a plus d'adresse IPv4 affectée à cette interface (utiliser <kbd>ip
+      addr</kbd>).
+
+  </li><li>Utiliser <code>ping</code> pour vérifier que le routeur par défaut de votre machine
+    virtuelle n'est plus joignable.
+</li></ol>
+
+<h2>Adresse IP</h2>
+
+Le logiciel <kbd>ip</kbd>, déjà utilisé précédemment pour consulter certaines
+informations, permet aussi de configurer les paramètres IP d'une machine.
+
+<ol>
+  <li>Choisir une adresse IP quelconque dans l'intervalle d'adresses du réseau
+    IP de votre machine virtuelle (différente de l'adresse IP initiale et
+    différente de celle du routeur par défaut)&nbsp;:
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Configurer l'interface <code>eth0</code> pour utiliser cette adresse IP&nbsp;:
+    <pre style="position: relative;">ip addr add ADRESSE_IP/24 dev eth0<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Activer l'interface <code>eth0</code>&nbsp;:
+    <pre style="position: relative;">ip link set eth0 up<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Avec <kbd>ip addr</kbd>, vérifier que la nouvelle adresse IP est bien en
+    place et que l'interface est bien active (UP).
+
+  </li><li>Utiliser <code>ping</code> pour vérifier que le routeur par défaut de
+    votre machine virtuelle est bien joignable.
+</li></ol>
+
+<p class="newpage">
+
+</p><h2>Routage IP</h2>
+
+<ol>
+  <li>Utiliser <code>ssh</code> pour tester si d'autres réseaux sont
+    joignables, par exemple&nbsp;: <kbd>ssh 193.55.51.227</kbd>.
+
+  </li><li>Quel message d'erreur est affiché&nbsp;?
+    <div class="aremplir" style="height: 2.5em"></div>
+
+  </li><li>Que contient la table de routage&nbsp;?
+    <div class="aremplir" style="height: 2.5em"></div>
+
+  </li><li>Ajouter une route par défaut&nbsp;:
+    <pre style="position: relative;">ip route add default via ADRESSE_IP_DU_ROUTEUR<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Que contient alors la table de routage&nbsp;?
+    <div class="aremplir" style="height: 2.5em"></div>
+
+  </li><li>Tester de nouveau une connexion ssh pour vérifier que les autres réseaux
+    sont accessibles, mais ne pas essayer de se loger sur la machine distante
+    et faire Ctrl-c quand un mot de passe est demandé..
+</li></ol>
+
+<h2>DNS&nbsp;: Domain Name System (système de noms de domaine)</h2>
+
+Analyser le principe du service DNS, par exemple à partir de la page
+<a href="https://fr.wikipedia.org/wiki/Domain_Name_System"> Wikipédia</a>.
+
+<p>La configuration DNS d'une machine se trouve dans le fichier&nbsp;:
+</p><pre style="position: relative;">/etc/resolv.conf<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+<ol>
+  <li>Quelle est l'adresse IP du serveur DNS actuel de votre machine virtuelle&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Interroger le DNS&nbsp;:
+    <pre style="position: relative;">nslookup www-info.iut2.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Vérifier que c'est bien le serveur DNS trouvé ci-dessus qui répond.
+
+  </li><li>Interroger le DNS avec le logiciel <code>host</code> que vous avez déjà
+    utilisé&nbsp;:
+    <pre style="position: relative;">host www-info.iut2.univ-grenoble-alpes.fr<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Comparer les informations obtenues avec les 2 logiciels
+    <code>nslookup</code> et <code>host</code>&nbsp;:
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Quelle est l'adresse IP du serveur DNS de votre poste Linux&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Modifier la configuration DNS de votre machine virtuelle (utiliser
+    l'éditeur de texte <kbd>mousepad</kbd> depuis un <strong><em>shell</em>
+      root</strong>) pour utiliser le même serveur DNS que les stations Linux.
+
+  </li><li>Refaire la même requête DNS que précédemment.  Quelle est l'adresse IP du
+    serveur DNS qui répond&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>S'inspirer de la configuration DNS d'une station Linux pour faire en
+    sorte que votre machine virtuelle puisse utiliser des noms de machines
+    abrégés pour le domaine <code>iut2.univ-grenoble-alpes.fr</code>. Ne pas
+    recopier telle quelle la configuration de votre staion Linux car elle
+    utilise encore le nom de domaine <code>iut2.upmf-grenoble.fr</code>.
+
+  </li><li>Tester en exécutant la requête DNS avec nom abrégé&nbsp;:
+    <pre style="position: relative;">nslookup www-info<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+
+  </li><li>Quelle réponse obtient-on&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<p class="newpage">
+
+</p><h2>IPv6</h2>
+
+<h3>ICMPv6 sur stations physiques</h3>
+
+Chaque station Linux dispose de 2 adresses IPv6&nbsp;:
+
+<ul>
+  <li>une adresse commençant par <code>fe80</code>, qui est générée
+    automatiquement par Linux à partir de l'adresse MAC de la station, et qui
+    ne peut servir qu'à joindre des machines du même réseau local (<code>scope
+    local</code>)
+
+  </li><li>une adresse commençant par <code>fd00</code>, qui pourrait permettre de
+    joindre des machines sur d'autres réseaux (<code>scope global</code>), si
+    les routeurs de l'IUT2 étaient configurés pour cela.  Comme ce n'est pas le
+    cas, dans ce TP, on se contentera du réseau des stations Linux.
+</li></ul>
+
+<ol>
+  <li>Avec la commande <kbd>ip addr</kbd>, visualiser et noter les 2 adresses
+    IPv6 de votre poste Linux&nbsp;:
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Pinger une machine voisine grâce à son adresse <code>fe80:...</code>
+
+  </li><li>Pinger une machine voisine grâce à son adresse <code>fd00:...</code>
+
+  </li><li>Visualiser le cache ARP de votre station.  Quelles adresses IPv6
+    y sont apparues&nbsp;?
+    <div class="aremplir" style="height: 3em"></div>
+
+  </li><li>Quel protocole a été utilisé pour les découvrir ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h3>SSH sur IPv6</h3>
+
+<ol>
+  <li>Utiliser ssh pour se connecter à une station Linux voisine grâce à son
+    adresse <code>fd00:...</code>
+
+  </li><li>Utiliser le logiciel <kbd>who</kbd> pour visualiser votre connexion et
+    son origine.
+
+  </li><li>Quelle adresse IP est affichée par <kbd>who</kbd> ?  Est-ce une adresse
+    IPv4 ou IPv6 ?
+    <div class="aremplir" style="height: 2em"></div>
+</li></ol>
+
+<h3>Capture de ICMPv6 sur machines virtuelles</h3>
+
+<ol>
+  <li>Dans votre machine virtuelle, lancer un <code>ping</code> vers sa propre adresse IPv6
+  qui commence par <code>fec0</code>.
+
+  </li><li>Capturer les paquets ICMPv6 avec <code>wireshark</code>, en utilisant l'interface
+  réseau "any".
+
+  </li><li>Noter les noms des protocoles utilisés, tels que <code>wireshark</code> les a
+    identifiés par le décodage des données encapsulées dans les trames&nbsp;:
+
+    <table class="aremplir">
+      <tbody><tr>
+	<td style="width: 30%;">Niveau interface</td>
+      <td>Linux cooked capture</td>
+      </tr>
+      <tr>
+	<td>Niveau réseau (premier)</td>
+	<td></td>
+      </tr>
+      <tr>
+	<td>Niveau réseau (second)</td>
+	<td></td>
+      </tr>
+    </tbody></table>
+
+  </li><li>Trouver les informations suivantes dans l'en-tête IPv6&nbsp;:
+
+    <table class="aremplir">
+      <tbody><tr>
+	<td style="width: 50%;">Payload Length</td>
+	<td></td>
+      </tr>
+      <tr>
+	<td>Next Header</td>
+	<td></td>
+      </tr>
+      <tr>
+	<td>Hop Limit</td>
+	<td></td>
+      </tr>
+    </tbody></table>
+
+  </li><li>Comment s'appelle l'équivalent du "<em>Hop Limit</em>" en IPv4&nbsp;?
+    <div class="aremplir" style="height: 3em"></div>
+</li></ol>
+
+<h2>Synthèse des commandes réseaux</h2>
+
+<ol>
+  <li>Quelles sont les nouvelles commandes "réseaux" que vous avez utilisées
+    dans ce TP&nbsp;?
+    <div class="aremplir" style="height: 2em"></div>
+
+  </li><li>Compléter les tableaux "commandes" et "protocoles" de la première page de ces TPs.
+</li></ol>
+
+
+
+</body></html>
