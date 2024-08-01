@@ -1,0 +1,24 @@
+INSERT INTO PRESENTE VALUES ('REP1', 'Abonné absent',1);INSERT INTO PRESENTE VALUES ('REP1', 'Abonné absent',1);coderep;titre;ordrepassage
+R1LYO;Sans filet;2
+R1LYO;Rigolo;1
+R1LYO;Millequilles;3
+R1LYO;Intermède;4
+R1GRE;Les Zappatas;1
+R1GRE;Millequilles;2
+R1GRE;Rigolo;3
+R1GRE;Sans filet;4
+R2GRE;Les Zappatas;1
+R2GRE;Millequilles;2
+R2GRE;Rigolo;3
+R2GRE;Sans filet;4
+R3GRE;Les Zappatas;5
+R3GRE;Millequilles;4
+R3GRE;skyisblue;3
+R3GRE;Rigolo;2
+R3GRE;Sans filet;1
+R1ANN;Sans filet;2
+R1ANN;Rigolo;1
+R1ANN;Millequilles;3
+R1ANN;Intermède;4
+R1ANN;skyisblue;5
+R1ANN;Les Zappatas;6
