@@ -1,0 +1,415 @@
+TP4 : Espace disque, Quotas, Archivage
+======================================
+2. Espace disque
+----------------
+1. 
+ xxxxxxxx@pc-dg-027-04 ~> lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 238,5G  0 disk 
+└─nvme0n1p1 259:1    0 238,5G  0 part /
+
+2. & 3.
+j'ai dans mon ordinateur 1 disque physique (nvme0n1), avec une partition(nvme0n1p1).
+
+2.2 Taille et remplissage des partitions
+- - - - - - - - - - - - - - - - - - - -
+1.
+ xxxxxxxx@pc-dg-027-04 ~> duf
+╭────────────────────────────────────────────────────────────────────────────────────╮
+│ 1 local device                                                                     │
+├────────────┬────────┬───────┬────────┬─────────────────────┬──────┬────────────────┤
+│ MOUNTED ON │   SIZE │  USED │  AVAIL │         USE%        │ TYPE │ FILESYSTEM     │
+├────────────┼────────┼───────┼────────┼─────────────────────┼──────┼────────────────┤
+│ /          │ 233.7G │ 76.4G │ 145.4G │ [###.......]  32.7% │ ext4 │ /dev/nvme0n1p1 │
+╰────────────┴────────┴───────┴────────┴─────────────────────┴──────┴────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────╮
+│ 1 network device                                                                 │
+├────────────┬──────┬────────┬───────┬─────────────────────┬──────┬────────────────┤
+│ MOUNTED ON │ SIZE │   USED │ AVAIL │         USE%        │ TYPE │ FILESYSTEM     │
+├────────────┼──────┼────────┼───────┼─────────────────────┼──────┼────────────────┤
+│ /users     │ 1.7T │ 193.5G │  1.4T │ [#.........]  11.0% │ nfs4 │ erebus4:/users │
+╰────────────┴──────┴────────┴───────┴─────────────────────┴──────┴────────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────╮
+│ 6 special devices                                                                      │
+├──────────────────┬──────┬────────┬───────┬─────────────────────┬──────────┬────────────┤
+│ MOUNTED ON       │ SIZE │   USED │ AVAIL │         USE%        │ TYPE     │ FILESYSTEM │
+├──────────────────┼──────┼────────┼───────┼─────────────────────┼──────────┼────────────┤
+│ /dev             │ 7.7G │     0B │  7.7G │                     │ devtmpfs │ udev       │
+│ /dev/shm         │ 7.7G │     0B │  7.7G │                     │ tmpfs    │ tmpfs      │
+│ /run             │ 1.5G │   1.3M │  1.5G │ [..........]   0.1% │ tmpfs    │ tmpfs      │
+│ /run/lock        │ 5.0M │     0B │  5.0M │                     │ tmpfs    │ tmpfs      │
+│ /run/user/107302 │ 1.5G │ 124.0K │  1.5G │ [..........]   0.0% │ tmpfs    │ tmpfs      │
+│ /run/user/107376 │ 1.5G │ 148.0K │  1.5G │ [..........]   0.0% │ tmpfs    │ tmpfs      │
+╰──────────────────┴──────┴────────┴───────┴─────────────────────┴──────────┴────────────╯
+2.
+on a dans les ordinateur des nvme (ext4).
+3.
+sur le reseau on a des disque de type (nfs4)
+
+SSD de la station Espace total (en Go): 233.7 Espace libre (en Go): 145.4
+Serveur de fichiers erebus4 Espace total (en Go): 1740.8, Espace libre (en Go):1433.6 
+
+2.3 Quotas
+ xxxxxxxx@pc-dg-027-04 ~> quota
+Disk quotas for user  xxxxxxxx (uid 107376): 
+     Filesystem  blocks   quota   limit   grace   files   quota   limit   grace
+ erebus4:/users  970008  1500000 1550000           27172  200000  205000   
+ 
+							|place disque en MO | nombre fichier
+Occupation actuelle 					|	 948	    |	 27172	
+Quota							|	1465        |   200000
+Limite							|	1514        |   205000
+Occupation en fin de TP une fois le ménage effectué	|	 949	    |    27148
+(cases à remplir plus tard)				|
+
+2.4 Espace occupé par une entrée
+- - - - - - - - - - - - - - - -
+
+1.
+
+ xxxxxxxx@pc-dg-027-04 ~/Documents> du -h R1.04/
+12K     R1.04/tp4
+16K     R1.04/tp0
+12K     R1.04/tp2/tp-fichiers
+36K     R1.04/tp2
+44K     R1.04/tp1
+32K     R1.04/tp3
+148K    R1.04/
+mon repertoire R1.04 pese 184k
+
+2.
+ xxxxxxxx@pc-dg-027-04 ~> du -h
+8,0K    ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/.idea
+44K     ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/docs
+244K    ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/themes
+88K     ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/styles/origin
+176K    ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/styles
+196K    ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/out/themes/data
+292K    ./.vscode/extensions/zhuangtongfa.material-theme-3.16.0/out/themes
+[...]
+76K     ./.pki
+949M    .
+mon hom dir pese 946M
+
+3.
+oui, du afiche la meme chose que quota (ou presque)
+
+2.5 Réduction de la place disque occupée sur l'espace disque du serveur erebus4
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+2.
+pc-dg-027-04% find . | grep '\.class'
+./Documents/IUT-INFO-UGA/R1.01/TP4/out/production/TP4/Point.class
+./Documents/IUT-INFO-UGA/R1.01/TP4/out/production/TP4/Triangle_Main.class
+./Documents/IUT-INFO-UGA/R1.01/TP4/out/production/TP4/Triangle_Utilitaire.class
+[...]
+3.
+ xxxxxxxx@pc-dg-027-04 ~ [SIGINT]> rm ~/**/*.class
+
+4.
+ xxxxxxxx@pc-dg-027-04:~$  find . | grep .class
+ xxxxxxxx@pc-dg-027-04:~$ 
+
+5.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ rm ~/**/*~
+rm: cannot remove '/users/info/etu-1a/ xxxxxxxx/Desktop': Is a directory
+rm: cannot remove '/users/info/etu-1a/ xxxxxxxx/Documents': Is a directory
+rm: cannot remove '/users/info/etu-1a/ xxxxxxxx/Documents/IUT-INFO-UGA': Is a directory
+
+6.
+ xxxxxxxx@pc-dg-027-04 ~> alias rmc="rm ~/**/*.class rm ~/**/*~"
+ xxxxxxxx@pc-dg-027-04 ~>
+oui ca marche sur fish ;)
+
+3. Archivage d'un répertoire
+===========================
+3.1 Création d'une archive à partir d'un répertoire
+---------------------------------------------------
+
+2.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> zip -r9 R1.01.zip R1.01
+updating: R1.01/ (stored 0%)
+updating: R1.01/TP1/ (stored 0%)
+updating: R1.01/TP1/TP1/ (stored 0%)
+updating: R1.01/TP1/TP1/.idea/ (stored 0%)
+updating: R1.01/TP1/TP1/.idea/misc.xml (deflated 29%)
+updating: R1.01/TP1/TP1/.idea/modules.xml (deflated 34%)
+updating: R1.01/TP1/TP1/.idea/.gitignore (stored 0%)
+updating: R1.01/TP1/TP1/.gitignore (deflated 40%)
+updating: R1.01/TP1/TP1/src/ (stored 0%)
+[...]
+
+3.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> tar --gzip -cvf R1.01.tar.gz R1.01
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+R1.01/TP1/TP1/.idea/misc.xml
+R1.01/TP1/TP1/.idea/modules.xml
+[...]
+
+4.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> tar --bzip2 -cvf R1.01.tar.bz2 R1.01
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+[...]
+
+5.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> tar --xz -cvf R1.01.tar.xz R1.01
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+R1.01/TP1/TP1/.idea/misc.xml
+R1.01/TP1/TP1/.idea/modules.xml
+R1.01/TP1/TP1/.idea/.gitignore
+[...]
+
+6.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> tar --zstd -cvf R1.01.tar.zst R1.01
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+R1.01/TP1/TP1/.idea/misc.xml
+R1.01/TP1/TP1/.idea/modules.xml
+[...]
+
+7.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> 7z a R1.01.7z R1.01
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=fr_FR.UTF-8,Utf16=on,HugeFiles=on,64 bits,6 CPUs Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz (906EA),ASM,AES-NI)
+
+Scanning the drive:
+32 folders, 71 files, 101957 bytes (100 KiB)
+
+Creating archive: R1.01.7z
+
+Items to compress: 103
+
+    
+Files read from disk: 71
+Archive size: 15528 bytes (16 KiB)
+Everything is Ok
+
+8.
+ xxxxxxxx@pc-dg-027-04 ~/D/IUT-INFO-UGA (main)> ll
+total 220K
+drwxr-xr-x 7  xxxxxxxx infobut1 4,0K  4 oct.  11:47 R1.01/
+-rw-r--r-- 1  xxxxxxxx infobut1  26K  4 oct.  11:47 R1.01.7z
+-rw-r--r-- 1  xxxxxxxx infobut1  30K  4 oct.  11:47 R1.01.tar.bz2
+-rw-r--r-- 1  xxxxxxxx infobut1  32K  4 oct.  11:47 R1.01.tar.gz
+-rw-r--r-- 1  xxxxxxxx infobut1  26K  4 oct.  11:47 R1.01.tar.xz
+-rw-r--r-- 1  xxxxxxxx infobut1  31K  4 oct.  11:47 R1.01.tar.zst
+-rw-r--r-- 1  xxxxxxxx infobut1  59K  4 oct.  11:47 R1.01.zip
+-rw-r--r-- 1  xxxxxxxx infobut1  271  4 oct.  11:47 README.md
+
+9.
+le fichier le plus peutit est R1.01.tar.xz
+10.
+
+
+3.2 Restauration d'un répertoire à partir d'une archive
+- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+2.
+ xxxxxxxx@pc-dg-027-04 ~/D/I/désarchivage (main)> unzip ../R1.01.zip
+Archive:  ../R1.01.zip
+   creating: R1.01/
+   creating: R1.01/TP1/
+  inflating: R1.01/TP1/Untitled 1.odt  
+  [...]
+
+3.
+le fichier a été decompresser dans le repertoir courant.
+4.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+5.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ rm * -fr
+
+6.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ tar --gzip -xvf ../R1.01.tar.gz
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+[...]
+
+3.
+le fichier a été decompresser dans le repertoir courant
+
+4. 
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$  diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+7.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ tar --bzip2 -xvf ../R1.01.tar.bz2
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+[...]
+
+3.
+le fichier a été decompresser dans le repertoir courant
+
+4. 
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$  diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+8.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ tar --xz -xvf ../R1.01.tar.xz
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+R1.01/TP1/TP1/.idea/misc.xml
+R1.01/TP1/TP1/.idea/modules.xml
+[...]
+
+3.
+le fichier a été decompresser dans le repertoir courant
+
+4. 
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$  diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+9.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ tar --zstd -xvf ../R1.01.tar.zst
+R1.01/
+R1.01/TP1/
+R1.01/TP1/TP1/
+R1.01/TP1/TP1/.idea/
+R1.01/TP1/TP1/.idea/misc.xml
+R1.01/TP1/TP1/.idea/modules.xml
+[...]
+
+3.
+le fichier a été decompresser dans le repertoir courant
+
+4. 
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$  diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+10.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$ 7z x ../R1.01.7z
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=fr_FR.UTF-8,Utf16=on,HugeFiles=on,64 bits,6 CPUs Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 4800 bytes (5 KiB)
+[...]
+
+3.
+le fichier a été decompresser dans le repertoir courant
+
+4. 
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA/désarchivage$  diff R1.01/ ../R1.01/
+Common subdirectories: R1.01/TP1 and ../R1.01/TP1
+Common subdirectories: R1.01/TP2 and ../R1.01/TP2
+Common subdirectories: R1.01/tp3 and ../R1.01/tp3
+Common subdirectories: R1.01/TP4 and ../R1.01/TP4
+
+3.3 Vérification de l'intégrité d'une archive
+- - - - - - -  - - - - - - - - - - - - - - - 
+
+1.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ zip -T R1.01.zip
+test of R1.01.zip OK
+
+2.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ gzip -t R1.01.tar.gz
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$
+
+3.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ bzip2 -t R1.01.tar.bz2
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$
+
+4.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ xz -t R1.01.tar.xz
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$
+
+5.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ zstd -t R1.01.tar.zst
+R1.01.tar.zst       : 81920 bytes                                              
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$
+
+6.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ 7z t R1.01.7z
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=fr_FR.UTF-8,Utf16=on,HugeFiles=on,64 bits,6 CPUs Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 4800 bytes (5 KiB)
+
+1.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ zip -T R1.01.zip
+file #1:  bad zipfile offset (local header sig):  0
+R1.01/TP1/TP1/.idea/misc.xml  bad CRC 51d31de4  (should be 510ddde4)
+test of R1.01.zip FAILED
+
+zip error: Zip file invalid, could not spawn unzip, or wrong unzip (original files unmodified)
+
+2.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ gzip -t R1.01.tar.gz
+
+gzip: R1.01.tar.gz: not in gzip format
+
+3.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ bzip2 -t R1.01.tar.bz2
+bzip2: R1.01.tar.bz2: data integrity (CRC) error in data
+
+You can use the `bzip2recover' program to attempt to recover
+data from undamaged sections of corrupted files.
+
+4.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ xz -t R1.01.tar.xz
+xz: R1.01.tar.xz: Compressed data is corrupt
+
+5.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ zstd -t R1.01.tar.zst
+R1.01.tar.zst : Decoding error (36) : Restored data doesn't match checksum 
+
+6.
+ xxxxxxxx@pc-dg-027-04:~/Documents/IUT-INFO-UGA$ 7z t R1.01.7z
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=fr_FR.UTF-8,Utf16=on,HugeFiles=on,64 bits,6 CPUs Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz (906EA),ASM,AES-NI)
+
+Scanning the drive for archives:
+1 file, 4800 bytes (5 KiB)
+
+Testing archive: R1.01.7z
+ERROR: R1.01.7z
+R1.01.7z
+Open ERROR: Can not open the file as [7z] archive
+
+
+ERRORS:
+Is not archive
+    
+Can't open as archive: 1
+Files: 0
+Size:       0
+Compressed: 0
