@@ -16,4 +16,4 @@ The code in this repository may not reflect my usual coding style but rather the
 
 ## legal
 
-all resources in this repository are is under no licences. but if you are the owner of any of the resources and you want to remove it, please contact me at [86972822+UnelDev@users.noreply.github.com](mailto:86972822+UnelDev@users.noreply.github.com) and I will remove it as soon as possible. all code in this repository is created by me and is free to use, but courses and resources are not mine they were given to me without a particular license
+all resources in this repository are is under no licences. but if you are the owner of any of the resources and you want to remove it, please contact me with an isue and I will remove it as soon as possible. all code in this repository is created by me and is free to use, but courses and resources are not mine they were given to me without a particular license
