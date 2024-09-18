@@ -1,0 +1,40 @@
+:root {
+  /* Theme de couleurs */
+  --text-color: green;
+  --bg-color: #d3edda;
+}
+
+html {
+  background-image: url("lukas-blazek.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  padding: 1%;
+}
+
+h1 {
+  font-size: 5vw;
+  text-shadow: 1px 1px 2px var(--text-color);
+}
+
+table {
+  width: 45%;
+  font-size: 2vw;
+}
+
+table,
+td,
+th {
+  border: 3px solid var(--bg-color);
+  border-collapse: collapse;
+}
+th {
+  color: var(--text-color);
+  text-align: left;
+  padding-left: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+
+td {
+  text-align: center;
+}
