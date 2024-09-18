@@ -1,0 +1,107 @@
+body {
+    --main-color: #b61414;
+    --main-background-color: var(--main-color);
+    --main-text-color: #fff;
+    --border-color: #ddd;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --background-button-color: #45a049;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
+
+header {
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
+    padding: 1em 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    padding: 2em;
+
+}
+
+
+
+section {
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2em;
+    width: 100%;
+    max-width: 500px;
+}
+
+fieldset label {
+    padding-left: 2em;
+
+}
+
+h2 {
+    margin-top: 0;
+    color: var(--main-color);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5em;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    cursor: pointer;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 0.7em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 1em;
+    padding: 0.7em;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button a {
+    color: var(--main-text-color);
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: var(--background-button-color);
+}
+
+footer {
+    background-color: var(--main-background-color);
+    color: var(--main-text-color);
+    padding: 1em 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
