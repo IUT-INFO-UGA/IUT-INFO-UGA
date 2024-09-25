@@ -7,11 +7,18 @@
 class EntierContraint {
 public:
     
-    // A COMPLETER
+    EntierContraint(int valleur, int min, int max);
+    int getMin() const;
+    int getMax() const;
+    int getVal() const;
+    void setVal(int val);
+    void saisir(std::istream &entree);
+    void afficher(std::ostream &sortie);
 
 private:
-
-    // A COMPLETER
+    int val;
+    int min;
+    int max;
 
     // Constantes de Classe (static) pour définir les valeurs par défaut des attributs d'un entier contraint
     static constexpr int VAL_DEF = 0;

@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice1.dir/exercice1/exercice1.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice1/exercice1.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice1/exercice1.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice1.dir/exercice1/EntierContraint.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice1/EntierContraint.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice1/EntierContraint.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice2.dir/exercice2/exercice2.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/exercice2.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/exercice2.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice2.dir/exercice2/Personne.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/Personne.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/Personne.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice2.dir/exercice2/Groupe.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/Groupe.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice2/Groupe.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice3.dir/exercice3/exercice3.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice3/exercice3.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice3/exercice3.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice3.dir/exercice3/Point.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice3/Point.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice3/Point.cpp"
+},
+{
+  "directory": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/build",
+  "command": "/usr/bin/clang++ -g -o CMakeFiles/exercice4.dir/exercice4/exercice4.cpp.o -c /users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice4/exercice4.cpp",
+  "file": "/users/info/etu-2a/diiorioe/privé/IUT-INFO-UGA/S3/R3.04/TP02/exercice4/exercice4.cpp"
+}
+]

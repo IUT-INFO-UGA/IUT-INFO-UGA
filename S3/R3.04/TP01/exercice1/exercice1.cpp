@@ -34,4 +34,6 @@ void testClassePoint(const string& name, const int x, const int y)
         cout<<"error in x"<<endl;
     if(p->getY() != 2)
         cout<<"error in y"<<endl;
+
+    delete p;
 }

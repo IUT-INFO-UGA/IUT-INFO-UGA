@@ -5,7 +5,7 @@ using namespace std;
 
 // A COMPLETER - Implémenter les méthodes de la classe Point
 
-Point::Point(const std::string &nom = "P", const int x = 0, const int y= 0)
+Point::²Point(const std::string &nom = "P", const int x = 0, const int y= 0)
 {
     this->nom = nom;
     this->x = x;
