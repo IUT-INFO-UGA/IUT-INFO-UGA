@@ -14,7 +14,7 @@ using namespace std;
 Billet *newBillet(Conteneur<Trajet> &trajets,
                   Conteneur<Tarif> &tarifs,
                   Conteneur<Promotion> &promotions) {
-// A COMPLETER
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

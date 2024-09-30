@@ -5,6 +5,11 @@
 #include "Promotion.h"
 
 class BilletReduit : public Billet {
-// A COMPLETER
+private:
+    const Promotion &promotion;
+    public:
+    BilletReduit(Trajet& un_trajet, Tarif& un_tarif, const Promotion& promotion);
+    float getPrix() const;
+    Promotion getPromotion() const;
 };
 #endif

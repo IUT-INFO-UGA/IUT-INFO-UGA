@@ -8,6 +8,13 @@
 #include "Tarif.h"
 
 class Billet {
-// A COMPLETER
+private:
+    Trajet* trajet;
+    Tarif* tarif;
+    public:
+    Billet(Trajet* trajet, Tarif* tarif);
+    Trajet &getTrajet() const;
+    Tarif &getTarif() const;
+    float getPrix() const;
 };
 #endif
