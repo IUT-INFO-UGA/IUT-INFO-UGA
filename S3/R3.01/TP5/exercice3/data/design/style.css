@@ -1,0 +1,62 @@
+/* Variables du design */
+html {
+  --main-color : #33b5e5;
+}
+
+/* Place une image à gauche */
+html::before {
+  content:"";
+   display:block;
+   position: absolute;
+   width:50px;
+   height:300px;
+  background:url(tIcon.png);
+  background-size:100%;
+}
+
+/* Laisse la place pour cette image */
+body {
+  padding-left: 55px;
+}
+
+h1 {
+  background-color: var(--main-color);
+  color: white;
+  padding: 0.5em;
+}
+
+form {
+  width: 600px;
+  border: 1px solid var(--main-color);
+  margin: auto;
+  padding: 0.5em;
+  font-size: large;
+  text-align: center;
+}
+
+input,label {
+  display: inline-block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+}
+
+button {
+  display: block;
+  border: none;
+  color: white;
+  background-color: var(--main-color);
+  font-size: large;
+  margin: auto;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+}
+
+output {
+  display: inline-block;
+  color: white;
+  background-color: var(--main-color);
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}

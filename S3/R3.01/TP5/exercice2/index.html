@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>Exemple JS</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<span>
+		<H1>Select a password</H1>
+		<div class="error"></div>
+		<label for="password" class="passwordLabel">Type your password:</label>
+		<input type="password" class="PasswordInput" id="password" placeholder="password">
+		<label for="passwordRetype" class="passwordLabel">Retype your password:</label>
+		<input type="password" class="PasswordInput" id="passwordRetype" placeholder="password">
+
+		<button class="newPassord">Set a new password</button>
+		<div class="passwrordDesc">Your password must follow the following rules:</div>
+		<ul>
+			<li>at least 8 characters.</li>
+			<li>includes a digit.</li>
+			<li>include upper and lowercase.</li>
+		</ul>
+	</span>
+	<script src="index.js"></script>
+</body>
+
+</html>
