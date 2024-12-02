@@ -13,10 +13,12 @@ private:
     Usager* m_usager;
     std::vector<Element*> m_elements;
 public:
-    Repertoire(std::string name, Usager usager);
+    Repertoire(std::string name, Usager &usager);
     ~Repertoire() {};
     int getTaille() const override;
     void ajouter(Element* element) override;
+    const std::string& getDateModification() const override;
+
 };
 
 #endif /* REPERTOIRE_H */

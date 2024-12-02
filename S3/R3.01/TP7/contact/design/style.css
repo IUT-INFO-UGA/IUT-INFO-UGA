@@ -1,0 +1,42 @@
+html {
+  font-family: Sans-serif;
+  --main-color:  #d5f5e3;
+  background-color: var(--main-color)
+}
+
+body {
+  width : 600px;
+  margin: auto;
+  background: SlateGray;
+  color: white;
+  border-radius : 25px;
+  box-shadow: 10px 10px 10px DarkGray;
+}
+
+h1 {
+  padding: 1em;
+  font-size: 1.5em;
+  text-align: center;
+  color: var(--main-color);
+  background: DimGray;
+  border-radius: 25px 25px 0px 0px ;
+}
+
+table {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  border-collapse: collapse;
+}
+tr + tr {
+  border-top: 1px solid var(--main-color);
+}
+
+td {
+  font-size: 1.1em;
+  padding: 0.2em;
+}
+th {
+  font-size: 0.9em;
+  padding-bottom: 0.4em;
+}

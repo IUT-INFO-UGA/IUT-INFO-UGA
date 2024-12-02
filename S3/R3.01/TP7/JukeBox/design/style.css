@@ -1,0 +1,178 @@
+/* Définition des variables globales au design */
+html {
+  /* Taille du footer */
+  --footer-size: 30px;
+  /* Taille des pochettes des musiques (cover) */
+  --cover-size: 300px;
+  --cover-size-link: 200px;
+  /* jeux de couleur */
+  --menu-color: CornflowerBlue;
+  --menu-color-selected: Green;
+}
+
+body {
+  margin: 0px;
+  /* Reserve la place du footer pour ne pas que le contenu disparaisse derrière */
+  padding-bottom: var(--footer-size);
+}
+
+/* Ajoute un peut d'espace sur les bord */
+main {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+/* Fixe la taille des images des pochettes des musiques */
+img {
+  width: var(--cover-size);
+  height: var(--cover-size);
+}
+
+/* Quand il y a un lien */
+a img {
+  width: var(--cover-size-link);
+  height: var(--cover-size-link);
+}
+
+/* Style titre en entête  */
+h1 {
+  color: white;
+  background-color: black;
+  text-align: center;
+  margin-top: 0px;
+  padding: 5px;
+}
+
+/* Petite ombre sur les boites qui contiennent la description de la musique */
+figure {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Positionne le footer tout en bas */
+footer {
+  color: white;
+  background-color: black;
+  text-align: center;
+  padding: 5px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: var(--footer-size);
+}
+
+/* Ajoute un petit symbole avant le titre */
+h1::before {
+  content: "🎙 ";
+}
+/* La section contient des boites flexibles en lignes
+avec retour à la ligne si pas assez de place
+*/
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Place le nom du groupe et de la musique en colonne
+NB: ces balises de de type "custom" c'est à dire ajoutées à la liste
+des balises standards d'HTML 5
+*/
+music-group,
+music-song {
+  display: block;
+}
+
+/* Met le nom du groupe en grisé */
+music-group {
+  color: DarkGray;
+}
+
+/* Met la catégorie en bleu */
+music-category {
+  color: var(--menu-color);
+  font-weight: bold;
+}
+
+/* Place la balise audio en dessous de l'image */
+audio {
+  display: block;
+  width: var(--cover-size);
+}
+
+/**********************/
+/* Menu de navigation */
+/**********************/
+
+/* Placé en flex pour que les boutons et la form soient à l'horizontal */
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+/* Design des boutons bleu de navigation entre les pages */
+nav a {
+  text-decoration: none;
+  background-color: var(--menu-color);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* Petit effet de transition sur la couleur */
+  transition: background-color 500ms ease-out;
+}
+
+/* Couleur du bouton selectionné : la page en cours */
+nav a.selected {
+  background-color: var(--menu-color-selected);
+}
+
+/* Changement de couleur quand on passe sur le bouton */
+nav a:hover {
+  background-color: Blue;
+}
+
+/* Le formulaire de changement du nombre d'elements par pages */
+nav form {
+  margin-left: 10px;
+}
+nav form p {
+  color: var(--menu-color);
+  margin-top: 0px;
+  margin-bottom: 2px;
+}
+nav form input {
+  color: var(--menu-color);
+  text-align: center;
+  margin-left: 30px;
+}
+/**************************************/
+/* Création des symboles des flèches */
+/**************************************/
+
+/* Une simple boite avec un coin qui a une bordure */
+span.arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+/* Complément de style pour la rotation et les 4 fléches possibles */
+.right {
+  transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+}
