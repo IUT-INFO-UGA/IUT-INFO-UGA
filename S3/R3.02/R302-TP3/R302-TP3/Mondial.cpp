@@ -77,6 +77,9 @@ void Mondial::printCountriesCode() const {
  * COMPLETER
  */
 int Mondial::getNbDeserts() const {
+ if (!racineMondial) {
+  throw PrecondVioleeExcep("La racine XML est nulle.");
+ }
         // initialisation du nombre d’aéroports
         int nb = 0;
         // accéder à <desertscategory>, c’est un fils de l'élément <racineMondial>
@@ -99,27 +102,29 @@ int Mondial::getNbDeserts() const {
 }
 
 /*
- * A COMPLETER
+ * COMPLETER
  */
 int Mondial::getNbElemCat(const string categoryName) {
- // initialisation du nombre d’aéroports
+ if (!racineMondial) {
+  throw PrecondVioleeExcep("La racine XML est nulle.");
+ }
  int nb = 0;
- // accéder à <desertscategory>, c’est un fils de l'élément <racineMondial>
- XMLElement* desertsCategory = racineMondial->FirstChildElement((decod_category[categoryName]).c_str());
- // parcours complet des fils de <desertscategory> en les comptants
- // 1) accéder au premier fils <desert> de <desertscategory>
- if(desertsCategory == nullptr) {
+ // accéder à <categoryName>, c’est un fils de l'élément <racineMondial>
+ XMLElement* category = racineMondial->FirstChildElement((decod_category[categoryName]).c_str());
+ // parcours complet des fils de <categoryName> en les comptants
+ // 1) accéder au premier fils <category> de <categoryName>
+ if(category == nullptr) {
   return nb;
  }
- XMLElement* currentDesert = desertsCategory->FirstChildElement();
- // 2) parcourir tous les <desert> qui sont des frères
- while (currentDesert != nullptr) {
-  // un aéroport supplémentaire
+ XMLElement* currentCategory = category->FirstChildElement();
+ // 2) parcourir tous les <category> qui sont des frères
+ while (currentCategory != nullptr) {
+  // une categorie supplémentaire
   nb = nb + 1;
-  // avancer au frère <desert> suivant de currentDesert
-  currentDesert = currentDesert->NextSiblingElement();
+  // avancer au frère <category> suivant de currentDesert
+  currentCategory = currentCategory->NextSiblingElement();
  }
- // currentDesert n’a plus de frère {currentDesert == nullptr}, c’est le dernier
+ // il n’a plus de frère {currentCategory == nullptr}, c’est le dernier
  return nb;
 }
 
@@ -149,12 +154,39 @@ XMLElement* Mondial::getCountryXmlelementFromNameRecWorker(XMLElement* currentCo
  * A COMPLETER
  */
 string Mondial::getCountryCodeFromName(string countryName) const throw (PrecondVioleeExcep) {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+ // Vérification que la racine existe
+ if (!racineMondial) {
+  throw PrecondVioleeExcep("La racine XML est nulle.");
+ }
+
+ // Accéder à l'élément <countriescategory>
+ XMLElement* countriesCategory = racineMondial->FirstChildElement("countriescategory");
+ if (!countriesCategory) {
+  throw PrecondVioleeExcep("L'élément <countriescategory> est introuvable.");
+ }
+
+ // Parcourir tous les éléments <country> sous <countriescategory>
+ XMLElement* country = countriesCategory->FirstChildElement("country");
+ while (country) {
+  // Récupérer le sous-élément <name>
+  XMLElement* nameElement = country->FirstChildElement("name");
+  if (nameElement && nameElement->GetText() == countryName) {
+   // Récupérer l'attribut car_code
+   const char* carCode = country->Attribute("car_code");
+   if (carCode) {
+    return carCode;
+   } else {
+    throw PrecondVioleeExcep("Attribut car_code introuvable pour le pays : " + countryName);
+   }
+  }
+  // Passer au prochain élément <country>
+  country = country->NextSiblingElement("country");
+ }
+
+ // Si aucun pays correspondant n'est trouvé, lever une exception
+ throw PrecondVioleeExcep("Nom de pays introuvable : " + countryName);
 }
+
 
 /*
  * A COMPLETER
