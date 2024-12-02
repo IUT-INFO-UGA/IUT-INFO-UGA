@@ -13,21 +13,24 @@
 #include <sstream>
 #include <iterator>
 
-Mondial::Mondial(const char* filename) {
+Mondial::Mondial(const char* filename)
+{
     // Chargement du fichier XML en mémoire
     imageMondial.LoadFile(filename);
     // Initialisation de l'attribut racineMondial avec la racine (élément <mondial>)
     racineMondial = imageMondial.FirstChildElement();
 }
 
-void Mondial::Print() {
+void Mondial::Print()
+{
     imageMondial.Print();
 }
 
 /*
  * FOURNIE
  */
-int Mondial::getNbAirports() const {
+int Mondial::getNbAirports() const
+{
     // initialisation du nombre d’aéroports
     int nb = 0;
     // accéder à <airportscategory>, c’est un fils de l'élément <racineMondial>
@@ -36,7 +39,8 @@ int Mondial::getNbAirports() const {
     // 1) accéder au premier fils <airport> de <airportscategory>
     XMLElement* currentAirport = airportsCategory->FirstChildElement();
     // 2) parcourir tous les <airport> qui sont des frères
-    while (currentAirport != nullptr) {
+    while (currentAirport != nullptr)
+    {
         // un aéroport supplémentaire
         nb = nb + 1;
         // avancer au frère <airport> suivant de currentAirport
@@ -49,7 +53,8 @@ int Mondial::getNbAirports() const {
 /*
  * FOURNIE
  */
-void Mondial::printCountriesCode() const {
+void Mondial::printCountriesCode() const
+{
     int rank = 1; // rang du pays
     string carcodeValue; // valeur de l'attribut "car_cod" du pays courant
     // accéder à <countriescategory>, c’est un fils de l'élément <racineMondial>)
@@ -58,7 +63,8 @@ void Mondial::printCountriesCode() const {
     // 1) accéder au premier fils <country> de <countriescategory>
     XMLElement* currentCountry = countriesCategory->FirstChildElement();
     // 2) parcourir tous les <country> qui sont des frères
-    while (currentCountry != nullptr) {
+    while (currentCountry != nullptr)
+    {
         // traiter le pays courant
         //      1) récupérer la valeur de l’attribut "car_code"
         carcodeValue = currentCountry->Attribute("car_code");
@@ -76,115 +82,92 @@ void Mondial::printCountriesCode() const {
 /*
  * COMPLETER
  */
-int Mondial::getNbDeserts() const {
- if (!racineMondial) {
-  throw PrecondVioleeExcep("La racine XML est nulle.");
- }
-        // initialisation du nombre d’aéroports
-        int nb = 0;
-        // accéder à <desertscategory>, c’est un fils de l'élément <racineMondial>
-        XMLElement* desertsCategory = racineMondial->FirstChildElement("desertscategory");
-        // parcours complet des fils de <desertscategory> en les comptants
-        // 1) accéder au premier fils <desert> de <desertscategory>
-        if(desertsCategory == nullptr) {
-         return nb;
-        }
-        XMLElement* currentDesert = desertsCategory->FirstChildElement();
-        // 2) parcourir tous les <desert> qui sont des frères
-        while (currentDesert != nullptr) {
-            // un aéroport supplémentaire
-            nb = nb + 1;
-            // avancer au frère <desert> suivant de currentDesert
-            currentDesert = currentDesert->NextSiblingElement("desert");
-        }
-        // currentDesert n’a plus de frère {currentDesert == nullptr}, c’est le dernier
+int Mondial::getNbDeserts() const
+{
+    if (!racineMondial)
+    {
+        throw PrecondVioleeExcep("La racine XML est nulle.");
+    }
+    // initialisation du nombre d’aéroports
+    int nb = 0;
+    // accéder à <desertscategory>, c’est un fils de l'élément <racineMondial>
+    XMLElement* desertsCategory = racineMondial->FirstChildElement("desertscategory");
+    // parcours complet des fils de <desertscategory> en les comptants
+    // 1) accéder au premier fils <desert> de <desertscategory>
+    if (desertsCategory == nullptr)
+    {
         return nb;
+    }
+    XMLElement* currentDesert = desertsCategory->FirstChildElement();
+    // 2) parcourir tous les <desert> qui sont des frères
+    while (currentDesert != nullptr)
+    {
+        // un aéroport supplémentaire
+        nb = nb + 1;
+        // avancer au frère <desert> suivant de currentDesert
+        currentDesert = currentDesert->NextSiblingElement("desert");
+    }
+    // currentDesert n’a plus de frère {currentDesert == nullptr}, c’est le dernier
+    return nb;
 }
 
 /*
  * COMPLETER
  */
-int Mondial::getNbElemCat(const string categoryName) {
- if (!racineMondial) {
-  throw PrecondVioleeExcep("La racine XML est nulle.");
- }
- int nb = 0;
- // accéder à <categoryName>, c’est un fils de l'élément <racineMondial>
- XMLElement* category = racineMondial->FirstChildElement((decod_category[categoryName]).c_str());
- // parcours complet des fils de <categoryName> en les comptants
- // 1) accéder au premier fils <category> de <categoryName>
- if(category == nullptr) {
-  return nb;
- }
- XMLElement* currentCategory = category->FirstChildElement();
- // 2) parcourir tous les <category> qui sont des frères
- while (currentCategory != nullptr) {
-  // une categorie supplémentaire
-  nb = nb + 1;
-  // avancer au frère <category> suivant de currentDesert
-  currentCategory = currentCategory->NextSiblingElement();
- }
- // il n’a plus de frère {currentCategory == nullptr}, c’est le dernier
- return nb;
+int Mondial::getNbElemCat(const string categoryName)
+{
+    if (!racineMondial)
+    {
+        throw PrecondVioleeExcep("La racine XML est nulle.");
+    }
+    int nb = 0;
+    // accéder à <categoryName>, c’est un fils de l'élément <racineMondial>
+    XMLElement* category = racineMondial->FirstChildElement((decod_category[categoryName]).c_str());
+    // parcours complet des fils de <categoryName> en les comptants
+    // 1) accéder au premier fils <category> de <categoryName>
+    if (category == nullptr)
+    {
+        return nb;
+    }
+    XMLElement* currentCategory = category->FirstChildElement();
+    // 2) parcourir tous les <category> qui sont des frères
+    while (currentCategory != nullptr)
+    {
+        // une categorie supplémentaire
+        nb = nb + 1;
+        // avancer au frère <category> suivant de currentDesert
+        currentCategory = currentCategory->NextSiblingElement();
+    }
+    // il n’a plus de frère {currentCategory == nullptr}, c’est le dernier
+    return nb;
 }
 
 /*
  * A COMPLETER
  */
-XMLElement* Mondial::getCountryXmlelementFromNameRec(string countryName) const {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+XMLElement* Mondial::getCountryXmlelementFromNameRec(string countryName) const
+{
+    return getCountryXmlelementFromNameRecWorker(racineMondial->FirstChildElement("countriescategory")->FirstChildElement("country"), countryName);
 }
 
 /*
  * A COMPLETER
  */
-XMLElement* Mondial::getCountryXmlelementFromNameRecWorker(XMLElement* currentCountryElement, string countryName) const {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+XMLElement* Mondial::getCountryXmlelementFromNameRecWorker(XMLElement* currentCountryElement, string countryName) const
+{
+    if (!currentCountryElement) return nullptr;
+    else if (countryName==currentCountryElement->FirstChildElement("name")->GetText()) return currentCountryElement;
+    else return getCountryXmlelementFromNameRecWorker(currentCountryElement->NextSiblingElement("country"), countryName);
 }
 
 /*
  * A COMPLETER
  */
-string Mondial::getCountryCodeFromName(string countryName) const throw (PrecondVioleeExcep) {
- // Vérification que la racine existe
- if (!racineMondial) {
-  throw PrecondVioleeExcep("La racine XML est nulle.");
- }
-
- // Accéder à l'élément <countriescategory>
- XMLElement* countriesCategory = racineMondial->FirstChildElement("countriescategory");
- if (!countriesCategory) {
-  throw PrecondVioleeExcep("L'élément <countriescategory> est introuvable.");
- }
-
- // Parcourir tous les éléments <country> sous <countriescategory>
- XMLElement* country = countriesCategory->FirstChildElement("country");
- while (country) {
-  // Récupérer le sous-élément <name>
-  XMLElement* nameElement = country->FirstChildElement("name");
-  if (nameElement && nameElement->GetText() == countryName) {
-   // Récupérer l'attribut car_code
-   const char* carCode = country->Attribute("car_code");
-   if (carCode) {
-    return carCode;
-   } else {
-    throw PrecondVioleeExcep("Attribut car_code introuvable pour le pays : " + countryName);
-   }
-  }
-  // Passer au prochain élément <country>
-  country = country->NextSiblingElement("country");
- }
-
- // Si aucun pays correspondant n'est trouvé, lever une exception
- throw PrecondVioleeExcep("Nom de pays introuvable : " + countryName);
+string Mondial::getCountryCodeFromName(string countryName) const throw (PrecondVioleeExcep)
+{
+   XMLElement* currentCountry = getCountryXmlelementFromNameRec(countryName);
+   if (currentCountry) return currentCountry->Attribute("car_code");
+    else throw PrecondVioleeExcep("pays non trouvé");
 }
 
 
@@ -196,7 +179,8 @@ string Mondial::getCountryCodeFromName(string countryName) const throw (PrecondV
  * @param countryName
  * @return pointeur sur l'élément <country> dont la valeur du fils <name> est égal à countryName, nullprt sinon
  */
-XMLElement* Mondial::getCountryXmlelementFromNameIter(string countryName) const {
+XMLElement* Mondial::getCountryXmlelementFromNameIter(string countryName) const
+{
     /*
      * A COMPLETER
      */
@@ -229,7 +213,8 @@ XMLElement* Mondial::getCountryXmlelementFromCode(string countryCode) const {
 /*
  * A COMPLETER
  */
-void Mondial::printCountryBorders(string countryName) const {
+void Mondial::printCountryBorders(string countryName) const
+{
     /*
      * A COMPLETER
      */
@@ -239,7 +224,8 @@ void Mondial::printCountryBorders(string countryName) const {
 /*
  * A COMPLETER
  */
-XMLElement* Mondial::getRiverXmlelementFromNameIter(string riverName) const {
+XMLElement* Mondial::getRiverXmlelementFromNameIter(string riverName) const
+{
     /*
      * A COMPLETER
      */
@@ -250,7 +236,8 @@ XMLElement* Mondial::getRiverXmlelementFromNameIter(string riverName) const {
 /*
  * A COMPLETER
  */
-void Mondial::printAllCountriesCrossedByRiver(string riverName) const {
+void Mondial::printAllCountriesCrossedByRiver(string riverName) const
+{
     /*
      * A COMPLETER
      */
@@ -259,7 +246,8 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const {
 /*
  * A COMPLETER
  */
-void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const {
+void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const
+{
     /*
      * A COMPLETER
      */
@@ -268,7 +256,8 @@ void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const 
 /*
  * A COMPLETER
  */
-void Mondial::printCountriesAndProvincesCrossedByRiver(string riverName) const {
+void Mondial::printCountriesAndProvincesCrossedByRiver(string riverName) const
+{
     /*
      * A COMPLETER
      */
@@ -277,7 +266,8 @@ void Mondial::printCountriesAndProvincesCrossedByRiver(string riverName) const {
 /*
  * A COMPLETER
  */
-void Mondial::printCityInformation(string cityName) const {
+void Mondial::printCityInformation(string cityName) const
+{
     /*
      * A COMPLETER
      */
@@ -288,7 +278,8 @@ void Mondial::printCityInformation(string cityName) const {
  * dans Mondial concernant toutes les îles.
  * On peut commencer par une île en particulier à partir de son nom
  */
-void Mondial::printIslandsInformations() const {
+void Mondial::printIslandsInformations() const
+{
     /*
      * A COMPLETER
      */
@@ -298,11 +289,13 @@ void Mondial::printIslandsInformations() const {
  * Méthodes de service fournies
  */
 
-template<typename Out>
-void Mondial::split(string& s, char delim, Out result) const {
+template <typename Out>
+void Mondial::split(string& s, char delim, Out result) const
+{
     stringstream ss(s);
     string item;
-    while (getline(ss, item, delim)) {
+    while (getline(ss, item, delim))
+    {
         *(result++) = item;
     }
 }
@@ -314,11 +307,13 @@ void Mondial::split(string& s, char delim, Out result) const {
  * @param delim délimiteur des mots de la chaîne à découper
  * @return vecteur contenant les mots de la chaîne découpée
  */
-vector<std::string> Mondial::split(string& s, char delim) const {
+vector<std::string> Mondial::split(string& s, char delim) const
+{
     vector<std::string> elems;
     split(s, delim, back_inserter(elems));
     return elems;
 }
 
-Mondial::~Mondial() {
+Mondial::~Mondial()
+{
 }

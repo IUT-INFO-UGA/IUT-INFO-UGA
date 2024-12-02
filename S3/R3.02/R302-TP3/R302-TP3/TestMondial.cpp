@@ -219,7 +219,7 @@ int main() {
     testGetNbDeserts(theMondial);
     testgetNbElemCat(theMondial);
     testGetCountryCodeFromName(theMondial);
-//    testGetCountryPopulationFromName(theMondial);
+    testGetCountryPopulationFromName(theMondial);
 //    testPrintCountryBorders(theMondial);
 //    testPrintAllCountriesCrossedByRiver(theMondial);
 //    testPrintCountriesWithProvincesCrossedByRiver(theMondial);
