@@ -12,6 +12,7 @@
 #include <iomanip>      // pour setw()
 #include <sstream>
 #include <iterator>
+#include <cstdlib>
 
 Mondial::Mondial(const char* filename)
 {
@@ -181,33 +182,52 @@ string Mondial::getCountryCodeFromName(string countryName) const throw (PrecondV
  */
 XMLElement* Mondial::getCountryXmlelementFromNameIter(string countryName) const
 {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+    XMLElement* country = racineMondial->FirstChildElement("countriescategory")->FirstChildElement("country");
+    while (country != nullptr && country->FirstChildElement("name")->GetText() != countryName)
+    {
+        country = country->NextSiblingElement("country");
+    }
+    return country;
 }
 
-/*
- * A COMPLETER
+/**
+ *
+ * @param countryName name of contry
+ * @return population of most recent mesur of population.
  */
 int Mondial::getCountryPopulationFromName(string countryName) const {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return 0;
+    XMLElement* country = getCountryXmlelementFromNameIter(countryName);
+    //if contry dont exist
+    if(!country) return -1;
+
+    int lastYear = 0;
+    int population = -1;
+    XMLElement* pop = country->FirstChildElement("population");
+    // toute population jusqu'a la fin
+    while (pop!= nullptr)
+    {
+        //year of current test
+        const int currYears = atoi(pop->Attribute("year"));
+        if ( currYears > lastYear)
+        {
+            lastYear = currYears;
+            population = atoi(pop->GetText());
+        }
+        pop = pop->NextSiblingElement("population");
+    }
+    return population;
 }
 
 /*
  * A COMPLETER
  */
 XMLElement* Mondial::getCountryXmlelementFromCode(string countryCode) const {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+    XMLElement* country = racineMondial->FirstChildElement("countriescategory")->FirstChildElement("country");
+    while (country != nullptr && country->Attribute("car_code") != countryCode)
+    {
+        country = country->NextSiblingElement("country");
+    }
+    return country;
 }
 
 /*
@@ -215,10 +235,28 @@ XMLElement* Mondial::getCountryXmlelementFromCode(string countryCode) const {
  */
 void Mondial::printCountryBorders(string countryName) const
 {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
+    XMLElement* country = getCountryXmlelementFromNameIter(countryName);
+    cout << "Le pays : " << countryName;
+    if(country == nullptr)
+    {
+        cout<< " n'a pas été trouvé"<<endl;
+        return;
+    }
+
+    XMLElement* border = country->FirstChildElement("border");
+    //pour chaque bordure
+    bool hasBorder = false;
+    while (border != nullptr)
+    {
+        hasBorder = true;
+        const XMLElement* borderContry = getCountryXmlelementFromCode(border->Attribute("country"));
+        cout << " est frontalier avec : " << borderContry->FirstChildElement("name")->GetText() << endl;
+        border = border->NextSiblingElement("border");
+    }
+    if(!hasBorder)
+    {
+        cout << ", n'a pas de pays frontalier !"<< endl;
+    }
 }
 
 /*

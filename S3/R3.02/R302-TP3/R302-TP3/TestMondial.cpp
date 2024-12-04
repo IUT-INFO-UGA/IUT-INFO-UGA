@@ -220,7 +220,7 @@ int main() {
     testgetNbElemCat(theMondial);
     testGetCountryCodeFromName(theMondial);
     testGetCountryPopulationFromName(theMondial);
-//    testPrintCountryBorders(theMondial);
+    testPrintCountryBorders(theMondial);
 //    testPrintAllCountriesCrossedByRiver(theMondial);
 //    testPrintCountriesWithProvincesCrossedByRiver(theMondial);
 //    testPrintCountriesAndProvincesCrossedByRiver(theMondial);
