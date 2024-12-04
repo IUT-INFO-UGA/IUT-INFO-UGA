@@ -221,8 +221,8 @@ int main() {
     testGetCountryCodeFromName(theMondial);
     testGetCountryPopulationFromName(theMondial);
     testPrintCountryBorders(theMondial);
-//    testPrintAllCountriesCrossedByRiver(theMondial);
-//    testPrintCountriesWithProvincesCrossedByRiver(theMondial);
+    testPrintAllCountriesCrossedByRiver(theMondial);
+    testPrintCountriesWithProvincesCrossedByRiver(theMondial);
 //    testPrintCountriesAndProvincesCrossedByRiver(theMondial);
 //    testPrintCityInformation(theMondial);
 

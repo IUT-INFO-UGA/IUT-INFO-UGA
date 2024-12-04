@@ -259,26 +259,40 @@ void Mondial::printCountryBorders(string countryName) const
     }
 }
 
-/*
- * A COMPLETER
+
+/**
+ * @param riverName The name of the river to search for.
+ * @return XMLElement* Pointer to the XML element of the river with the specified name.
+ *         Returns nullptr if no river with the given name is found.
  */
 XMLElement* Mondial::getRiverXmlelementFromNameIter(string riverName) const
 {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir d'ici après complétion
-    return nullptr;
+    XMLElement* river = racineMondial->FirstChildElement("riverscategory")->FirstChildElement("river");
+    while (river != nullptr && river->FirstChildElement("name")->GetText() != riverName)
+    {
+        river = river->NextSiblingElement("river");
+    }
+    return river;
 }
 
-/*
- * A COMPLETER
- */
+
 void Mondial::printAllCountriesCrossedByRiver(string riverName) const
 {
-    /*
-     * A COMPLETER
-     */
+    XMLElement* river = getRiverXmlelementFromNameIter(riverName);
+    if (river == nullptr)
+    {
+        cout << riverName<< "ne traverse pas de pays" << endl;
+        return;
+    }
+    cout << riverName << " traverse : " << endl;
+
+    vector<string> contrysCode= split(river->Attribute("country"), ' ');
+    for (size_t i = 0; i < contrysCode.size(); i++)
+    {
+        cout << getCountryXmlelementFromCode(contrysCode[i])->FirstChildElement("name")->GetText() << endl;
+    }
+
+    cout << "il a la longeur de " << river->FirstChildElement("length")->GetText() <<endl;
 }
 
 /*
@@ -286,9 +300,7 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const
  */
 void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const
 {
-    /*
-     * A COMPLETER
-     */
+
 }
 
 /*
@@ -345,10 +357,11 @@ void Mondial::split(string& s, char delim, Out result) const
  * @param delim délimiteur des mots de la chaîne à découper
  * @return vecteur contenant les mots de la chaîne découpée
  */
-vector<std::string> Mondial::split(string& s, char delim) const
+vector<std::string> Mondial::split(const string& s, char delim) const
 {
     vector<std::string> elems;
-    split(s, delim, back_inserter(elems));
+    string sLocal = s;
+    split(sLocal, delim, back_inserter(elems));
     return elems;
 }
 

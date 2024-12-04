@@ -98,7 +98,7 @@ private:
      * @param delim délimiteur des mots de la chaîne à découper
      * @return vecteur contenant les mots de la chaîne découpée
      */
-    vector<std::string> split(string& s, char delim) const;
+    vector<std::string> split(const string& s, char delim) const;
 
 };
 
