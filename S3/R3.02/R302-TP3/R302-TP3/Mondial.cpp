@@ -250,7 +250,7 @@ void Mondial::printCountryBorders(string countryName) const
     {
         hasBorder = true;
         const XMLElement* borderContry = getCountryXmlelementFromCode(border->Attribute("country"));
-        cout << " est frontalier avec : " << borderContry->FirstChildElement("name")->GetText() << endl;
+        cout << " est frontalier avec : " << borderContry->FirstChildElement("name")->GetText() << " la longueur de sa frontière avec celui-ci est : " << border->Attribute("length") << endl;
         border = border->NextSiblingElement("border");
     }
     if(!hasBorder)
@@ -300,7 +300,9 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const
  */
 void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const
 {
-
+    /*
+ * A COMPLETER
+ */
 }
 
 /*
