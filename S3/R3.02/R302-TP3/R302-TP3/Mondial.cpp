@@ -281,7 +281,7 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const
     XMLElement* river = getRiverXmlelementFromNameIter(riverName);
     if (river == nullptr)
     {
-        cout << riverName<< "ne traverse pas de pays" << endl;
+        cout << riverName<< "fleuve non trouvé" << endl;
         return;
     }
     cout << riverName << " traverse : " << endl;
@@ -300,9 +300,31 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const
  */
 void Mondial::printCountriesWithProvincesCrossedByRiver(string riverName) const
 {
-    /*
- * A COMPLETER
- */
+    XMLElement* river = getRiverXmlelementFromNameIter(riverName);
+    if (river == nullptr)
+    {
+        cout << riverName<< "fleuve non trouvé" << endl;
+        return;
+    }
+    const XMLElement* lengthElement = river->FirstChildElement("length");
+    if (lengthElement != nullptr) {
+        cout << "Longueur du fleuve " << riverName << ": " << lengthElement->GetText() << " km" << endl;
+    } else {
+        cout << "Longueur non spécifiée pour le fleuve " << riverName << "." << endl;
+    }
+
+    const XMLElement* locatedElement = river->FirstChildElement("located");
+    if (locatedElement != nullptr) {
+        const char* countryCode = locatedElement->Attribute("country");
+
+        if (countryCode != nullptr) {
+            cout << "Pays: " << getCountryXmlelementFromCode(countryCode)->FirstChildElement("name")->GetText() << endl;
+            const char* provinceEl = locatedElement->Attribute("province");
+            if(provinceEl!=nullptr)
+            cout << "et les provaince: " << provinceEl << endl;
+        }
+    }
+
 }
 
 /*
