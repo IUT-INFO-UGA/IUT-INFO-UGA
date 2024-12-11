@@ -401,7 +401,7 @@ int main() {
     testAMemeGeometrieQue();
     testeAncetreCommunLePlusBas();
     testeSousArbre();
-    //testEstPliable();
+    testEstPliable();
 
     /*
      * teste des opérations fournies

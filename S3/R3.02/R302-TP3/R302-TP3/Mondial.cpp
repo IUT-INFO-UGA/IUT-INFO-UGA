@@ -286,7 +286,7 @@ void Mondial::printAllCountriesCrossedByRiver(string riverName) const
     }
     cout << riverName << " traverse : " << endl;
 
-    vector<string> contrysCode= split(river->Attribute("country"), ' ');
+    vector<string> contrysCode = split(river->Attribute("country"), ' ');
     for (size_t i = 0; i < contrysCode.size(); i++)
     {
         cout << getCountryXmlelementFromCode(contrysCode[i])->FirstChildElement("name")->GetText() << endl;

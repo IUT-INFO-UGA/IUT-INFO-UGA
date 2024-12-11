@@ -130,13 +130,8 @@ public:
      * @return true si unArbre est un sous-arbre de cet Arbre
      */
     bool aPourSousArbre(const ArbreNoeudBinaireRecherche<TypeInfo>& unArbre) const;
-
-    /**
-     *
-     * @return true si cet arbre est pliable
-     */
     bool estPliable() const;
-
+    bool estPliableRecWorker(const NoeudBinaire<TypeInfo>* monPtrRac, const NoeudBinaire<TypeInfo>* sonPtrRac) const;
     /**
      * cet arbre a-t-il la même géométrie que l'autreArbre
      * @param autreArbre
@@ -149,8 +144,7 @@ public:
      * @return  la plus grand information contenue dans cet arbre
      */
     TypeInfo getMax() const;
-        
-    
+
     //------------------------------------------------------------
     // Méthodes publiques d'affichage
     //------------------------------------------------------------
@@ -577,11 +571,21 @@ bool ArbreNoeudBinaireRecherche<TypeInfo>::aPourSousArbre(const ArbreNoeudBinair
 
 template<class TypeInfo>
 bool ArbreNoeudBinaireRecherche<TypeInfo>::estPliable() const {
-    /*
-     * A COMPLETER
-     */
-    // supprimer à partir de cette ligne après complétion
-    return false;
+    if(ptrRacine==nullptr)
+    {
+        return true;
+    }
+    return estPliableRecWorker(ptrRacine->getPtrFilsDroit(), ptrRacine->getPtrFilsGauche());
+}
+template<class TypeInfo>
+bool ArbreNoeudBinaireRecherche<TypeInfo>::estPliableRecWorker(const NoeudBinaire<TypeInfo>* monPtrRac, const NoeudBinaire<TypeInfo>* sonPtrRac) const
+{
+
+    if(monPtrRac == nullptr && sonPtrRac == nullptr)
+        return true;
+    if(monPtrRac==nullptr && sonPtrRac != nullptr || monPtrRac != nullptr && sonPtrRac == nullptr)
+        return false;
+    return estPliableRecWorker(monPtrRac->getPtrFilsDroit(), sonPtrRac->getPtrFilsGauche()) && estPliableRecWorker(monPtrRac->getPtrFilsGauche(),sonPtrRac->getPtrFilsDroit());
 }
 
 //////////////////////////////////////////////////////////////
