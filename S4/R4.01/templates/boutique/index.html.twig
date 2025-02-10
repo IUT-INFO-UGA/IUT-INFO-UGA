@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BoutiqueController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <!-- debut du block body -->
+    <!-- debut du block body -->
+    <div class="card col-md-12">
+        <div class="card-header">
+            <a class="btn-back text-secondary" href="/info/R401/">
+                <i class="fas fa-2x fa-arrow-circle-left"></i>
+            </a>
+            <h3>
+                <i class="fas fa-store"></i>
+                Boutique
+                <span class="badge badge-pill badge-info">{{ categories|length }}</span>
+                <span class="badge badge-pill badge-info">{{ categories|length }}</span>
+                rayon(s) proposé(s)
+            </h3>
+        </div>
+        <div class="card-body row">
+            {% for categorie in categories %}
+            <div class="col-md-3">
+                <div class="card clickable" onclick="location = '/boutique/rayon/'+{{ categorie.id }}">
+                    <img src="{{ asset(categorie.visuel) }}" class="card-img-top" alt="Fruits">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ categorie.libelle }}</h4>
+                        <p class="card-text">
+                            <i>{{ categorie.texte }}</i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- fin du block body -->
+
+
+</div>
+{% endblock %}
