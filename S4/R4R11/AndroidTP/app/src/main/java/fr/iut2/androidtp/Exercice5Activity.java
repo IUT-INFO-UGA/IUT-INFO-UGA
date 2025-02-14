@@ -17,15 +17,15 @@ public class Exercice5Activity extends AppCompatActivity {
         // On charge le XML pour créer l'arbre graphique
         setContentView(R.layout.activity_exercice5);
 
-        Button button = findViewById(R.id.exercice5_validertable);
+        Button button = findViewById(R.id.ex5_validating);
         button.setOnClickListener(exercice5_Valider);
     }
 
     private final View.OnClickListener exercice5_Valider = v -> {
-        EditText input = findViewById(R.id.exercice5_tablefield);
+        EditText input = findViewById(R.id.exo5_input);
         int table = Integer.parseInt(input.getText().toString());
-        Intent intent = new Intent(Exercice5Activity.this, HelloActivity.class);
-        intent.putExtra(String.valueOf(TableMultiplicationActivity.TABLE), table);
+        Intent intent = new Intent(Exercice5Activity.this, TableMultiplicationActivity.class);
+        intent.putExtra("TABLE", table);
 
         startActivity(intent);
     };

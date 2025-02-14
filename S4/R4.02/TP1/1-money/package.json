@@ -1,0 +1,19 @@
+{
+  "name": "example-money",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "c8 npm run test",
+    "report": "c8 --reporter=html npm run test"
+  },
+  "author": "Nicolas Hili",
+  "license": "ISC",
+  "devDependencies": {
+    "c8": "^10.1.3",
+    "chai": "^5.1.2",
+    "mocha": "^11.1.0"
+  },
+  "type": "module"
+}

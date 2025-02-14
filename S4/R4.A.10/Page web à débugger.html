@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page web à débugger</title>
+
+    <style>
+      section {
+        padding: 20px;
+        border-top: 1px dashed grey;
+        border-bottom: 1px dashed grey;
+      }
+      section h2 {
+        margin-top: 0;
+      }
+      label {
+        display: block;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Page web à débugger</h1>
+
+    <p>À première vue, cette page semble tout à fait fonctionnelle...</p>
+
+    <section id="section1">
+      <h2>Un mot à remplacer</h2>
+      <p>Pour coder côté serveur, le mieux c'est le PHP.</p>
+      <button>Corriger la phrase</button>
+    </section>
+
+    <section id="section2">
+      <h2>Une simple conversion</h2>
+      <p>
+        Saisir une valeur en <b>Degrés Celsius</b> dans le champ ci-dessous puis
+        cliquer sur le bouton :
+      </p>
+      <label>Degrés Celsius =&nbsp;<input type="number" size="4" value="0"></label>
+      <button>Convertir en Degrés Fahrenheit</button>
+      <p>=&gt; Cela fait <strong>...</strong> Degrés Fahrenheit</p>
+    </section>
+
+    <!-- Inclusion du script JavaScript tout buggé -->
+    <script src="Page%20web%20%C3%A0%20d%C3%A9bugger_files/page-to-debug.js"></script>
+  
+
+</body></html>

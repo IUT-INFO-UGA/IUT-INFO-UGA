@@ -10,9 +10,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.Objects;
+
 public class TableMultiplicationActivity extends AppCompatActivity {
 
-    public static final int TABLE = 1;
+    public static int TABLE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,15 @@ public class TableMultiplicationActivity extends AppCompatActivity {
             return insets;
         });
 
-        int table = Integer.parseInt(getIntent().getStringExtra(String.valueOf(TABLE)));
+        TABLE = getIntent().getIntExtra("TABLE", 0);
 
-        TextView text1 = findViewById(R.id.exercice5_text1);
-        TextView text2 = findViewById(R.id.exercice5_text2);
-        TextView text3 = findViewById(R.id.exercice5_text3);
+        TextView text1 = findViewById(R.id.ex5_string_text1);
+        text1.setText(TABLE+"*1");
+        TextView text2 = findViewById(R.id.ex5_string_text2);
+        text2.setText(TABLE+"*2");
+        TextView text3 = findViewById(R.id.ex5_string_text3);
+        text3.setText(TABLE+"*3");
+
 
     }
 }

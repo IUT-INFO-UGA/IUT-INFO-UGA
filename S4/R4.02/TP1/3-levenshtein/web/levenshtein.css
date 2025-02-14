@@ -1,0 +1,77 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #4da0b0; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #d39d38,
+    #4da0b0
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #d39d38,
+    #4da0b0
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+main {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+
+main fieldset {
+  font-size: 0;
+  border: none;
+}
+
+main form input,
+main form button {
+  font-family: sans-serif;
+  height: 120px;
+  font-size: 3rem;
+  padding: 0.2em 0.5em;
+  margin: 0;
+  background-color: #ffffff66;
+  border: 1px solid #ffffffcc;
+  box-sizing: border-box;
+}
+
+main form input {
+  width: 400px;
+  text-align: center;
+}
+
+main form input:first-child {
+  border-top-left-radius: 60px;
+  border-bottom-left-radius: 60px;
+}
+
+main form input[type='submit'] {
+  border-top-right-radius: 60px;
+  border-bottom-right-radius: 60px;
+  background-color: #ffffffaa;
+  width: auto;
+}
+
+main form button:hover,
+main form input[type='submit']:hover {
+  background-color: #3333ff33;
+  cursor: pointer;
+}
+
+main div {
+  display: block;
+  text-align: center;
+  margin: 1rem;
+  font-size: 2rem;
+  visibility: hidden;
+}

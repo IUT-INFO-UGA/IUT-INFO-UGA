@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./levenshtein.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <main>
+      <form id="form">
+        <fieldset>
+          <input type="text" name="str1" placeholder="string 1" value="" id="str1-field" />
+          <button id="reverse-btn" name="reverse"><i class="material-icons">sync_alt</i></button>
+          <input type="text" name="str2" placeholder="string 2" value="" id="str2-field"/>
+          <input type="submit" id="compute-distance-btn" value="Compute distance" />
+        </fieldset>
+        <div id="output">La distance entre les chaînes "<output id="str1"></output>" et "<output id="str2"></output>" est de <output id="distance">0</output>.</div>
+      </form>
+    </main>
+    <script type="module" src="./ui.js"></script>
+  </body>
+</html>
