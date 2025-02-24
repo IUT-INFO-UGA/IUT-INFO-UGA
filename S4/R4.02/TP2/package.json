@@ -1,0 +1,26 @@
+{
+  "name": "example-chess",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "coverage": "c8 npm run test",
+    "report": "c8 --reporter=html npm run test",
+    "doc": "jsdoc src/ -d docs -r",
+    "build": "rollup -c rollup.config.js",
+    "serve": "http-server ./ 8080"
+  },
+  "author": "Nicolas Hili",
+  "license": "ISC",
+  "devDependencies": {
+    "c8": "^10.1.2",
+    "jsdoc": "^4.0.4",
+    "mocha": "^10.8.2",
+    "rollup": "^4.27.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,78 @@
+#calc {
+  width: 410px;
+  background-color: #eeeeee;
+  border: 2px solid #cccccc;
+  margin: auto;
+  padding: 15px;
+}
+
+#titre {
+  font-weight: bold;
+}
+
+#ligne_affichage {
+  margin: 10px 0;
+}
+
+#zone_affichage {
+  font-size: 20px;
+  text-align: right;
+  width: 95%;
+}
+
+div.ligne_boutons {
+  margin: 6px 0;
+}
+
+/* Tous les boutons (button, text et checkbox) */
+input {
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+
+/* Boutons classiques (uniquement clicables) */
+input[type="button"] {
+  vertical-align: top;
+  margin: 2px;
+  height: 32px;
+}
+
+input[type="button"].bouton_classique {
+  width: 60px;
+}
+
+/* Boutons libres (éditables) */
+.bouton_libre {
+  width: 115px;
+  padding: 4px 6px;
+  border: 1px dashed grey;
+  border-radius: 4px;
+}
+
+input[type="text"].bouton_libre {
+  border: 1px dashed darkblue;
+  text-align: center;
+  height: 32px;
+}
+
+input[type="text"].bouton_libre:focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 2px darkblue;
+  text-align: center;
+}
+
+/* Switch pour le mode édition (en bas de la calculatrice) */
+#mode_edition {
+  text-align: center;
+  margin-top: 15px;
+}
+
+input[type="checkbox"] + label {
+  color: grey;
+}
+
+input[type="checkbox"]:checked + label {
+  color: darkblue;
+}

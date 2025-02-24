@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Statistiques sur une liste de notes</title>
+
+    <!-- Styles CSS intégré au HTML 
+          par souci de praticité -->
+    <style>
+      table {
+        margin: 25px 0;
+        border-collapse: collapse;
+      }
+      caption {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 6px;
+      }
+      td {
+        border: 1px solid black;
+        padding: 6px;
+      }
+      td:first-child {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Statistiques sur une liste de notes</h1>
+
+    <h2>Les notes :</h2>
+    <ul>
+      <!-- <li>(Aucune note au chargement de la page)</li> -->
+    </ul>
+    <button id="addGradeBtn">Ajouter une note à la liste</button>
+
+    <table>
+      <caption>
+        Statistiques sur ces notes
+      </caption>
+      <tbody>
+        <tr id="minGrade">
+          <td>Note min. :</td>
+          <td>...</td>
+        </tr>
+        <tr id="nbGradesBelow10">
+          <td>Nombre de notes en dessous de 10 :</td>
+          <td>...</td>
+        </tr>
+        <tr id="averageGrade">
+          <td>Moyenne :</td>
+          <td>...</td>
+        </tr>
+        <tr id="maxGrade">
+          <td>Note max. :</td>
+          <td>...</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script src="Statistiques%20sur%20une%20liste%20de%20notes_files/stats-on-grades.js"></script>
+  
+
+</body></html>

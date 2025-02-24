@@ -38,6 +38,7 @@ class Board
                     board[row][0] == board[row][1] &&
                     board[row][1] == board[row][2]) {
                 return board[row][0] == mark ? 100 : -100;
+                
             }
         }
 

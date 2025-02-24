@@ -26,3 +26,4 @@ replay_pid*
 *.odt
 *.iml
 *.xml
+**/node_modules/
