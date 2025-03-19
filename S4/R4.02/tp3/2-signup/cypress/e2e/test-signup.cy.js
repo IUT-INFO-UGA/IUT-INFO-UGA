@@ -46,7 +46,7 @@ describe('test-signup', () => {
 	});
 
 	it('TF7 : an email that has already been used displays an error message', () => {
-		cy.intercept('GET', 'http://localhost:8090/email?*', {
+		cy.intercept('GET', '/email?*', {
 			statusCode: 200,
 			body: {
 				presentInDatabase: true,
@@ -59,26 +59,64 @@ describe('test-signup', () => {
 	});
 
 	it('TF8 : entering a wrong Capcha displays an error message', () => {
-		// À compléter
+		cy.intercept('GET', '/capcha', {
+			statusCode: 200,
+			body: { op1: 7, op2: 9 }
+		});
+		cy.get('#reload-btn').click();
+		cy.get('#capcha-field').type('42');
+		cy.get('#capcha-field').should('have.css', 'border-color', tomato);
+		cy.get('#validation-capcha').should('have.text', 'The result is incorrect. Are you a robot?');
 	});
 
 	it('TF9 : entering a correct Capcha displays a success message', () => {
-		// À compléter
+		cy.intercept('GET', '/capcha', {
+			statusCode: 200,
+			body: { op1: 7, op2: 9 }
+		});
+		cy.get('#reload-btn').click();
+		cy.get('#capcha-field').type('16');
+		cy.get('#capcha-field').should('have.css', 'border-color', green);
+		cy.get('#validation-capcha').should('have.text', 'Nice work!');
 	});
 
 	it('TF10 : adding a programming language creates a new badge', () => {
-		// À compléter
+		cy.get('#language-list').type('TypeScript');
+		cy.get('[contenteditable="true"]').blur();
+		cy.get('.placeholder').should('exist');
 	});
 
 	it('TF11 : entering less than three programming languages displays an error message', () => {
-		// À compléter
+		['TypeScript', 'react'].forEach(el => {
+			cy.get('#language-list').type(el);
+			cy.get('[contenteditable="true"]').blur();
+		});
+		cy.get('#language-list').should('have.css', 'border-color', tomato);
+		cy.get('#validation-languages').should('have.text', '1 remaining.');
 	});
 
 	it('TF12 : entering three or more programming languages is valid', () => {
-		// À compléter
+		['TypeScript', 'react', 'c++'].forEach(el => {
+			cy.get('#language-list').type(el);
+			cy.get('[contenteditable="true"]').blur();
+		});
+		cy.get('#language-list').should('have.css', 'border-color', green);
 	});
 
-	it('TF13 : the signup form can be validated upon completing all fields', () => {
-		// À compléter
+	it.only('TF13 : the signup form can be validated upon completing all fields', () => {
+		cy.get('#first-name-field').type('John');
+		cy.get('#last-name-field').type('Doe');
+		cy.get('#email-field').type('John.Doe@iut.fr');
+
+		cy.intercept('GET', '/capcha', {
+			statusCode: 200,
+			body: { op1: 7, op2: 9 }
+		});
+		cy.get('#reload-btn').click();
+		cy.get('#capcha-field').type('16');
+		['TypeScript', 'react', 'c++'].forEach(el => {
+			cy.get('#language-list').type(el);
+			cy.get('[contenteditable="true"]').blur();
+		});
 	});
 });
