@@ -1,0 +1,136 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+
+main aside {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#turn {
+}
+
+#turn p,
+#turn figure {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+#history {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 500px;
+  position: relative;
+  flex-grow: 1;
+}
+
+#history div {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+#history div p {
+  text-transform: lowercase;
+}
+
+#history div p:first-letter {
+  text-transform: uppercase;
+}
+
+#history h1 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  padding: 0px 10px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
+#control {
+}
+
+#chessboard {
+  display: grid;
+  grid-template-rows: repeat(8, 50px [row-start]);
+  margin-left: 50px;
+  margin-top: 50px;
+  counter-reset: rank 9;
+}
+
+#chessboard .rank:first-child div {
+  counter-increment: file;
+}
+
+#chessboard .rank:first-child div::before {
+  position: absolute;
+  content: counter(file, lower-alpha);
+  top: -50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+}
+
+#chessboard .rank {
+  display: grid;
+  position: relative;
+  counter-increment: rank -1;
+  grid-template-columns: repeat(8, 50px [col-start]);
+}
+
+#chessboard .rank::before {
+  position: absolute;
+  content: counter(rank);
+  left: -50px;
+  width: 50px;
+  text-align: center;
+  line-height: 50px;
+}
+
+#chessboard .rank:nth-child(odd) div:nth-child(even):not(.active),
+#chessboard .rank:nth-child(even) div:nth-child(odd):not(.active) {
+  background-color: brown;
+}
+
+#chessboard .rank:nth-child(odd) div:nth-child(odd):not(.active),
+#chessboard .rank:nth-child(even) div:nth-child(even):not(.active) {
+  background-color: beige;
+}
+
+#chessboard .rank div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#chessboard .rank div.active {
+  background-color: green;
+}
+
+#chessboard img {
+  user-select: none;
+}

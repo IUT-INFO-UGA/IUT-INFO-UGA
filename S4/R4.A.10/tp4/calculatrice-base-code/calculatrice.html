@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Calculatrice paramétrable</title>
+	<link rel="stylesheet" type="text/css" href="calculatrice.css" />
+</head>
+
+<body>
+	<h2 style="text-align: center">Calculatrice paramétrable</h2>
+
+	<main id="calc">
+		<!-- Champ de la calculatrice -->
+		<div id="ligne_affichage">
+			<input type="text" name="zone_affichage" id="zone_affichage" />
+		</div>
+		<!-- Lignes des boutons de la calculatrice -->
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique" value="MC" title="Vide la mémoire (Memory Clear)" />
+			<input type="button" id="MR" class="bouton_classique" value="MR"
+				title="Concatène la valeur stockée en mémoire (Memory Recall)" />
+			<input type="button" class="bouton_classique" value="MS" title="Enregistre la valeur en mémoire (Memory Save)" />
+			<input type="button" id="plusMinus" class="bouton_classique" value="&plusmn;" />
+			<input type="button" id="libre1" class="bouton_libre" value="" />
+		</div>
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique" value="CE" title="Vide la zone d'affichage (Clear Entry)" />
+			<input type="button" class="bouton_classique bouton_simple" value="(" />
+			<input type="button" class="bouton_classique bouton_simple" value=")" />
+			<input type="button" class="bouton_classique bouton_simple" value="/" />
+			<input type="button" id="libre2" class="bouton_libre" value="" />
+		</div>
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique bouton_simple" value="7" />
+			<input type="button" class="bouton_classique bouton_simple" value="8" />
+			<input type="button" class="bouton_classique bouton_simple" value="9" />
+			<input type="button" class="bouton_classique bouton_simple" value="*" />
+			<input type="button" id="libre3" class="bouton_libre" value="" />
+		</div>
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique bouton_simple" value="4" />
+			<input type="button" class="bouton_classique bouton_simple" value="5" />
+			<input type="button" class="bouton_classique bouton_simple" value="6" />
+			<input type="button" class="bouton_classique bouton_simple" value="-" />
+			<input type="button" id="libre4" class="bouton_libre" value="" />
+		</div>
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique bouton_simple" value="1" />
+			<input type="button" class="bouton_classique bouton_simple" value="2" />
+			<input type="button" class="bouton_classique bouton_simple" value="3" />
+			<input type="button" class="bouton_classique bouton_simple" value="+" />
+			<input type="button" id="libre5" class="bouton_libre" value="" />
+		</div>
+		<div class="ligne_boutons">
+			<input type="button" class="bouton_classique bouton_simple" value="." />
+			<input type="button" class="bouton_classique bouton_simple" value="0" />
+			<input type="button" id="backspace" class="bouton_classique" value="&larr;" title="Retour arrière (Backspace)" />
+			<input type="button" class="bouton_classique" value="=" />
+			<input type="button" id="libre6" class="bouton_libre" value="" />
+		</div>
+		<!-- Checkbox pour passer en mode édition de la calculatrice -->
+		<div id="mode_edition">
+			<input type="checkbox" id="editionCheckbox">
+			<label for="editionCheckbox">Mode Boutons éditables</label>
+		</div>
+	</main>
+
+	<!-- Chargement du script principal en tant que module -->
+	<script type="module" src="js/main.js"></script>
+</body>
+
+</html>

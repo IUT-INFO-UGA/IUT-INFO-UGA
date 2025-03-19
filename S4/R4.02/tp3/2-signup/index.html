@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Signup example</title>
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <form>
+      <!-- First name and last name fields -->
+      <div class="field">
+        <div class="group">
+          <input type="text" placeholder="First name" id="first-name-field" />
+          <input type="text" placeholder="Last name" id="last-name-field" />
+        </div>
+        <p class="validation" id="validation-name"></p>
+      </div>
+
+      <!-- Email field -->
+      <div class="field">
+        <input type="email" placeholder="Email address" id="email-field" />
+        <p class="validation" id="validation-email"></p>
+      </div>
+
+      <!-- Language list -->
+      <div class="field">
+        <ul id="language-list">
+          <li
+            contenteditable="true"
+            class="placeholder"
+            data-placeholder-content="Your favorite programming languages (3 required)"
+          ></li>
+        </ul>
+        <p class="validation" id="validation-languages"></p>
+      </div>
+
+      <!-- Capcha field -->
+      <div class="field">
+        <div class="group">
+          <canvas id="op1"></canvas>
+          <output>+</output>
+          <canvas id="op2"></canvas>
+          <output>=</output>
+          <input type="text" placeholder="Your answer" id="capcha-field" />
+          <a href="#" id="reload-btn">&#x21bb;</a>
+        </div>
+        <p class="validation" id="validation-capcha"></p>
+      </div>
+
+      <!-- Sign up button -->
+      <div class="field">
+        <button type="submit" id="signup-btn" disabled>Sign up</button>
+      </div>
+
+    </form>
+
+    <script src="ui.js"></script>
+  </body>
+</html>

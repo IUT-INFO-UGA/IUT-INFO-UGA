@@ -1,0 +1,161 @@
+:root {
+  /* field style */
+  --field-width: 500px;
+
+  /* validity state style */
+  --invalid-color: rgb(255, 99, 71); /* color name: tomato */
+  --valid-color: rgb(0, 128, 0); /* color name: green */
+
+  /* button style */
+  --btn-bg-color: rgb(63, 81, 181);
+  --btn-color: rgb(255, 255, 255); /* color name: white */
+
+  /* Badge style */
+  --badge-color: rgb(173, 216, 230); /* color name: lightblue */
+  --badge-border-color: rgb(0, 0, 0);
+  --badge-border-radius: 5px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+div.field,
+div.field .group {
+  flex-grow: 1;
+  display: flex;
+  width: var(--field-width);
+  align-items: stretch;
+  flex-direction: column;
+}
+
+div.field .group {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+p.validation {
+  margin: 0;
+  display: none;
+}
+
+p.validation.valid {
+  color: var(--valid-color);
+  display: block;
+}
+
+p.validation.invalid {
+  color: var(--invalid-color);
+  display: block;
+}
+
+input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: inherit;
+  min-width: 30px;
+}
+
+ul {
+  flex-grow: 1;
+  list-style-type: none;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: inherit;
+  min-width: 20px;
+  display: flex;
+  gap: 10px;
+  height: 47px;
+  align-items: stretch;
+  margin: 0;
+}
+
+ul li:not([contenteditable]) {
+  border: 1px solid var(--badge-border-color);
+  background-color: var(--badge-color);
+  border-radius: var(--badge-border-radius);
+  padding: 2px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+ul li[contenteditable] {
+  color: #666;
+  flex-grow: 1;
+  outline: none;
+}
+
+ul:hover,
+input:hover {
+  border-color: #aaa;
+}
+
+ul.invalid,
+input.invalid {
+  border-color: var(--invalid-color);
+}
+
+ul.valid,
+input.valid {
+  border-color: var(--valid-color);
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 10px;
+  border: none;
+  background-color: var(--btn-bg-color);
+  color: var(--btn-color);
+  font-weight: 600;
+  border-radius: 10px;
+  height: 40px;
+  cursor: pointer;
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+canvas {
+  height: 47px;
+  width: 100px;
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+#reload-btn {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  font-size: larger;
+}
