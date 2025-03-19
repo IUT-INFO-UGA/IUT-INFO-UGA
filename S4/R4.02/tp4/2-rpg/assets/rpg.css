@@ -1,0 +1,743 @@
+/* latin */
+@font-face {
+  font-family: 'Arvo';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./data/fonts/Arvo/arvo.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+:root {
+  --tile-w: 32px;
+  --char-w: 32px;
+  --tile-nb: 17;
+  --first: -1;
+  --second: 1;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+
+main aside {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#history {
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 500px;
+  position: relative;
+  flex-grow: 1;
+}
+
+#history div {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+#history div p {
+  text-transform: lowercase;
+}
+
+#history div p:first-letter {
+  text-transform: uppercase;
+}
+
+#history h1 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  padding: 0px 10px;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
+#control {
+}
+
+#map {
+  transform: scale(1);
+  display: grid;
+  grid-template-rows: repeat(var(--tile-nb), var(--tile-w) [row-start]);
+  margin-left: var(--tile-w);
+  margin-top: var(--tile-w);
+  counter-reset: row;
+}
+
+#map .row:nth-child(17) div {
+  counter-increment: col;
+}
+
+#map .row:nth-child(17) div::before {
+  position: absolute;
+  content: counter(col);
+  bottom: calc(-1 * var(--tile-w));
+  width: var(--tile-w);
+  text-align: center;
+  line-height: var(--tile-w);
+}
+
+#map .row {
+  display: grid;
+  position: relative;
+  counter-increment: row;
+  grid-template-columns: repeat(var(--tile-nb), var(--tile-w) [col-start]);
+}
+
+#map .row::before {
+  position: absolute;
+  content: counter(row);
+  left: calc(-1 * var(--tile-w));
+  width: var(--tile-w);
+  text-align: center;
+  line-height: var(--tile-w);
+}
+
+#map .row .tile {
+  --tile-offset-x: 1;
+  --tile-offset-y: 2;
+  background-image: url('data/img/tiles.png');
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(-1 * var(--tile-offset-x) * var(--tile-w));
+  background-position-y: calc(-1 * var(--tile-offset-y) * var(--tile-w));
+}
+
+#map .row .tile.animated {
+  --anim-offset: 20;
+  animation: water 2s steps(2) infinite;
+}
+
+#map .row .tile.animated.fast {
+  animation-duration: 0.5s;
+}
+
+@keyframes water {
+  from {
+    background-position-x: calc(-1 * var(--tile-offset-x) * var(--tile-w));
+  }
+  to {
+    background-position-x: calc(
+      -1 * (var(--anim-offset) + var(--tile-offset-x)) * var(--tile-w)
+    );
+  }
+}
+
+#map.frozen .tile {
+  pointer-events: none;
+}
+
+#map .row .tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: no-drop;
+}
+
+#map .row .tile[reachable] {
+  cursor: pointer;
+}
+
+#map .row .tile[reachable]:hover {
+  opacity: 0.7;
+}
+
+#map.show-reachability .row .tile::after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tile-w);
+  height: var(--tile-w);
+  background-color: #ff000066;
+  text-align: center;
+}
+
+#map.show-reachability .row .tile[reachable]::after {
+  background-color: #00ff0066;
+  content: attr(reachable);
+}
+/* GRASS */
+#map .row .tile.top-grass {
+  --tile-offset-x: 1;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.b-grass {
+  --tile-offset-x: 1;
+  --tile-offset-y: 3;
+}
+
+#map .row .tile.l-grass {
+  --tile-offset-x: 0;
+  --tile-offset-y: 2;
+}
+
+#map .row .tile.r-grass {
+  --tile-offset-x: 2;
+  --tile-offset-y: 2;
+}
+
+#map .row .tile.tl-grass {
+  --tile-offset-x: 0;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.tr-grass {
+  --tile-offset-x: 2;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.bl-grass {
+  --tile-offset-x: 0;
+  --tile-offset-y: 3;
+}
+
+#map .row .tile.br-grass {
+  --tile-offset-x: 2;
+  --tile-offset-y: 3;
+}
+
+#map .row .tile.s-grass {
+  --tile-offset-x: 1;
+  --tile-offset-y: 5;
+}
+
+/* WATER */
+#map .row .tile.water {
+  --tile-offset-x: 3;
+  --tile-offset-y: 21;
+}
+
+#map .row .tile.dwater {
+  --tile-offset-x: 5;
+  --tile-offset-y: 21;
+}
+
+#map .row .tile.r-water {
+  --tile-offset-x: 8;
+  --tile-offset-y: 17;
+}
+
+#map .row .tile.l-water {
+  --tile-offset-x: 6;
+  --tile-offset-y: 17;
+}
+
+#map .row .tile.br-water {
+  --tile-offset-x: 8;
+  --tile-offset-y: 18;
+}
+
+#map .row .tile.t-water {
+  --tile-offset-x: 7;
+  --tile-offset-y: 16;
+}
+
+#map .row .tile.t-waterf {
+  --tile-offset-x: 0;
+  --tile-offset-y: 17;
+}
+
+#map .row .tile.b-waterf {
+  --tile-offset-x: 0;
+  --tile-offset-y: 19;
+}
+
+/* CLIFF */
+#map .row .tile.t-cliff {
+  --tile-offset-x: 1;
+  --tile-offset-y: 20;
+}
+
+/* SAND */
+#map .row .tile.t-sandg {
+  --tile-offset-x: 1;
+  --tile-offset-y: 22;
+}
+
+#map .row .tile.tr-sandg {
+  --tile-offset-x: 2;
+  --tile-offset-y: 22;
+}
+
+#map .row .tile.r-sandg {
+  --tile-offset-x: 2;
+  --tile-offset-y: 23;
+}
+
+#map .row .tile.bl-sand {
+  --tile-offset-x: 6;
+  --tile-offset-y: 24;
+}
+
+#map .row .tile.br-sand {
+  --tile-offset-x: 8;
+  --tile-offset-y: 24;
+}
+
+/* BRIDGE */
+#map .row .tile.h-bridge {
+  --tile-offset-x: 10;
+  --tile-offset-y: 2;
+}
+
+#map .row .tile.v-bridge {
+  --tile-offset-x: 10;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.bridge {
+  --tile-offset-x: 8;
+  --tile-offset-y: 2;
+}
+
+/* QUAYE */
+#map .row .tile.v-quaye {
+  --tile-offset-x: 4;
+  --tile-offset-y: 18;
+}
+
+#map .row .tile.e-quaye {
+  --tile-offset-x: 4;
+  --tile-offset-y: 19;
+}
+
+/* PATH */
+#map .row .tile.br-path {
+  --tile-offset-x: 5;
+  --tile-offset-y: 7;
+}
+
+#map .row .tile.v-path {
+  --tile-offset-x: 3;
+  --tile-offset-y: 8;
+}
+
+#map .row .tile.h-path {
+  --tile-offset-x: 5;
+  --tile-offset-y: 8;
+}
+
+#map .row .tile.h-path-e {
+  --tile-offset-x: 5;
+  --tile-offset-y: 9;
+}
+
+#map .row .tile.h-path-b {
+  --tile-offset-x: 3;
+  --tile-offset-y: 9;
+}
+
+/* STONE */
+#map .row .tile.stone {
+  --tile-offset-x: 4;
+  --tile-offset-y: 3;
+}
+
+#map .row .tile.stone-g {
+  --tile-offset-x: 4;
+  --tile-offset-y: 4;
+}
+
+/* STAIRS */
+#map .row .tile.v-st-l-b {
+  --tile-offset-x: 11;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.v-st-r-b {
+  --tile-offset-x: 12;
+  --tile-offset-y: 1;
+}
+
+#map .row .tile.v-st-l {
+  --tile-offset-x: 11;
+  --tile-offset-y: 2;
+}
+
+#map .row .tile.v-st-r {
+  --tile-offset-x: 12;
+  --tile-offset-y: 2;
+}
+
+#map .row .tile.v-st-l-e {
+  --tile-offset-x: 11;
+  --tile-offset-y: 3;
+}
+
+#map .row .tile.v-st-r-e {
+  --tile-offset-x: 12;
+  --tile-offset-y: 3;
+}
+
+#map img {
+  user-select: none;
+}
+
+#map .row .tile[decoration] {
+  --dec-offset-x: 0;
+  --dec-offset-y: 6;
+}
+
+#map .row .tile[decoration='tree-1'] {
+  --dec-offset-x: 0;
+  --dec-offset-y: 13;
+}
+
+#map .row .tile[decoration='tree-2'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 13;
+}
+
+#map .row .tile[decoration='tree-3'] {
+  --dec-offset-x: 0;
+  --dec-offset-y: 12;
+}
+
+#map .row .tile[decoration='tree-4'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 12;
+}
+
+#map .row .tile[decoration='flowe-1'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 8;
+}
+
+#map .row .tile[decoration='flowe-2'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 9;
+}
+
+#map .row .tile[decoration='flowe-3'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 10;
+}
+
+#map .row .tile[decoration='flowe-4'] {
+  --dec-offset-x: 1;
+  --dec-offset-y: 11;
+}
+
+#map .row .tile[decoration='flowe-5'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 8;
+}
+
+#map .row .tile[decoration='flowe-6'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 9;
+}
+
+#map .row .tile[decoration='flowe-7'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 10;
+}
+
+#map .row .tile[decoration='flowe-8'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 11;
+}
+
+#map .row .tile[decoration='stone-1'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 7;
+}
+
+#map .row .tile[decoration='stone-2'] {
+  --dec-offset-x: 2;
+  --dec-offset-y: 6;
+}
+
+#map .row .tile[decoration='trunc-1'] {
+  --dec-offset-x: 0;
+  --dec-offset-y: 6;
+}
+
+#map .row .tile[decoration]::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tile-w);
+  height: var(--tile-w);
+  background-image: url('data/img/tiles.png');
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(-1 * var(--dec-offset-x) * var(--tile-w));
+  background-position-y: calc(-1 * var(--dec-offset-y) * var(--tile-w));
+}
+
+/* Character */
+#character {
+  --char-offset-x: 4;
+  --char-offset-y: 0;
+  position: absolute;
+  top: var(--char-w);
+  left: var(--char-w);
+  width: var(--char-w);
+  height: var(--char-w);
+  transform: scale(1);
+  background-image: url('data/img/characters-wide.png');
+  background-size: auto auto;
+  background-repeat: no-repeat;
+  background-position-x: calc(-1 * var(--char-offset-x) * var(--char-w));
+  background-position-y: calc(-1 * var(--char-offset-y) * var(--char-w));
+  /*transition: top 0.1s, left 0.1s;*/
+}
+
+@keyframes run {
+  from {
+    background-position-x: calc(
+      -1 * calc(var(--first) + var(--char-offset-x)) * var(--char-w)
+    );
+  }
+  to {
+    background-position-x: calc(
+      -1 * calc(var(--second) + var(--char-offset-x)) * var(--char-w)
+    );
+  }
+}
+
+#character.running {
+  animation: run 0.2s steps(2) infinite;
+}
+
+#character.down {
+  --char-offset-x: 4;
+  --char-offset-y: 0;
+}
+
+#character.up {
+  --char-offset-x: 4;
+  --char-offset-y: 3;
+}
+
+#character.left {
+  --char-offset-x: 4;
+  --char-offset-y: 1;
+}
+
+#character.right {
+  --char-offset-x: 4;
+  --char-offset-y: 2;
+}
+
+#name-container,
+#points-container {
+  font-size: 0;
+}
+
+#points-container div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* 
+ * Buttons
+ * From codepen: https://codepen.io/mmoustafa/details/DLBLgn 
+ */
+
+label {
+  font-family: 'Arvo', sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  padding-right: 20px;
+  width: 200px;
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+}
+
+button,
+output,
+input {
+  outline: 0;
+  display: inline-block;
+  position: relative;
+  top: -0px;
+  vertical-align: middle;
+
+  min-width: 80px;
+  min-height: 30px;
+
+  padding: 10px 25px 10px 25px;
+
+  cursor: pointer;
+
+  font-family: 'Arvo', sans-serif;
+  font-weight: bold;
+  color: #fff;
+
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px 2px 6px 0px;
+}
+
+output,
+input {
+  cursor: initial;
+}
+
+.big {
+  font-size: 36px;
+}
+
+.medium {
+  font-size: 24px;
+}
+
+.small {
+  font-size: 18px;
+}
+
+button {
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+button.green {
+  background-color: #b1d927;
+  border-color: #91b711;
+}
+
+button.red {
+  background-color: #da5440;
+  border-color: #bb3f2d;
+}
+
+button.blue {
+  background-color: #5eb2e5;
+  border-color: #5399c3;
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: unset;
+}
+
+output.green,
+input.green {
+  border: 2px solid #91b711;
+  color: black;
+  border-width: 2px 2px 6px 2px;
+}
+
+output.red,
+input.red {
+  border: 2px solid #bb3f2d;
+  color: black;
+  border-width: 2px 2px 6px 2px;
+}
+
+output.blue,
+input.blue {
+  border: 2px solid #5eb2e5;
+  color: black;
+  border-width: 2px 2px 6px 2px;
+}
+
+output.borderless,
+input.borderless,
+output.borderless-left,
+input.borderless-left,
+button.borderless-left {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-left-width: 0px;
+}
+
+output.borderless,
+input.borderless,
+output.borderless-right,
+input.borderless-right,
+button.borderless-right {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right-width: 0px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 2px solid #91b711;
+  color: black;
+  border-width: 6px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  box-shadow: 5px 5px 5px #666666;
+  z-index: 3;
+  border-radius: 5px;
+  transition: top 0.5s;
+}
+
+.modal.hide {
+  top: -50%;
+}
+
+.modal .content {
+  padding: 20px 40px;
+}
+
+.modal a.close {
+  display: block;
+  float: right;
+  margin-right: 10px;
+  text-decoration: none;
+  color: black;
+  font-family: 'Arvo', sans-serif;
+  font-size: 30px;
+}
+
+.modal h2 {
+  text-align: center;
+  font-family: 'Arvo', sans-serif;
+  font-size: 30px;
+}
+
+#overlay.hide {
+  display: none;
+}
+
+#overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #00000066;
+  z-index: 2;
+  cursor: pointer;
+}

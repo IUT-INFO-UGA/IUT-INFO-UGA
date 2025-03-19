@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./rpg.css" />
+  </head>
+  <body>
+    <main>
+
+      <!-- Conteneur de la carte -->
+      <div id="map"></div>
+
+      <!-- Menu latéral -->
+      <aside>
+
+        <!-- Édition du nom du personnage -->
+        <section id="name-container">
+          <output id="name-output" class="medium green borderless-right"></output>
+          <button id="edit-btn" class="medium green borderless-left">Edit</button>
+        </section>
+
+        <!-- Édition des caractéristiques du personnage -->
+        <section id="points-container">
+
+          <div id="attack" class="point">
+            <label id="attack-label">Attack</label>
+            <button disabled id="edit-character-btn" class="medium blue borderless-right">-</button>
+            <output id="attack-output" class="medium blue borderless">0</output>
+            <button disabled  id="edit-character-btn" class="medium blue borderless-left">+</button>
+          </div>
+
+          <div id="speed" class="point">
+            <label id="speed-label">Speed</label>
+            <button disabled id="edit-character-btn" class="medium blue borderless-right">-</button>
+            <output id="speed-output" class="medium blue borderless">0</output>
+            <button id="edit-character-btn" class="medium blue borderless-left">+</button>
+          </div>
+
+          <div id="agility" class="point">
+            <label id="agility-label">Agility</label>
+            <button disabled id="edit-character-btn" class="medium blue borderless-right">-</button>
+            <output id="agility-output" class="medium blue borderless">0</output>
+            <button id="edit-character-btn" class="medium blue borderless-left">+</button>
+          </div>
+
+          <!-- Total des points restants à distribuer -->
+          <div>
+            <label id="total-label">Total points</label>
+            <output id="points-output" class="medium blue">5</output>
+          </div>
+
+        </section>
+
+        <!-- Bouton de crédit -->
+        <section>
+          <button id="credit-btn" class="medium green">Credit</button>
+        </section>
+
+      </aside>
+
+    </main>
+
+    <!-- Élément DOM du personnage -->
+    <div id="character" class="right"></div>
+
+    <!-- Filtre pour les fenêtres modales -->
+    <div id="overlay" class="hide"></div>
+
+    <!-- Fenêtre modale des crédits -->
+    <div class="modal hide" id="credit-modal">
+      <a href="#" class="close">x</a>
+      <h2>Credit</h2>
+      <ul class="content">
+        <li>Tile set by <a href="https://opengameart.org/content/basic-map-32x32-by-ivan-voirol" target="_blank">Ivan Voirol</a> (available at <a href="https://opengameart.org" target="_blank">opengameart.org</a>)</li>
+        <li>Fancy buttons by <a href="https://codepen.io/mmoustafa/details/DLBLgn" target="_blank">Mohamed Moustafa</a> (available at <a href="https://codepen.io" target="_blank">codepen.io</a>)</li>
+        <li>Arvo font by <a href="https://fonts.google.com/?query=Anton+Koovit" target="_blank">Anton Koovit</a> (available at <a href="https://fonts.google.com/specimen/Arvo?query=arvo" target="_blank">fonts.google.com</a>)</li>
+      </ul>
+    </div>
+
+    <!-- Fenêtre modale de l'édition du nom -->
+    <div class="modal hide" id="edit-modal">
+      <a href="#" class="close">x</a>
+      <h2>Edit name</h2>
+      <div class="content" style="text-align: center;font-size: 0;">
+        <input id="name-input" class="medium green borderless-right" value="" />
+        <button id="save-btn" class="medium green borderless-left">Save</button>
+      </div>
+    </div>
+
+    <script src="./rpg.js"></script>
+    <script src="./ui.js"></script>
+
+  </body>
+</html>

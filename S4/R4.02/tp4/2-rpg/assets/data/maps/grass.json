@@ -1,0 +1,19 @@
+[
+["grass   ", "r-grass ", "water   ", "l-grass ", "grass   ", "v-path  ", "grass   ", "grass   ", "stone   ", "stone   ", "stone   ", "stone   ", "stone-g ", "stone-g ", "stone-g ", "stone-g ", "stone-g "],
+["h-path  ", "h-path-e", "h-bridge", "h-path-b", "h-path  ", "br-path ", "grass   ", "grass   ", "stone-g ", "stone-g ", "stone-g ", "stone-g ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   "],
+["b-grass ", "b-grass ", "water   ", "b-grass ", "v-st-l-b", "v-st-r-b", "stone   ", "stone   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "t-cliff ", "t-cliff "],
+["stone   ", "stone   ", "t-waterf", "stone   ", "v-st-l  ", "v-st-r  ", "grass   ", "stone   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "water   ", "tl-grass"],
+["grass   ", "stone   ", "b-waterf", "s-grass ", "v-st-l  ", "v-st-r  ", "br-grass", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "water   ", "l-grass "],
+["grass   ", "r-grass ", "water   ", "stone   ", "v-st-l-e", "v-st-r-e", "stone   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "water   ", "l-grass "],
+["grass   ", "r-grass ", "water   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "water   ", "l-grass "],
+["b-grass ", "br-grass", "water   ", "t-sandg", "t-sandg  ", "t-sandg ", "tr-sandg", "grass   ", "grass   ", "grass   ", "h-path-b", "h-path  ", "h-path  ", "h-path  ", "h-path-e", "h-bridge", "h-path-b"],
+["t-cliff ", "t-cliff ", "water   ", "water   ", "water   ", "water   ", "r-sandg ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "grass   ", "r-grass ", "water   ", "l-grass "],
+["water   ", "water   ", "water   ", "water   ", "water   ", "water   ", "bl-sand ", "t-sandg ", "t-sandg ", "t-sandg ", "grass   ", "t-sandg ", "t-sandg ", "t-sandg ", "t-sandg ", "water   ", "t-sandg "],
+["t-water ", "t-water ", "t-water ", "t-water ", "t-water ", "water   ", "water   ", "water   ", "water   ", "water   ", "grass   ", "water   ", "water   ", "water   ", "water   ", "water   ", "water   "],
+["dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "v-bridge", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  "],
+["dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "h-bridge", "h-bridge", "h-bridge", "h-bridge", "bridge  ", "h-bridge", "h-bridge", "dwater  ", "dwater  ", "dwater  ", "dwater  "],
+["r-water ", "water   ", "water   ", "dwater  ", "dwater  ", "dwater  ", "e-quaye ", "e-quaye ", "e-quaye ", "e-quaye ", "v-quaye ", "e-quaye ", "e-quaye ", "dwater  ", "dwater  ", "dwater  ", "dwater  "],
+["r-water ", "water   ", "water   ", "l-water  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  "],
+["r-water ", "water   ", "water   ", "l-water  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  "],
+["br-water", "water   ", "water   ", "l-water ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  ", "dwater  "]
+]

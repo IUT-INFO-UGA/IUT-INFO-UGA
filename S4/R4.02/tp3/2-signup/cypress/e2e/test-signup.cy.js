@@ -45,7 +45,7 @@ describe('test-signup', () => {
 		cy.get('#validation-email').should('have.css', 'color', green);
 	});
 
-	it.only('TF7 : an email that has already been used displays an error message', () => {
+	it('TF7 : an email that has already been used displays an error message', () => {
 		cy.intercept('GET', 'http://localhost:8090/email?*', {
 			statusCode: 200,
 			body: {

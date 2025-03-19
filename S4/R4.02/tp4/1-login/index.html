@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Signup example</title>
+  <link rel="stylesheet" href="ui.css" />
+</head>
+
+<body>
+  <div class="modal" id="login-modal">
+    <form>
+      <!-- Email field -->
+      <div class="field">
+        <input type="email" placeholder="Email address" id="email-field" />
+        <p class="validation" id="validation-email"></p>
+      </div>
+
+      <!-- Password field -->
+      <div class="field">
+        <input type="password" placeholder="Password" id="password-field" />
+        <p class="validation" id="validation-password"></p>
+      </div>
+
+      <!-- Sign up button -->
+      <div class="field">
+        <button type="submit" id="login-btn" disabled>Login</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal hide" id="confirm-modal">
+    <p>Bonjour <output id="name-output">Nom Prénom</output>. Vous vous êtes autentifié(e) depuis une adresse IP inconnue : <output id="ip-output">123.89.23.12</output>. Pour vérifier que c'est vous, un code à cinq chiffres vous a été envoyé à l'adresse <output id="email-output">n*******.com</output>.</p>
+    <form>
+      <!-- Email field -->
+      <div class="field">
+        <div class="group" id="code-group">
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+          <input type="text" />
+        </div>
+        <p class="validation" id="validation-code"></p>
+      </div>
+
+      <!-- Confirm button -->
+      <div class="field">
+        <button type="submit" id="confirm-btn" disabled>Confirmer que c'est moi</button>
+      </div>
+
+      <!-- Sign up button -->
+      <div class="field">
+        <button type="reset" id="send-again-btn" disabled>Renvoyer le code reçu (<output id="remaining-seconds-output">50</output> secondes)</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal hide" id="welcome-modal">
+    <p>Vous êtes connecté(e) ! Cette page se raffraichira jamais. Nul besoin de rester dessus.</p>
+  </div>
+
+  <script src="login.js"></script>
+  <script src="confirm.js"></script>
+</body>
+
+</html>
